@@ -1,28 +1,23 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { red, blue } from '@mui/material/colors';
+import { red, blue, grey } from '@mui/material/colors';
+import GoogleIcon from '@mui/icons-material/Google';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        문의하기
       </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
     </Typography>
   );
 }
@@ -30,11 +25,18 @@ function Copyright(props) {
 const theme = createTheme({
   palette: {
     primary: {
-      main: red[500],
+      main: blue[600],
     },
     secondary: {
-      main: blue[400],
+      main: blue[100],
     },
+    github: {
+      main: grey[800],
+      contrastText: grey[100],
+    },
+    gmail: {
+      main: grey[200]
+    }
   },
 });
 
@@ -61,11 +63,32 @@ export default function SignIn() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
+
           <Typography component="h1" variant="h5">
-            Sign in
+            로그인
+          </Typography>
+          <Button
+            startIcon={<GitHubIcon />}
+            color='github'
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 1 }}
+          >
+            Github로 계속하기
+          </Button>
+          <Button
+            startIcon={<GoogleIcon />}
+            color='gmail'
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 1, mb: 2 }}
+          >
+            Gmail로 계속하기
+          </Button>
+          <Typography component="h3" variant="h6">
+            ----- 또는 -----
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -88,27 +111,24 @@ export default function SignIn() {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              로그인
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  Forgot password?
+                  비밀번호 재설정
                 </Link>
               </Grid>
               <Grid item>
+                아직 계정이 없으신가요?
                 <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  {"계정 만들기"}
                 </Link>
               </Grid>
             </Grid>
