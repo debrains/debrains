@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { red, blue } from '@mui/material/colors';
 
 function Copyright(props) {
   return (
@@ -26,7 +27,16 @@ function Copyright(props) {
   );
 }
 
-const theme = createTheme();
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: red[500],
+    },
+    secondary: {
+      main: blue[400],
+    },
+  },
+});
 
 export default function SignIn() {
   const handleSubmit = (event) => {
