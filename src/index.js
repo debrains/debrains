@@ -2,10 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Login from './Login';
 import reportWebVitals from './reportWebVitals';
+import SignUp from './SignUp';
 
 ReactDOM.render(
   <React.StrictMode>
     <Login />
+    <SignUp />
   </React.StrictMode>,
   document.getElementById('root')
 );

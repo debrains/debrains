@@ -8,19 +8,9 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { red, blue, grey } from '@mui/material/colors';
+import { blue, grey } from '@mui/material/colors';
 import GoogleIcon from '@mui/icons-material/Google';
 import GitHubIcon from '@mui/icons-material/GitHub';
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      <Link color="inherit" href="https://mui.com/">
-        문의하기
-      </Link>{' '}
-    </Typography>
-  );
-}
 
 const theme = createTheme({
   palette: {
@@ -31,13 +21,18 @@ const theme = createTheme({
       main: blue[100],
     },
     github: {
-      main: grey[800],
-      contrastText: grey[100],
+      main: grey[900],
+      contrastText: '#fff',
     },
     gmail: {
       main: grey[200]
     }
   },
+  typography: {
+    button: {
+      textTransform: 'none'
+    }
+  }
 });
 
 export default function SignIn() {
@@ -64,7 +59,7 @@ export default function SignIn() {
           }}
         >
 
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h4">
             로그인
           </Typography>
           <Button
@@ -87,7 +82,7 @@ export default function SignIn() {
           >
             Gmail로 계속하기
           </Button>
-          <Typography component="h3" variant="h6">
+          <Typography>
             ----- 또는 -----
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
@@ -96,7 +91,7 @@ export default function SignIn() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="이메일"
               name="email"
               autoComplete="email"
               autoFocus
@@ -106,7 +101,7 @@ export default function SignIn() {
               required
               fullWidth
               name="password"
-              label="Password"
+              label="비밀번호"
               type="password"
               id="password"
               autoComplete="current-password"
@@ -126,15 +121,13 @@ export default function SignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                아직 계정이 없으신가요?
-                <Link href="#" variant="body2">
-                  {"계정 만들기"}
+                <Link href="" variant="body2">
+                  {"아직 계정이 없으신가요? 계정 만들기"}
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );
