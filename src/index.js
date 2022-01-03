@@ -1,15 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Login from './Login';
-import reportWebVitals from './reportWebVitals';
-import SignUp from './SignUp';
-
+import React from "react";
+import ReactDOM from "react-dom";
+import Login from "./Login";
+import reportWebVitals from "./reportWebVitals";
 ReactDOM.render(
   <React.StrictMode>
     <Login />
-    <SignUp />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
