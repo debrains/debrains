@@ -3,13 +3,26 @@ import PropTypes from "prop-types";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import LoginModal from "./LoginModal";
+import IconButton from "@mui/material/IconButton";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import { Button, Link } from "@mui/material";
 
 function Header(props) {
-  const { sections, title } = props;
+  const { title } = props;
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <React.Fragment>
-      <Toolbar sx={{ borderBottom: 1, borderColor: "divider" }}>
+      <Toolbar sx={{ borderBottom: 1, borderColor: " divider" }}>
         <Typography
           component="h2"
           variant="h5"
@@ -18,40 +31,61 @@ function Header(props) {
           noWrap
           sx={{ flex: 1 }}
         >
-          {title}
+          <Link href="/" underline="none">
+            {title}
+          </Link>
         </Typography>
         <LoginModal title={"회원가입"} />
         <LoginModal title={"로그인"} />
-      </Toolbar>
-      {/* <Toolbar
-        component="nav"
-        variant="dense"
-        sx={{ justifyContent: "space-between", overflowX: "auto" }}
-      >
-        {sections.map((section) => (
-          <Link
-            color="inherit"
-            noWrap
-            key={section.title}
-            variant="body2"
-            href={section.url}
-            sx={{ p: 1, flexShrink: 0 }}
+        <div>
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleMenu}
+            color="primary"
           >
-            {section.title}
-          </Link>
-        ))}
-      </Toolbar> */}
+            <AccountCircle />
+          </IconButton>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={handleClose}>
+              <Button variant="text" href={`/profile`}>
+                프로필
+              </Button>
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <Button variant="text" href={`/profile`}>
+                문의하기
+              </Button>
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <Button variant="text" href={`/profile`}>
+                로그아웃
+              </Button>
+            </MenuItem>
+          </Menu>
+        </div>
+      </Toolbar>
     </React.Fragment>
   );
 }
 
 Header.propTypes = {
-  sections: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
-    })
-  ).isRequired,
   title: PropTypes.string.isRequired,
 };
 
