@@ -7,9 +7,9 @@ const refresh = async (config) => {
     localStorage.getItem("accessToken")
   );
 
-  if (moment(expireAT).diff(moment())) {
+  if (moment(expireAT).diff(moment()) < 9) {
     console.log("accessToken 만료 토큰 재발급 요청");
-    OAuth2RedirectHandler();
+    <OAuth2RedirectHandler/>;
   }
   config.headers["Authorization"] = `Bearer ${accessToken}`;
   return config;

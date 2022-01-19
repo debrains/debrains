@@ -1,20 +1,23 @@
 import React from "react";
 import { ACCESS_TOKEN } from "../contants";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import moment from "moment";
 
 function OAuth2RedirectHandler(props) {
+  const location = useLocation()
+  console.log(location.search);
+
   const getUrlParameter = (name) => {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     const regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
 
-    const results = regex.exec(props.location.search);
+    const results = regex.exec(location.search);
     return results === null
       ? ""
       : decodeURIComponent(results[1].replace(/\+/g, " "));
   };
 
-  const token = getUrlParameter("token");
+  const token = getUrlParameter("accessToken");
   const error = getUrlParameter("error");
   const object = {
     accessToken: token,
