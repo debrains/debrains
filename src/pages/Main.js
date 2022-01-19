@@ -11,7 +11,7 @@ function Main() {
   return (
     <div>
       <div>{user}</div>
-      <button onClick={onClick}>테스트 버튼</button>
+      <button onClick={onClick}>테스트 버튼@@@</button>
     </div>
   );
 }
