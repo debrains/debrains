@@ -9,8 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { Button, Link } from "@mui/material";
 
-function Header(props) {
-  const { title } = props;
+function Header({ title }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -22,10 +21,10 @@ function Header(props) {
 
   return (
     <React.Fragment>
-      <Toolbar sx={{ borderBottom: 1, borderColor: " divider" }}>
+      <Toolbar>
         <Typography
-          component="h2"
-          variant="h5"
+          component="h1"
+          variant="h3"
           color="inherit"
           align="left"
           noWrap

@@ -34,17 +34,20 @@ const theme = createTheme({
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
-      <Header title="개발자의 뇌가 궁금해" />
+      <Header title={"Debrains"} />
       <div
         style={{ display: "flex", flexDirection: "column", minHeight: "78vh" }}
       >
         <Routes>
           <Route path="/" exact element={<Main text="메인" />} />
-          <Route path="/callback" element={<Main text="메인아님" />} />
           <Route
             path="/profile"
             element={<UploadProfile text="프로필화면임" />}
           />
+          {/*<Route*/}
+          {/*  path="/oauth2/redirect"*/}
+          {/*  component={OAuth2RedirectHandler}*/}
+          {/*></Route>*/}
         </Routes>
       </div>
       <Footer />
