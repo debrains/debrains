@@ -34,7 +34,7 @@ const theme = createTheme({
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
-      <Header />
+      <Header title={"Debrains"} />
       <div
         style={{ display: "flex", flexDirection: "column", minHeight: "78vh" }}
       >
@@ -44,6 +44,10 @@ const App = () => {
             path="/profile"
             element={<UploadProfile text="프로필화면임" />}
           />
+          {/*<Route*/}
+          {/*  path="/oauth2/redirect"*/}
+          {/*  component={OAuth2RedirectHandler}*/}
+          {/*></Route>*/}
         </Routes>
       </div>
       <Footer />

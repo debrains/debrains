@@ -9,7 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { Button, Link } from "@mui/material";
 
-function Header(props) {
+function Header({ title }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -31,7 +31,7 @@ function Header(props) {
           sx={{ flex: 1 }}
         >
           <Link href="/" underline="none">
-            {"Debrains"}
+            {title}
           </Link>
         </Typography>
         <LoginModal title={"회원가입"} />

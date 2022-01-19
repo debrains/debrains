@@ -1,14 +1,12 @@
 import { Button } from "@mui/material";
 import React from "react";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import { GITHUB_AUTH_URL } from "../contants";
 
-export default function GoogleButton() {
-  // const loginUri = `https://github.com/login/oauth/authorize?client_id=e8782ac7cf06187a3dc2&&redirect_uri=http://localhost:3000/callback`;
-  const loginUri = `/profile`;
-
+export default function GithubButton() {
   return (
     <Button
-      href={loginUri}
+      href={GITHUB_AUTH_URL}
       startIcon={<GitHubIcon />}
       color="github"
       type="submit"

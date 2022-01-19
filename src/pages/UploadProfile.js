@@ -2,10 +2,11 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Input from "@mui/material/Input";
 import { styled } from "@mui/material/styles";
-import { Badge, Button, Grid, Paper } from "@mui/material";
+import { Button, Paper } from "@mui/material";
 import { useState } from "react";
 import * as PropTypes from "prop-types";
 import Container from "@mui/material/Container";
+import moment from "moment";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -15,8 +16,10 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 Item.propTypes = { children: PropTypes.node };
+
 export default function UploadProfile() {
   const [name, setName] = useState("닉네임은보통 몇글자?");
+  const [mail, setMail] = useState("이메일");
 
   const onChange = (event) => {
     setName(event.target.value);
@@ -76,7 +79,7 @@ export default function UploadProfile() {
           sx={{
             display: "flex",
             flexDirection: "column",
-            alignItems: { xs: "center", md: "flex-start" },
+            alignItems: { md: "flex-start" },
             maxWidth: "sm",
           }}
         >
@@ -96,11 +99,10 @@ export default function UploadProfile() {
             차곡차곡 쌓이는 나의 성장 기록!!
           </Box>
           <Container
-            fullWidth
             sx={{
               display: "flex",
               flexDirection: "column",
-              alignItems: { xs: "center", md: "flex-start" },
+              alignItems: { md: "flex-start" },
               mt: 1,
               mb: 1,
               border: 1,
@@ -108,7 +110,50 @@ export default function UploadProfile() {
           >
             <Box>기본정보 등록</Box>
             <Container
-              fullWidth
+              sx={{
+                flexDirection: { xs: "column", md: "row" },
+                alignItems: "center",
+              }}
+            >
+              <Box component="span" sx={{ fontSize: 16, mt: 1 }}>
+                닉네임
+              </Box>
+              <Input value={name} onChange={onChange} sx={{ width: "90%" }} />
+            </Container>
+            <Container
+              sx={{
+                flexDirection: { xs: "column", md: "row" },
+                alignItems: "center",
+              }}
+            >
+              <Box component="span" sx={{ fontSize: 16, mt: 1 }}>
+                닉네임
+              </Box>
+              <Input value={name} onChange={onChange} sx={{ width: "90%" }} />
+            </Container>
+            <Container
+              sx={{
+                flexDirection: { xs: "column", md: "row" },
+                alignItems: "center",
+              }}
+            >
+              <Box component="span" sx={{ fontSize: 16, mt: 1 }}>
+                닉네임
+              </Box>
+              <Input value={name} onChange={onChange} sx={{ width: "90%" }} />
+            </Container>
+            <Container
+              sx={{
+                flexDirection: { xs: "column", md: "row" },
+                alignItems: "center",
+              }}
+            >
+              <Box component="span" sx={{ fontSize: 16, mt: 1 }}>
+                닉네임
+              </Box>
+              <Input value={name} onChange={onChange} sx={{ width: "90%" }} />
+            </Container>
+            <Container
               sx={{
                 flexDirection: { xs: "column", md: "row" },
                 alignItems: "center",
