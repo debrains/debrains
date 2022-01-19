@@ -1,6 +1,6 @@
 import React from "react";
 import { ACCESS_TOKEN } from "../contants";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import moment from "moment";
 
 function OAuth2RedirectHandler(props) {
@@ -24,7 +24,7 @@ function OAuth2RedirectHandler(props) {
   if (token) {
     localStorage.setItem(ACCESS_TOKEN, JSON.stringify(object));
     return (
-      <Redirect
+      <Navigate
         to={{
           pathname: "/profile",
           state: { from: props.location },
@@ -33,7 +33,7 @@ function OAuth2RedirectHandler(props) {
     );
   } else {
     return (
-      <Redirect
+      <Navigate
         to={{
           pathname: "/",
           state: {

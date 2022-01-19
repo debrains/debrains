@@ -6,6 +6,7 @@ import Main from "./pages/Main";
 import UploadProfile from "./pages/UploadProfile";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { blue, grey, purple } from "@mui/material/colors";
+import OAuth2RedirectHandler from "./oauth2/OAuth2RedirectHandler";
 
 const theme = createTheme({
   palette: {
@@ -44,10 +45,7 @@ const App = () => {
             path="/profile"
             element={<UploadProfile text="프로필화면임" />}
           />
-          {/*<Route*/}
-          {/*  path="/oauth2/redirect"*/}
-          {/*  component={OAuth2RedirectHandler}*/}
-          {/*></Route>*/}
+          <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
         </Routes>
       </div>
       <Footer />
