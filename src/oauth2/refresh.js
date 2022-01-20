@@ -1,6 +1,7 @@
 import Cookie from "js-cookie";
 import moment from "moment";
-import OAuth2RedirectHandler from "./OAuth2RedirectHandler";
+import { ACCESS_TOKEN, API_BASE_URL } from "../contants";
+
 const refresh = async (config) => {
   console.log("refresh 실행 테스트");
   let { accessToken, expireAT } = JSON.parse(
@@ -9,12 +10,19 @@ const refresh = async (config) => {
 
   if (moment(expireAT).diff(moment()) < 9) {
     console.log("accessToken 만료 토큰 재발급 요청");
-    <OAuth2RedirectHandler/>;
+    const newToken = await fetch("http://localhost:8080/auth/refresh", {
+      body: accessToken,
+    });
+    const object = {
+      accessToken: newToken,
+      expireAT: moment().add(1, "hour").format("yyyy-MM-DD HH:mm:ss"),
+    };
+    console.log("newToken :", newToken);
+    if (newToken) {
+      localStorage.setItem(ACCESS_TOKEN, JSON.stringify(object));
+    }
   }
   config.headers["Authorization"] = `Bearer ${accessToken}`;
   return config;
 };
-const refreshErrorHandle = (err) => {
-  Cookie.remove("refreshToken");
-};
-export { refresh, refreshErrorHandle };
+export { refresh };
