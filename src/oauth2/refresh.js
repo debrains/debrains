@@ -1,5 +1,5 @@
 import moment from "moment";
-import { ACCESS_TOKEN, API_BASE_URL } from "../contants";
+import { ACCESS_TOKEN } from "../contants";
 
 const refresh = async (config) => {
   console.log("refresh 실행 테스트");

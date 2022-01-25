@@ -1,11 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
-import App from "./App";
+import Root from "./Root";
+import configureStore from "./redux/configureStore";
+import "./index.css";
 
-ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
-  document.getElementById("root")
-);
+const store = configureStore();
+
+ReactDOM.render(<Root store={store} />, document.getElementById("root"));
