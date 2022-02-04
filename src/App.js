@@ -1,20 +1,19 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
-import { Home, Auth } from "./pages";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import OAuth2RedirectHandler from "./oauth2/OAuth2RedirectHandler";
-
-import HeaderContainer from "./containers/Base/HeaderContainer";
-
+import { MyPage } from "./screens/MyPage";
+import { Home } from "./screens/Home";
+import { Header } from "./screens/Base";
 const App = () => {
   return (
-    <div>
-      <HeaderContainer />
+    <BrowserRouter>
+      <Header />
       <Routes>
         <Route path="/" exact element={<Home />} />
-        <Route path="/auth/*" element={<Auth />} />
+        <Route path="/mypage/*" element={<MyPage />} />
         <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
       </Routes>
-    </div>
+    </BrowserRouter>
   );
 };
 

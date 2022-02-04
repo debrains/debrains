@@ -7,7 +7,7 @@ const refresh = async (config) => {
     localStorage.getItem("accessToken")
   );
 
-  if (moment(expireAT).diff(moment()) > 9) {
+  if (moment(expireAT).diff(moment()) < 0) {
     console.log("accessToken 만료 토큰 재발급 요청");
     const newToken = await fetch("http://localhost:8080/auth/refresh", {
       method: "POST",
