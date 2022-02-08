@@ -1,10 +1,10 @@
 import React from "react";
-import { ACCESS_TOKEN } from "../contants";
+import { ACCESS_TOKEN } from "../contents";
 import { Navigate, useLocation } from "react-router-dom";
 import moment from "moment";
 
 function OAuth2RedirectHandler(props) {
-  const location = useLocation()
+  const location = useLocation();
   console.log(location.search);
 
   const getUrlParameter = (name) => {
@@ -29,7 +29,7 @@ function OAuth2RedirectHandler(props) {
     return (
       <Navigate
         to={{
-          pathname: "/profile",
+          pathname: "/myPage/profile",
           state: { from: props.location },
         }}
       />

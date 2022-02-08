@@ -1,18 +1,38 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import OAuth2RedirectHandler from "./oauth2/OAuth2RedirectHandler";
+import OAuth2RedirectHandler from "./oAuth2/OAuth2RedirectHandler";
 import { MyPage } from "./screens/MyPage";
 import { Home } from "./screens/Home";
-import { Header } from "./screens/Base";
+import { Footer, Header } from "./screens/Base";
+import styled, { ThemeProvider } from "styled-components";
+
+const theme = {
+  main: "violet",
+  hover: "white",
+};
+const Wrapper = styled.div`
+  flex: 1;
+  height: auto;
+  min-height: 79.2vh;
+`;
+
 const App = () => {
   return (
     <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/" exact element={<Home />} />
-        <Route path="/mypage/*" element={<MyPage />} />
-        <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
-      </Routes>
+      <ThemeProvider theme={theme}>
+        <Header />
+        <Wrapper>
+          <Routes>
+            <Route path="/" exact element={<Home />} />
+            <Route path="/myPage/*" element={<MyPage />} />
+            <Route
+              path="/oauth2/redirect"
+              element={<OAuth2RedirectHandler />}
+            />
+          </Routes>
+        </Wrapper>
+        <Footer />
+      </ThemeProvider>
     </BrowserRouter>
   );
 };
