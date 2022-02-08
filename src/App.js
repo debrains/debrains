@@ -7,9 +7,10 @@ import { Footer, Header } from "./screens/Base";
 import styled, { ThemeProvider } from "styled-components";
 
 const theme = {
-  main: "violet",
+  main: "#1b1e65",
   hover: "white",
 };
+
 const Wrapper = styled.div`
   flex: 1;
   height: auto;

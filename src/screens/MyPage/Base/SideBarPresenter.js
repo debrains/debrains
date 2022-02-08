@@ -4,10 +4,14 @@ import { Link } from "react-router-dom";
 
 const SideBar = styled.div`
   padding: 1rem;
+  background-color: ${(props) => props.theme.main};
 `;
 
 const SideTitle = styled.div`
+  margin: 1rem;
+  text-align: center;
   font-size: 1.5rem;
+  color: ${(props) => props.theme.hover};
 `;
 
 const SideItem = styled(Link)`
@@ -15,7 +19,7 @@ const SideItem = styled(Link)`
   text-align: center;
   font-size: 1rem;
   text-decoration: none;
-  color: ${(props) => props.theme.main};
+  color: ${(props) => props.theme.hover};
 `;
 
 const SideItemWrapper = styled.div`

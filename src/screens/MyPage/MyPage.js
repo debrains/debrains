@@ -7,7 +7,6 @@ import { Feedback } from "./Feedback";
 import { SideBar } from "./Base";
 
 const Wrapper = styled.div`
-  width: auto;
   height: auto;
   min-height: 79.2vh;
   display: flex;
