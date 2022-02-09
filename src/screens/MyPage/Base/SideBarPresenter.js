@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const SideBar = styled.div`
+  min-width: 9rem;
   padding: 1rem;
   background-color: ${(props) => props.theme.main};
 `;
@@ -35,7 +36,7 @@ function SideBarPresenter(props) {
       <SideItemWrapper>
         <SideItem to="/myPage/profile">프로필</SideItem>
         <SideItem to="/myPage/userBoard">관심사</SideItem>
-        <SideItem to="/myPage/feedbacks">Q&A</SideItem>
+        <SideItem to="/myPage/feedbacks">문의</SideItem>
       </SideItemWrapper>
     </SideBar>
   );

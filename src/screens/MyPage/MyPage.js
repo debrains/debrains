@@ -10,7 +10,6 @@ const Wrapper = styled.div`
   height: auto;
   min-height: 79.2vh;
   display: flex;
-  flex-direction: row;
 `;
 
 function MyPagePresenter(props) {
