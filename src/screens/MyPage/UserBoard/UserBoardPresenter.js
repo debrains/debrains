@@ -21,18 +21,8 @@ const Wrapper = styled.div`
 const Label = styled.div``;
 
 const Box = styled.div`
-  display: inline-block;
-  border: 2px solid ${(props) => props.theme.main};
-  width: 4rem;
-  text-align: center;
-  padding: 0.6rem;
-  margin: 1rem;
-  border-radius: 50px;
-`;
-
-const Box2 = styled.div`
-  color: white;
-  background-color: ${(props) => props.theme.main};
+  color: ${(props) => props.theme.main};
+  user-select: none;
   display: inline-block;
   border: 2px solid ${(props) => props.theme.main};
   width: 4rem;
@@ -55,16 +45,16 @@ function UserBoardPresenter(props) {
       <Wrapper>
         <Label>백엔드</Label>
         <Box>Laravel</Box>
-        <Box2>Django</Box2>
+        <Box>Django</Box>
         <Box>Flask</Box>
-        <Box2>ExpressJS</Box2>
+        <Box>ExpressJS</Box>
         <Box>Spring</Box>
         <Box>Nest.js</Box>
       </Wrapper>
       <Wrapper>
         <Label>프론트엔드</Label>
         <Box>React.JS</Box>
-        <Box2>Vue.js</Box2>
+        <Box>Vue.js</Box>
         <Box>Next.JS</Box>
         <Box>Nuxt.js</Box>
         <Box>Svelte</Box>
