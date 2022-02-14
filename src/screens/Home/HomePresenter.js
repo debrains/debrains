@@ -14,7 +14,7 @@ function HomePresenter(props) {
   return (
     <IntroWrapper>
       <Introduction>차곡차곡 쌓이는</Introduction>
-      <Introduction>나의 성장 기록</Introduction>
+      <Introduction>테스트</Introduction>
     </IntroWrapper>
   );
 }
