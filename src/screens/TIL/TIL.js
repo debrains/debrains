@@ -4,7 +4,7 @@ import { TILHome } from "./TILHome";
 import { Create } from "./Create";
 import { Detail } from "./Detail";
 
-function MyPagePresenter(props) {
+function TIL(props) {
   return (
     <Routes>
       <Route path="/" exact element={<TILHome />} />
@@ -14,4 +14,4 @@ function MyPagePresenter(props) {
   );
 }
 
-export default MyPagePresenter;
+export default TIL;

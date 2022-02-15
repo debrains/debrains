@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   display: flex;
 `;
 
-function MyPagePresenter(props) {
+function MyPage(props) {
   return (
     <Wrapper>
       <SideBar />
@@ -25,4 +25,4 @@ function MyPagePresenter(props) {
   );
 }
 
-export default MyPagePresenter;
+export default MyPage;

@@ -6,6 +6,7 @@ import { Home } from "./screens/Home";
 import { Footer, Header } from "./screens/Base";
 import styled, { ThemeProvider } from "styled-components";
 import { TIL } from "./screens/TIL";
+import { Support } from "./screens/Support";
 
 const theme = {
   main: "#1b1e65",
@@ -28,6 +29,7 @@ const App = () => {
             <Route path="/" exact element={<Home />} />
             <Route path="/til/*" element={<TIL />} />
             <Route path="/myPage/*" element={<MyPage />} />
+            <Route path="/support/*" element={<Support />} />
             <Route
               path="/oauth2/redirect"
               element={<OAuth2RedirectHandler />}
