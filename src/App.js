@@ -3,21 +3,43 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import OAuth2RedirectHandler from "./oAuth2/OAuth2RedirectHandler";
 import { MyPage } from "./screens/MyPage";
 import { Home } from "./screens/Home";
-import { Footer, Header } from "./screens/Base";
-import styled, { ThemeProvider } from "styled-components";
+import { Team } from "./screens/Team";
 import { TIL } from "./screens/TIL";
 
-const theme = {
-  main: "#1b1e65",
-  hover: "white",
+import { Footer, Header } from "./screens/Base";
+import "./index.css";
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Header />
+        <Routes>
+          <Route path="/" exact element={<Home />} />
+          <Route path="/Team" exact element={<Team />} />
+          <Route path="/til/*" element={<TIL />} />
+          <Route path="/myPage/*" element={<MyPage />} />
+          <Route
+          path="/oauth2/redirect"
+          element={<OAuth2RedirectHandler />}
+          />
+        </Routes>
+      <Footer />
+    </BrowserRouter>
+  );
 };
+//
+// const theme = {
+//   main: "#1b1e65",
+//   hover: "white",
+// };
+//
+// const Wrapper = styled.div`
+//   flex: 1;
+//   height: auto;
+//   min-height: 79.2vh;
+// `;
 
-const Wrapper = styled.div`
-  flex: 1;
-  height: auto;
-  min-height: 79.2vh;
-`;
-
+/*
 const App = () => {
   return (
     <BrowserRouter>
@@ -39,5 +61,6 @@ const App = () => {
     </BrowserRouter>
   );
 };
+*/
 
 export default App;
