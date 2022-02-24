@@ -1,3 +1,4 @@
+
 const profile = {
     name: '새벽',
     imageUrl:
@@ -310,5 +311,3 @@ export default function Profile() {
         </>
     )
 }
-
-

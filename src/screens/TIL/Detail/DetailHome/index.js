@@ -1,1 +1,1 @@
-export { default as DetailHome } from "./DeatilHomeContainer";
+export { default as DetailHome } from "./DetailHomeContainer";

@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import styled from "styled-components";
-import { DetailHome } from "./DetailHome";
-import { Certification } from "./Certification";
+import { NoticeDetail } from "./NoticeDetail";
+import { NoticeHome } from "./NoticeHome";
 
 const Wrapper = styled.div`
   height: auto;
@@ -10,15 +10,15 @@ const Wrapper = styled.div`
   display: flex;
 `;
 
-function Detail(props) {
+function Notice(props) {
   return (
     <Wrapper>
       <Routes>
-        <Route path="/" exact element={<DetailHome />} />
-        <Route path="/certification" exact element={<Certification />} />
+        <Route path="/" exact element={<NoticeHome />} />
+        <Route path="/:id" exact element={<NoticeDetail />} />
       </Routes>
     </Wrapper>
   );
 }
 
-export default Detail;
+export default Notice;

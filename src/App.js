@@ -5,6 +5,7 @@ import { MyPage } from "./screens/MyPage";
 import { Home } from "./screens/Home";
 import { Team } from "./screens/Team";
 import { TIL } from "./screens/TIL";
+import { Support } from "./screens/Support";
 
 import { Footer, Header } from "./screens/Base";
 import "./index.css";
@@ -50,6 +51,7 @@ const App = () => {
             <Route path="/" exact element={<Home />} />
             <Route path="/til/*" element={<TIL />} />
             <Route path="/myPage/*" element={<MyPage />} />
+            <Route path="/support/*" element={<Support />} />
             <Route
               path="/oauth2/redirect"
               element={<OAuth2RedirectHandler />}

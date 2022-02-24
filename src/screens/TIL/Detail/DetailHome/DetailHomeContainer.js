@@ -1,8 +1,8 @@
 import React from "react";
 import DetailHomePresenter from "./DetailHomePresenter";
 
-function DeatilHomeContainer(props) {
+function DetailHomeContainer(props) {
   return <DetailHomePresenter />;
 }
 
-export default DeatilHomeContainer;
+export default DetailHomeContainer;
