@@ -5,7 +5,6 @@ import { MyPage } from "./screens/MyPage";
 import { Home } from "./screens/Home";
 import { Team } from "./screens/Team";
 import { TIL } from "./screens/TIL";
-import { Support } from "./screens/Support";
 
 import { Footer, Header } from "./screens/Base";
 import "./index.css";
@@ -14,16 +13,13 @@ const App = () => {
   return (
     <BrowserRouter>
       <Header />
-        <Routes>
-          <Route path="/" exact element={<Home />} />
-          <Route path="/Team" exact element={<Team />} />
-          <Route path="/til/*" element={<TIL />} />
-          <Route path="/myPage/*" element={<MyPage />} />
-          <Route
-          path="/oauth2/redirect"
-          element={<OAuth2RedirectHandler />}
-          />
-        </Routes>
+      <Routes>
+        <Route path="/" exact element={<Home />} />
+        <Route path="/Team" element={<Team />} />
+        <Route path="/til/*" element={<TIL />} />
+        <Route path="/myPage/*" element={<MyPage />} />
+        <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
+      </Routes>
       <Footer />
     </BrowserRouter>
   );
