@@ -8,19 +8,22 @@ import { TIL } from "./screens/TIL";
 
 import { Footer, Header } from "./screens/Base";
 import "./index.css";
+import { RecoilRoot } from "recoil";
 
 const App = () => {
   return (
     <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/" exact element={<Home />} />
-        <Route path="/Team" element={<Team />} />
-        <Route path="/til/*" element={<TIL />} />
-        <Route path="/myPage/*" element={<MyPage />} />
-        <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
-      </Routes>
-      <Footer />
+      <RecoilRoot>
+        <Header />
+        <Routes>
+          <Route path="/" exact element={<Home />} />
+          <Route path="/team" element={<Team />} />
+          <Route path="/til/*" element={<TIL />} />
+          <Route path="/myPage/*" element={<MyPage />} />
+          <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
+        </Routes>
+        <Footer />
+      </RecoilRoot>
     </BrowserRouter>
   );
 };

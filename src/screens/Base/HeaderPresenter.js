@@ -1,21 +1,12 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
-import { MenuIcon, PhoneIcon, PlayIcon, XIcon } from "@heroicons/react/outline";
-import { ChevronDownIcon } from "@heroicons/react/solid";
+import { MenuIcon, XIcon } from "@heroicons/react/outline";
 
 const features = [
   { name: "😎 About Us", href: "team" },
   { name: "🧑‍💻 Today I Learned (TIL)", href: "til" },
 ];
-const callsToAction = [
-  { name: "Watch Demo", href: "#", icon: PlayIcon },
-  { name: "Contact Sales", href: "#", icon: PhoneIcon },
-];
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
 
 export default function Example() {
   return (
@@ -174,18 +165,12 @@ export default function Example() {
               </a>
             </Popover.Group>
             <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-              <a
-                href="mypage"
-                className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
-              >
+              <button className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">
                 로그인
-              </a>
-              <a
-                href="#"
-                className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-purple-700 hover:bg-purple-700"
-              >
+              </button>
+              <button className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-purple-700 hover:bg-purple-700">
                 회원가입
-              </a>
+              </button>
             </div>
           </div>
         </div>

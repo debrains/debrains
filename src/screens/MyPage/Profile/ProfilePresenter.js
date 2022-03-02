@@ -1,3 +1,7 @@
+import { useRecoilValue } from "recoil";
+import { nickNameAtom } from "../../../atoms/atom";
+import { useForm } from "react-hook-form";
+
 const profile = {
   name: "새벽",
   imageUrl:
@@ -7,8 +11,23 @@ const profile = {
 };
 
 function MemberForm() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm();
+  const onValid = (data) => {
+    if (data.nickName === "aa") {
+      setError("nickName", { message: "aa 입니다" }, { shouldFocus: true });
+    }
+  };
+  console.log(errors);
   return (
-    <form className="space-y-8 divide-y divide-gray-200">
+    <form
+      className="space-y-8 divide-y divide-gray-200"
+      onSubmit={handleSubmit(onValid)}
+    >
       <div className="space-y-8 divide-y divide-gray-200 sm:space-y-5">
         <div>
           <div>
@@ -30,12 +49,19 @@ function MemberForm() {
               </label>
               <div className="mt-1 sm:mt-0 sm:col-span-2">
                 <input
+                  {...register("nickName", {
+                    required: "닉네임은 필수 입력항목입니다.",
+                    pattern: {
+                      value: /^[가-힣|a-z|A-Z|0-9|]+$/,
+                      message: "유효하지 않은 닉네임 입니다.",
+                    },
+                    validate: async (value) => {},
+                  })}
                   type="text"
-                  name="first-name"
-                  id="first-name"
                   autoComplete="nickname"
                   className="max-w-lg block w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                 />
+                <span>{errors?.nickName?.message}</span>
               </div>
             </div>
 
@@ -48,21 +74,14 @@ function MemberForm() {
               </label>
               <div className="mt-1 sm:mt-0 sm:col-span-2">
                 <div className="flex items-center">
-                  <span className="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
-                    <svg
-                      className="h-full w-full text-gray-300"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                  </span>
-                  <button
-                    type="button"
-                    className="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
-                  >
-                    바꾸기
-                  </button>
+                  <label className="block">
+                    <input
+                      {...register("profileImg")}
+                      accept="image/jpg,impge/png,image/jpeg,image/gif"
+                      type="file"
+                      className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
+                    />
+                  </label>
                 </div>
               </div>
             </div>
@@ -76,9 +95,10 @@ function MemberForm() {
               </label>
               <div className="mt-1 sm:mt-0 sm:col-span-2">
                 <input
-                  id="email"
-                  name="email"
+                  {...register("email")}
                   type="email"
+                  disabled={true}
+                  value="coreintecdev@gmail.com"
                   autoComplete="email"
                   className="block max-w-lg w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:text-sm border-gray-300 rounded-md"
                 />
@@ -99,8 +119,7 @@ function MemberForm() {
                   </span>
                   <input
                     type="text"
-                    name="username"
-                    id="username"
+                    {...register("github")}
                     autoComplete="username"
                     className="flex-1 block w-full focus:ring-purple-500 focus:border-purple-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300"
                   />
@@ -116,9 +135,8 @@ function MemberForm() {
               </label>
               <div className="mt-1 sm:mt-0 sm:col-span-2">
                 <input
-                  type="text"
-                  name="first-name"
-                  id="first-name"
+                  {...register("blog")}
+                  type="url"
                   autoComplete="given-name"
                   className="max-w-lg block w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                 />
@@ -133,8 +151,7 @@ function MemberForm() {
               </label>
               <div className="mt-1 sm:mt-0 sm:col-span-2">
                 <textarea
-                  id="about"
-                  name="about"
+                  {...register("about")}
                   rows={3}
                   className="max-w-lg shadow-sm block w-full focus:ring-purple-500 focus:border-purple-500 sm:text-sm border border-gray-300 rounded-md"
                   defaultValue={""}
@@ -156,9 +173,8 @@ function MemberForm() {
             </label>
             <div className="mt-1 sm:mt-0 sm:col-span-2">
               <input
+                {...register("company")}
                 type="text"
-                name="first-name"
-                id="first-name"
                 autoComplete="given-name"
                 className="max-w-lg block w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
               />
@@ -174,8 +190,7 @@ function MemberForm() {
             <div className="mt-1 sm:mt-0 sm:col-span-2">
               <input
                 type="text"
-                name="first-name"
-                id="first-name"
+                {...register("slogan")}
                 autoComplete="given-name"
                 className="max-w-lg block w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
               />
@@ -209,8 +224,7 @@ function MemberForm() {
                       <div className="relative flex items-start">
                         <div className="flex items-center h-5">
                           <input
-                            id="comments"
-                            name="comments"
+                            {...register("agree")}
                             type="checkbox"
                             className="focus:ring-purple-500 h-4 w-4 text-purple-600 border-gray-300 rounded"
                           />
@@ -222,7 +236,6 @@ function MemberForm() {
                           >
                             공지 / 정보성 메일
                           </label>
-                          <p className="text-gray-500">개발</p>
                         </div>
                       </div>
                     </div>
@@ -247,7 +260,7 @@ function MemberForm() {
   );
 }
 
-export default function Profile() {
+export default function ProfilePresenter() {
   return (
     <>
       <div className="min-h-full">
