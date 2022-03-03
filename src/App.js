@@ -5,6 +5,7 @@ import { MyPage } from "./screens/MyPage";
 import { Home } from "./screens/Home";
 import { Team } from "./screens/Team";
 import { TIL } from "./screens/TIL";
+import { Login } from "./screens/Login";
 
 import { Footer, Header } from "./screens/Base";
 import "./index.css";
@@ -18,6 +19,7 @@ const App = () => {
         <Routes>
           <Route path="/" exact element={<Home />} />
           <Route path="/team" element={<Team />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/til/*" element={<TIL />} />
           <Route path="/myPage/*" element={<MyPage />} />
           <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
