@@ -1,6 +1,7 @@
 import { useRecoilValue } from "recoil";
 import { nickNameAtom } from "../../../atoms/atom";
 import { useForm } from "react-hook-form";
+import { postDuplicateCheck } from "../../../apis/api";
 
 const profile = {
   name: "새벽",
@@ -50,12 +51,15 @@ function MemberForm() {
               <div className="mt-1 sm:mt-0 sm:col-span-2">
                 <input
                   {...register("nickName", {
-                    required: "닉네임은 필수 입력항목입니다.",
+                    required: "닉네임을 해주세요",
                     pattern: {
                       value: /^[가-힣|a-z|A-Z|0-9|]+$/,
                       message: "유효하지 않은 닉네임 입니다.",
                     },
-                    validate: async (value) => {},
+                    validate: async (value) => {
+                      const result = await postDuplicateCheck(value);
+                      console.log(result);
+                    },
                   })}
                   type="text"
                   autoComplete="nickname"

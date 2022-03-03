@@ -29,7 +29,7 @@ function OAuth2RedirectHandler(props) {
     return (
       <Navigate
         to={{
-          pathname: "/myPage/profile",
+          pathname: "/myPage",
           state: { from: props.location },
         }}
       />

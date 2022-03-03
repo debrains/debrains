@@ -1,7 +1,9 @@
 import React from "react";
 import { GITHUB_AUTH_URL, GOOGLE_AUTH_URL } from "../../contents";
+import { getCurrentUser } from "../../apis/api";
 
 function LoginPresenter(props) {
+  getCurrentUser();
   return (
     <>
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
