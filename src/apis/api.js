@@ -6,7 +6,7 @@ export const getCurrentUser = async () => {
 };
 
 export const postDuplicateCheck = async () => {
-  const { data } = await customAPI.post("/validateName", "debrains");
+  const { data } = await customAPI.post("/user/validatename", "debrains");
   console.log("중복검사 결과:", data);
   return data;
 };

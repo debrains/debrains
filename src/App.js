@@ -21,7 +21,7 @@ const App = () => {
           <Route path="/team" element={<Team />} />
           <Route path="/login" element={<Login />} />
           <Route path="/til/*" element={<TIL />} />
-          <Route path="/myPage/*" element={<MyPage />} />
+          <Route path="/mypage/*" element={<MyPage />} />
           <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
         </Routes>
         <Footer />

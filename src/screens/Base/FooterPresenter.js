@@ -102,7 +102,7 @@ export default function Example() {
         </div>
         <div className="mt-8 md:mt-0 md:order-1">
           <p className="text-center text-base text-gray-400">
-            &copy; 2022 Debran. All rights reserved.
+            &copy; 2022 Debrains. All rights reserved.
           </p>
         </div>
       </div>
