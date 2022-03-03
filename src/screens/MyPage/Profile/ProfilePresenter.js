@@ -2,6 +2,7 @@ import { useRecoilValue } from "recoil";
 import { nickNameAtom } from "../../../atoms/atom";
 import { useForm } from "react-hook-form";
 import { postDuplicateCheck } from "../../../apis/api";
+import { useState } from "react";
 
 const profile = {
   name: "새벽",
@@ -19,6 +20,7 @@ function MemberForm() {
     setError,
   } = useForm();
   const onValid = (data) => {
+    console.log(data);
     if (data.nickName === "aa") {
       setError("nickName", { message: "aa 입니다" }, { shouldFocus: true });
     }
@@ -52,15 +54,10 @@ function MemberForm() {
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
                   <input
                     {...register("nickName", {
-                      required: "닉네임을 입력해주주세요",
+                      required: "닉네임을 입력해주세요",
                       pattern: {
                         value: /^[가-힣|a-z|A-Z|0-9|]+$/,
                         message: "유효하지 않은 닉네임 입니다.",
-                      },
-                      validate: async (value) => {
-                        const result = await postDuplicateCheck(value);
-                        console.log(result);
-                        return true;
                       },
                     })}
                     type="text"
@@ -71,26 +68,26 @@ function MemberForm() {
                 </div>
               </div>
 
-              {/*<div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-center sm:border-t sm:border-gray-200 sm:pt-5">*/}
-              {/*  <label*/}
-              {/*    htmlFor="photo"*/}
-              {/*    className="block text-sm font-medium text-gray-700"*/}
-              {/*  >*/}
-              {/*    프로필 사진*/}
-              {/*  </label>*/}
-              {/*  <div className="mt-1 sm:mt-0 sm:col-span-2">*/}
-              {/*    <div className="flex items-center">*/}
-              {/*      <label className="block">*/}
-              {/*        <input*/}
-              {/*          {...register("profileImg")}*/}
-              {/*          accept="image/jpg,impge/png,image/jpeg,image/gif"*/}
-              {/*          type="file"*/}
-              {/*          className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"*/}
-              {/*        />*/}
-              {/*      </label>*/}
-              {/*    </div>*/}
-              {/*  </div>*/}
-              {/*</div>*/}
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-center sm:border-t sm:border-gray-200 sm:pt-5">
+                <label
+                  htmlFor="photo"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  프로필 사진
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  <div className="flex items-center">
+                    <label className="block">
+                      <input
+                        {...register("profileImg")}
+                        accept="image/jpg,impge/png,image/jpeg,image/gif"
+                        type="file"
+                        className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
+                      />
+                    </label>
+                  </div>
+                </div>
+              </div>
 
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
                 <label
@@ -267,6 +264,12 @@ function MemberForm() {
 }
 
 const UserBoard = () => {
+  const [purpose, setPurpose] = useState("");
+  const onclick = (props) => {
+    console.log("취업" === purpose);
+    console.log(props.target.id);
+    setPurpose(props.target.id);
+  };
   return (
     <>
       <form className="space-y-8 divide-y divide-gray-200">
@@ -283,13 +286,37 @@ const UserBoard = () => {
 
             <div className="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-2 ">
-                <span className="border border-2 border-purple-600 rounded-xl p-2 my-5 hover:bg-purple-100 cursor-pointer mr-2 text-center">
+                <span
+                  id={"취업"}
+                  onClick={onclick}
+                  className={
+                    "취업" === purpose
+                      ? `border border-2 border-purple-600 rounded-xl p-2 my-5 cursor-pointer mr-2 text-center bg-purple-600 text-white active:bg-purple-600`
+                      : `border border-2 border-purple-600 rounded-xl p-2 my-5 hover:bg-purple-100 cursor-pointer mr-2 text-center `
+                  }
+                >
                   취업
                 </span>
-                <span className="border border-2 border-purple-600 rounded-xl p-2 my-5 hover:bg-purple-100 cursor-pointer mr-2 text-center">
+                <span
+                  id={"이직"}
+                  onClick={onclick}
+                  className={
+                    "이직" === purpose
+                      ? `border border-2 border-purple-600 rounded-xl p-2 my-5 cursor-pointer mr-2 text-center bg-purple-600 text-white active:bg-purple-600`
+                      : `border border-2 border-purple-600 rounded-xl p-2 my-5 hover:bg-purple-100 cursor-pointer mr-2 text-center `
+                  }
+                >
                   이직
                 </span>
-                <span className="border border-2 border-purple-600 rounded-xl p-2 my-5 hover:bg-purple-100 cursor-pointer mr-2 text-center">
+                <span
+                  id={"창업"}
+                  onClick={onclick}
+                  className={
+                    "창업" === purpose
+                      ? `border border-2 border-purple-600 rounded-xl p-2 my-5 cursor-pointer mr-2 text-center bg-purple-600 text-white active:bg-purple-600`
+                      : `border border-2 border-purple-600 rounded-xl p-2 my-5 hover:bg-purple-100 cursor-pointer mr-2 text-center `
+                  }
+                >
                   창업
                 </span>
               </div>
@@ -368,16 +395,16 @@ export default function ProfilePresenter() {
                 </div>
               </section>
             </div>
-            {/*<div className="space-y-6 lg:col-start-2 lg:col-span-3">*/}
-            {/*  /!* Description list*!/*/}
-            {/*  <section aria-labelledby="applicant-information-title">*/}
-            {/*    <div className="bg-white shadow sm:rounded-lg border border-purple-200 ">*/}
-            {/*      <div className="px-4 py-5 sm:px-6">*/}
-            {/*        <UserBoard />*/}
-            {/*      </div>*/}
-            {/*    </div>*/}
-            {/*  </section>*/}
-            {/*</div>*/}
+            <div className="space-y-6 lg:col-start-2 lg:col-span-3">
+              {/* Description list*/}
+              <section aria-labelledby="applicant-information-title">
+                <div className="bg-white shadow sm:rounded-lg border border-purple-200 ">
+                  <div className="px-4 py-5 sm:px-6">
+                    <UserBoard />
+                  </div>
+                </div>
+              </section>
+            </div>
           </div>
         </div>
       </div>
