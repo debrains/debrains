@@ -4,20 +4,12 @@ import styled from "styled-components";
 import { DetailHome } from "./DetailHome";
 import { Certification } from "./Certification";
 
-const Wrapper = styled.div`
-  height: auto;
-  min-height: 79.2vh;
-  display: flex;
-`;
-
 function Detail(props) {
   return (
-    <Wrapper>
-      <Routes>
-        <Route path="/" exact element={<DetailHome />} />
-        <Route path="/certification" exact element={<Certification />} />
-      </Routes>
-    </Wrapper>
+    <Routes>
+      <Route path="/" exact element={<DetailHome />} />
+      <Route path="/certification" exact element={<Certification />} />
+    </Routes>
   );
 }
 

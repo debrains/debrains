@@ -171,22 +171,6 @@ function MemberForm() {
                 htmlFor="first-name"
                 className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
               >
-                가고싶은 회사
-              </label>
-              <div className="mt-1 sm:mt-0 sm:col-span-2">
-                <input
-                  {...register("company")}
-                  type="text"
-                  autoComplete="given-name"
-                  className="max-w-lg block w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
-                />
-              </div>
-            </div>
-            <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-              <label
-                htmlFor="first-name"
-                className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-              >
                 나만의 슬로건!
               </label>
               <div className="mt-1 sm:mt-0 sm:col-span-2">
@@ -197,6 +181,22 @@ function MemberForm() {
                   className="max-w-lg block w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                 />
                 <p className="mt-2 text-sm text-gray-500">* 연봉 1억 가자! </p>
+              </div>
+            </div>
+            <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+              <label
+                htmlFor="first-name"
+                className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+              >
+                가고싶은 회사
+              </label>
+              <div className="mt-1 sm:mt-0 sm:col-span-2">
+                <input
+                  {...register("company")}
+                  type="text"
+                  autoComplete="given-name"
+                  className="max-w-lg block w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                />
               </div>
             </div>
           </div>

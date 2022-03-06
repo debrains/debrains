@@ -152,13 +152,13 @@ export default function Example() {
             </div>
             <Popover.Group as="nav" className="hidden md:flex space-x-10">
               <a
-                href="team"
+                href="/team"
                 className="text-base font-medium text-gray-500 hover:text-purple-700"
               >
                 😎 About Us
               </a>
               <a
-                href="til"
+                href="/til"
                 className="text-base font-medium text-gray-500 hover:text-purple-700"
               >
                 🧑‍💻 Today I Learned (TIL)
