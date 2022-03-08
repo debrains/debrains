@@ -88,6 +88,7 @@ function TILHomePresenter(props) {
                   <span className="ml-6 text-lg leading-6 font-medium text-gray-900">
                     CSS 익히기 2
                   </span>
+                  F
                   <div className="mt-4 mb-2 ml-3">
                     <span className="ml-3 text-base text-gray-500">
                       인증성공 3회
@@ -700,7 +701,7 @@ function TILHomePresenter(props) {
                 </div>
               </div>
               <div className="md:grid md:grid-cols-4 hover:bg-purple-100 rounded-box hover:drop-shadow-lg">
-                <a href="/til/1" className="col-span-3 mp-3  rounded-box py-3">
+                <a href="/til/1" className="col-span-3 mp-3 rounded-box py-3">
                   <span className="ml-6 text-lg leading-6 font-medium text-gray-900">
                     CSS 익히기 1
                   </span>
@@ -736,7 +737,7 @@ function TILHomePresenter(props) {
                 </a>
                 <div className="col-span-1">
                   <a href="/til/1/certification">
-                    <button className="w-full h-full hover:bg-purple-700  hover:text-white rounded-box  hover:drop-shadow-lg">
+                    <button className="w-full h-full hover:bg-purple-700 hover:text-white rounded-box hover:drop-shadow-lg">
                       <p className="text-5xl">+</p>
                       <p>인증하기</p>
                     </button>
@@ -744,7 +745,7 @@ function TILHomePresenter(props) {
                 </div>
               </div>
               <div className="md:grid md:grid-cols-4 hover:bg-purple-100 rounded-box hover:drop-shadow-lg">
-                <a href="/til/1" className="col-span-3 mp-3  rounded-box py-3">
+                <a href="/til/1" className="col-span-3 mp-3  rounded-box py-3 ">
                   <span className="ml-6 text-lg leading-6 font-medium text-gray-900">
                     CSS 익히기 1
                   </span>

@@ -68,7 +68,7 @@ function DetailHomePresenter(props) {
             </div>
             <div className="col-span-2 pr-10 pl-10">
               <a href="/til/1/certification">
-                <button className=" w-full h-full hover:bg-purple-700 border-2 border-purple-700 hover:text-white rounded-box">
+                <button className=" w-full h-full hover:bg-purple-700 bg-purple-600 text-white rounded-box">
                   <p className="text-5xl">+</p>
                   <p>인증하기</p>
                 </button>

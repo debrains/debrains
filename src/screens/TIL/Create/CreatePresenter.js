@@ -21,8 +21,12 @@ function MemberForm() {
   } = useForm();
   const onValid = (data) => {
     console.log(data);
-    if (data.nickName === "aa") {
-      setError("nickName", { message: "aa 입니다" }, { shouldFocus: true });
+    if (data.startDay > data.endDay) {
+      setError(
+        "startDay",
+        { message: "종료일이 시작일보다 빠를수 없습니다" },
+        { shouldFocus: true }
+      );
     }
   };
   const [cycleType, setCycleType] = useState("every");
@@ -32,6 +36,8 @@ function MemberForm() {
     }
     setCycleType(() => prop.target.value);
   };
+
+  console.log(errors);
   return (
     <>
       <form
@@ -94,16 +100,17 @@ function MemberForm() {
                 >
                   기간
                 </label>
+                <div hidden={true}>asd</div>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
                   <input
-                    {...register("startTime")}
+                    {...register("startDay")}
                     type="date"
                     autoComplete="start-time"
                     className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md m-1"
                   />
                   <span className="p-3"> ~ </span>
                   <input
-                    {...register("endTime")}
+                    {...register("endDay")}
                     type="date"
                     autoComplete="end-time"
                     className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md m-1"
@@ -214,81 +221,6 @@ function MemberForm() {
     </>
   );
 }
-
-const UserBoard = () => {
-  const [purpose, setPurpose] = useState("");
-  const onclick = (props) => {
-    console.log("취업" === purpose);
-    console.log(props.target.id);
-    setPurpose(props.target.id);
-  };
-  return (
-    <>
-      <form className="space-y-8 divide-y divide-gray-200">
-        <div className="space-y-8 divide-y divide-gray-200 sm:space-y-5">
-          <div>
-            <div>
-              <h3 className="text-lg leading-6 font-medium text-gray-900">
-                관심사 선택
-              </h3>
-              <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                지금 무엇을 준비 중인가요?
-              </p>
-            </div>
-
-            <div className="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
-              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-2 ">
-                <span
-                  id={"취업"}
-                  onClick={onclick}
-                  className={
-                    "취업" === purpose
-                      ? `border border-2 border-purple-600 rounded-xl p-2 my-5 cursor-pointer mr-2 text-center bg-purple-600 text-white active:bg-purple-600`
-                      : `border border-2 border-purple-600 rounded-xl p-2 my-5 hover:bg-purple-100 cursor-pointer mr-2 text-center `
-                  }
-                >
-                  취업
-                </span>
-                <span
-                  id={"이직"}
-                  onClick={onclick}
-                  className={
-                    "이직" === purpose
-                      ? `border border-2 border-purple-600 rounded-xl p-2 my-5 cursor-pointer mr-2 text-center bg-purple-600 text-white active:bg-purple-600`
-                      : `border border-2 border-purple-600 rounded-xl p-2 my-5 hover:bg-purple-100 cursor-pointer mr-2 text-center `
-                  }
-                >
-                  이직
-                </span>
-                <span
-                  id={"창업"}
-                  onClick={onclick}
-                  className={
-                    "창업" === purpose
-                      ? `border border-2 border-purple-600 rounded-xl p-2 my-5 cursor-pointer mr-2 text-center bg-purple-600 text-white active:bg-purple-600`
-                      : `border border-2 border-purple-600 rounded-xl p-2 my-5 hover:bg-purple-100 cursor-pointer mr-2 text-center `
-                  }
-                >
-                  창업
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="pt-5">
-          <div className="flex justify-end">
-            <button
-              type="submit"
-              className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
-            >
-              관심사 수정하기
-            </button>
-          </div>
-        </div>
-      </form>
-    </>
-  );
-};
 
 export default function CreatePresenter() {
   return (
