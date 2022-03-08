@@ -2,7 +2,9 @@ import { useRecoilValue } from "recoil";
 import { nickNameAtom } from "../../../../atoms/atom";
 import { useForm } from "react-hook-form";
 import { postDuplicateCheck } from "../../../../apis/api";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import log from "tailwindcss/lib/util/log";
+import React from "react";
 
 const profile = {
   name: "새벽",
@@ -13,6 +15,29 @@ const profile = {
 };
 
 function MemberForm() {
+  const [watchTime, setWatchTime] = useState(0);
+  const [playWatch, setPlayWatch] = useState(false);
+  let watch;
+
+  const startWatch = () => {
+    if (!playWatch) {
+      setPlayWatch(true);
+      watch = setInterval(increaseTime, 1000);
+      console.log("asdasdasd", watch);
+    }
+  };
+
+  const increaseTime = () => {
+    console.log("asd");
+    setWatchTime((prev) => prev + 1);
+  };
+
+  const pauseWatch = async () => {
+    setPlayWatch(false);
+    console.log("와치", watch);
+    clearInterval(watch);
+  };
+
   const {
     register,
     handleSubmit,
@@ -21,9 +46,6 @@ function MemberForm() {
   } = useForm();
   const onValid = (data) => {
     console.log(data);
-    if (data.nickName === "aa") {
-      setError("nickName", { message: "aa 입니다" }, { shouldFocus: true });
-    }
   };
   console.log(errors);
   return (
@@ -46,25 +68,93 @@ function MemberForm() {
             <div className="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
                 <label
-                  htmlFor="first-name"
+                  htmlFor="date"
                   className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
                 >
-                  닉네임
+                  날짜
                 </label>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
                   <input
-                    {...register("nickName", {
-                      required: "닉네임을 입력해주세요",
-                      pattern: {
-                        value: /^[가-힣|a-z|A-Z|0-9|]+$/,
-                        message: "유효하지 않은 닉네임 입니다.",
-                      },
-                    })}
-                    type="text"
-                    autoComplete="nickname"
+                    {...register("date")}
+                    disabled={true}
+                    type="date"
+                    value="2022-03-07"
+                    autoComplete="given-name"
                     className="max-w-lg block w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                   />
-                  <span>{errors?.nickName?.message}</span>
+                </div>
+              </div>
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                <label
+                  htmlFor="date"
+                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                >
+                  시간
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  <input
+                    {...register("startTime")}
+                    type="time"
+                    autoComplete="start-time"
+                    className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md "
+                  />
+                  <span className="p-3"> ~ </span>
+                  <input
+                    {...register("endTime")}
+                    type="time"
+                    autoComplete="end-time"
+                    className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                  />
+                </div>
+              </div>
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5 ">
+                <label
+                  htmlFor="date"
+                  className="block text-sm font-medium text-gray-700 self-center"
+                >
+                  스톱워치
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  <label
+                    htmlFor="date"
+                    className="block text-xl font-medium text-gray-700 "
+                  >
+                    {watchTime}
+                  </label>
+                  <button onClick={!playWatch ? startWatch : pauseWatch}>
+                    <img
+                      alt=""
+                      src={
+                        playWatch
+                          ? "https://img.icons8.com/ios-glyphs/30/000000/pause--v1.png"
+                          : "https://img.icons8.com/ios-glyphs/25/000000/play--v1.png"
+                      }
+                      className="inline"
+                    />
+                  </button>
+                  <button onClick={pauseWatch}>
+                    <img
+                      alt=""
+                      src="https://img.icons8.com/ios-glyphs/30/000000/stop--v2.png"
+                      className="inline"
+                    />
+                  </button>
+                </div>
+              </div>
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                <label
+                  htmlFor="first-name"
+                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                >
+                  내용
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  <textarea
+                    {...register("about")}
+                    rows={3}
+                    className="max-w-lg shadow-sm block w-full focus:ring-purple-500 focus:border-purple-500 sm:text-sm border border-gray-300 rounded-md"
+                    defaultValue={""}
+                  />
                 </div>
               </div>
 
@@ -73,7 +163,7 @@ function MemberForm() {
                   htmlFor="photo"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  프로필 사진
+                  Study 사진
                 </label>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
                   <div className="flex items-center">
@@ -88,163 +178,6 @@ function MemberForm() {
                   </div>
                 </div>
               </div>
-
-              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-                >
-                  이메일
-                </label>
-                <div className="mt-1 sm:mt-0 sm:col-span-2">
-                  <input
-                    type="email"
-                    disabled={true}
-                    value="coreintecdev@gmail.com"
-                    autoComplete="email"
-                    className="block max-w-lg w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:text-sm border-gray-300 rounded-md"
-                  />
-                </div>
-              </div>
-
-              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                <label
-                  htmlFor="username"
-                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-                >
-                  깃(GIT)
-                </label>
-                <div className="mt-1 sm:mt-0 sm:col-span-2">
-                  <div className="max-w-lg flex rounded-md shadow-sm">
-                    <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
-                      https://github.com/
-                    </span>
-                    <input
-                      type="text"
-                      {...register("github")}
-                      autoComplete="username"
-                      className="flex-1 block w-full focus:ring-purple-500 focus:border-purple-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                <label
-                  htmlFor="first-name"
-                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-                >
-                  블로그 / 홈페이지
-                </label>
-                <div className="mt-1 sm:mt-0 sm:col-span-2">
-                  <input
-                    {...register("blog")}
-                    type="url"
-                    autoComplete="given-name"
-                    className="max-w-lg block w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
-                  />
-                </div>
-              </div>
-              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                <label
-                  htmlFor="about"
-                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-                >
-                  소개
-                </label>
-                <div className="mt-1 sm:mt-0 sm:col-span-2">
-                  <textarea
-                    {...register("about")}
-                    rows={3}
-                    className="max-w-lg shadow-sm block w-full focus:ring-purple-500 focus:border-purple-500 sm:text-sm border border-gray-300 rounded-md"
-                    defaultValue={""}
-                  />
-                  <p className="mt-2 text-sm text-gray-500">
-                    간단하게 적어주세요 :){" "}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
-            <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-              <label
-                htmlFor="first-name"
-                className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-              >
-                나만의 슬로건!
-              </label>
-              <div className="mt-1 sm:mt-0 sm:col-span-2">
-                <input
-                  type="text"
-                  {...register("slogan")}
-                  autoComplete="given-name"
-                  className="max-w-lg block w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
-                />
-                <p className="mt-2 text-sm text-gray-500">* 연봉 1억 가자! </p>
-              </div>
-            </div>
-            <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-              <label
-                htmlFor="first-name"
-                className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-              >
-                가고싶은 회사
-              </label>
-              <div className="mt-1 sm:mt-0 sm:col-span-2">
-                <input
-                  {...register("company")}
-                  type="text"
-                  autoComplete="given-name"
-                  className="max-w-lg block w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="divide-y divide-gray-200 pt-8 space-y-6 sm:pt-10 sm:space-y-5">
-            <div>
-              <h3 className="text-lg leading-6 font-medium text-gray-900">
-                이메일 수신 동의
-              </h3>
-              <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                수신 동의해주세요 😭 이상한 메일 보내지 않아요 😉
-              </p>
-            </div>
-            <div className="space-y-6 sm:space-y-5 divide-y divide-gray-200">
-              <div className="pt-6 sm:pt-5">
-                <div role="group" aria-labelledby="label-email">
-                  <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-baseline">
-                    <div>
-                      <div
-                        className="text-base font-medium text-gray-900 sm:text-sm sm:text-gray-700"
-                        id="label-email"
-                      >
-                        이메일
-                      </div>
-                    </div>
-                    <div className="mt-4 sm:mt-0 sm:col-span-2">
-                      <div className="max-w-lg space-y-4">
-                        <div className="relative flex items-start">
-                          <div className="flex items-center h-5">
-                            <input
-                              {...register("agree")}
-                              type="checkbox"
-                              className="focus:ring-purple-500 h-4 w-4 text-purple-600 border-gray-300 rounded"
-                            />
-                          </div>
-                          <div className="ml-3 text-sm">
-                            <label
-                              htmlFor="comments"
-                              className="font-medium text-gray-700"
-                            >
-                              공지 / 정보성 메일
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -254,7 +187,7 @@ function MemberForm() {
               type="submit"
               className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
             >
-              프로필 수정하기
+              인증 등록하기
             </button>
           </div>
         </div>
@@ -263,7 +196,7 @@ function MemberForm() {
   );
 }
 
-export default function CertificationPresenter() {
+const CertificationPresenter = () => {
   return (
     <>
       <div className="min-h-full">
@@ -299,4 +232,5 @@ export default function CertificationPresenter() {
       </div>
     </>
   );
-}
+};
+export default React.memo(CertificationPresenter);

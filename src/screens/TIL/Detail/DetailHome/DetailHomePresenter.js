@@ -24,15 +24,13 @@ function DetailHomePresenter(props) {
       </div>
       <div className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="md:grid md:grid-cols-4">
-            <div className="col-span-3 mb-3">
+          <div className="md:grid md:grid-cols-6">
+            <div className="col-span-2 mb-3">
               <span className="ml-6 text-lg leading-6 font-medium text-gray-900">
                 CSS 익히기
               </span>
-              <div className="mt-4 mb-2 ml-3">
-                <span className="ml-3 text-base text-gray-500">
-                  인증성공 3회
-                </span>
+              <div className="mt-4 mb-2 ml-6 mr-3">
+                <span className="text-base text-gray-500">인증성공 3회</span>
                 <span className="ml-3 text-base text-gray-500">|</span>
                 <span className="ml-3 text-base text-gray-500">
                   인증실패 1회
@@ -42,26 +40,35 @@ function DetailHomePresenter(props) {
                   남은인증 8회
                 </span>
               </div>
-              <div className="mt-1">
-                <span className="mt-3 ml-6 text-base text-gray-500">
+              <div className="mt-1 mr-6 ml-6">
+                <span className="mt-3 text-base text-gray-500">
                   22. 01. 01 ~ 22. 02. 01
                 </span>
                 <span className="mt-2 ml-6 text-base text-gray-500 ml-5 ">
                   🗓 7일 뒤 종료
                 </span>
               </div>
-              <div className="mt-2">
+              <div className="mt-2 ml-6 mr-6">
                 <progress
-                  className="progress progress-primary w-56 ml-6"
+                  className="progress progress-primary w-56 "
                   value="30"
                   max="100"
                 />
                 <span className="ml-5">30%</span>
               </div>
             </div>
-            <div className="col-span-1">
+            <div className="col-span-2">
+              <span className="ml-6 text-lg leading-6 font-medium text-gray-900" />
+              <div className="mt-4 mb-2 ml-6 mr-6">
+                <div className="text-base text-gray-500">
+                  CSS 등장부터 ~ 반응형 디자인 까지 알아보자 적당히 길게 적으면
+                  어떻게 되는지 궁금해서 적어보는 내용
+                </div>
+              </div>
+            </div>
+            <div className="col-span-2 pr-10 pl-10">
               <a href="/til/1/certification">
-                <button className="w-full h-full hover:bg-purple-700 border-2 border-purple-700 hover:text-white rounded-box">
+                <button className=" w-full h-full hover:bg-purple-700 border-2 border-purple-700 hover:text-white rounded-box">
                   <p className="text-5xl">+</p>
                   <p>인증하기</p>
                 </button>

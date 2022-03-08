@@ -67,7 +67,6 @@ function MemberForm() {
                   <span>{errors?.nickName?.message}</span>
                 </div>
               </div>
-
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-center sm:border-t sm:border-gray-200 sm:pt-5">
                 <label
                   htmlFor="photo"
@@ -79,7 +78,7 @@ function MemberForm() {
                   <div className="flex items-center">
                     <label className="block">
                       <input
-                        {...register("profileImg")}
+                        {...register("photo")}
                         accept="image/jpg,impge/png,image/jpeg,image/gif"
                         type="file"
                         className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
@@ -88,7 +87,6 @@ function MemberForm() {
                   </div>
                 </div>
               </div>
-
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
                 <label
                   htmlFor="email"
@@ -106,7 +104,6 @@ function MemberForm() {
                   />
                 </div>
               </div>
-
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
                 <label
                   htmlFor="username"
