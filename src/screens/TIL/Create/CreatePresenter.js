@@ -19,6 +19,22 @@ function MemberForm() {
     formState: { errors },
     setError,
   } = useForm();
+
+  const [cycleType, setCycleType] = useState("every");
+
+  let newDate = new Date();
+  let date = newDate.getDate();
+  let month =
+    newDate.getMonth() + 1 < 10
+      ? "0" + (newDate.getMonth() + 1)
+      : newDate.getMonth() + 1;
+  let year = newDate.getFullYear();
+  let today = year + "-" + month + "-" + date;
+  let tomorrow = year + "-" + month + "-" + date + 10;
+
+  const [sDate, setSDate] = useState(today);
+  const [eDate, setEDate] = useState(tomorrow);
+
   const onValid = (data) => {
     console.log(data);
     if (data.startDay > data.endDay) {
@@ -29,9 +45,16 @@ function MemberForm() {
       );
     }
   };
-  const [cycleType, setCycleType] = useState("every");
+
+  const changeDate = (prop) => {
+    console.log(prop.target.value, prop.target.name);
+    if (prop.target.name === "startDay") {
+      setSDate(prop.target.value);
+    } else {
+      setEDate(prop.target.value);
+    }
+  };
   const changeCycleType = (prop) => {
-    console.log(prop);
     if (prop.target.value === "every") {
     }
     setCycleType(() => prop.target.value);
@@ -104,6 +127,10 @@ function MemberForm() {
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
                   <input
                     {...register("startDay")}
+                    defaultValue={today}
+                    onChange={changeDate}
+                    min={today}
+                    max={eDate}
                     type="date"
                     autoComplete="start-time"
                     className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md m-1"
@@ -111,6 +138,8 @@ function MemberForm() {
                   <span className="p-3"> ~ </span>
                   <input
                     {...register("endDay")}
+                    onChange={changeDate}
+                    min={sDate}
                     type="date"
                     autoComplete="end-time"
                     className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md m-1"
