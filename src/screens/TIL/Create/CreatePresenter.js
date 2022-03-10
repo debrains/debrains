@@ -142,7 +142,7 @@ function MemberForm() {
                     min={sDate}
                     type="date"
                     autoComplete="end-time"
-                    className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md m-1"
+                    className="w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md m-1"
                   />
                 </div>
               </div>

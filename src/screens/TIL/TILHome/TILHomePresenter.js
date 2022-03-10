@@ -30,7 +30,7 @@ function TILHomePresenter(props) {
                 <span className="block"> 🧑‍💻 Today I Learned (TIL)</span>
               </h2>
             </div>
-            <div className="sm:grid sm:grid-cols-6 sm:gap-4 sm:items-start sm:pt-5">
+            <div className="sm:grid sm:grid-cols-8 sm:gap-4 sm:items-start sm:pt-5">
               <div>
                 <p className="mb-5 text-center">TIL</p>
                 <p className="text-center">3개</p>
@@ -40,10 +40,14 @@ function TILHomePresenter(props) {
                 <p className="text-center">3개</p>
               </div>
               <div>
-                <p className="mb-5 text-center">완료</p>
+                <p className="mb-5 text-center">달성</p>
                 <p className="text-center">0개</p>
               </div>
-              <div className="mt-1 sm:mt-0 sm:col-span-3 pl-10 pr-10">
+              <div className={"bg-red-300 "}>
+                <p className="mb-5 text-center">미달</p>
+                <p className="text-center">2개</p>
+              </div>
+              <div className="mt-1 sm:mt-0 sm:col-span-4 pl-10 pr-10">
                 <p className="text-center">달성률</p>
 
                 <progress
@@ -82,7 +86,7 @@ function TILHomePresenter(props) {
           </div>
 
           <div className="mt-10">
-            <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
+            <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10 ">
               <div className="md:grid md:grid-cols-4 hover:bg-purple-100 rounded-box border-2 border-purple-700">
                 <a href="/til/1" className="col-span-3 mp-3  py-3">
                   <span className="ml-6 text-lg leading-6 font-medium text-gray-900">

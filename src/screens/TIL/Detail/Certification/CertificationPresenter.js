@@ -71,40 +71,44 @@ function MemberForm() {
                   htmlFor="date"
                   className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
                 >
-                  날짜
-                </label>
-                <div className="mt-1 sm:mt-0 sm:col-span-2">
-                  <input
-                    {...register("date")}
-                    disabled={true}
-                    type="date"
-                    value="2022-03-07"
-                    autoComplete="given-name"
-                    className="max-w-lg block w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
-                  />
-                </div>
-              </div>
-              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                <label
-                  htmlFor="date"
-                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-                >
-                  시간
+                  공부시간
                 </label>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
                   <input
                     {...register("startTime")}
-                    type="time"
+                    type="datetime-local"
                     autoComplete="start-time"
                     className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md "
                   />
                   <span className="p-3"> ~ </span>
                   <input
-                    {...register("endTime")}
-                    type="time"
+                    {...register("endTime" + 1)}
+                    type="datetime-local"
                     autoComplete="end-time"
                     className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                   />
+                  <button className=" w-8 h-8 hover:bg-purple-700 bg-purple-600 text-white rounded-full">
+                    <p className="text-2xl">-</p>
+                  </button>
+                  <input
+                    {...register("startTime")}
+                    type="datetime-local"
+                    autoComplete="start-time"
+                    className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md "
+                  />
+                  <span className="p-3"> ~ </span>
+                  <input
+                    {...register("endTime" + 1)}
+                    type="datetime-local"
+                    autoComplete="end-time"
+                    className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                  />
+                  <button className=" w-8 h-8 hover:bg-purple-700 bg-purple-600 text-white rounded-full">
+                    <p className="text-2xl">-</p>
+                  </button>
+                  <button className=" w-8 h-8 hover:bg-purple-700 bg-purple-600 text-white rounded-full">
+                    <p className="text-2xl">+</p>
+                  </button>
                 </div>
               </div>
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5 ">
