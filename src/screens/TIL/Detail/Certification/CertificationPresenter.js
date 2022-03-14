@@ -3,7 +3,6 @@ import { nickNameAtom } from "../../../../atoms/atom";
 import { useForm } from "react-hook-form";
 import { postDuplicateCheck } from "../../../../apis/api";
 import { useRef, useState } from "react";
-import log from "tailwindcss/lib/util/log";
 import React from "react";
 
 const profile = {
@@ -14,13 +13,89 @@ const profile = {
     "https://images.unsplash.com/photo-1605379399642-870262d3d051?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1506&q=80",
 };
 
+let tf = true;
 function MemberForm() {
   const [watchTime, setWatchTime] = useState(0);
   const [playWatch, setPlayWatch] = useState(false);
+  const [inputCnt, setInputCnt] = useState(1);
+  const [inputVisible12, setInputVisible12] = useState(false);
+  const [inputVisible13, setInputVisible13] = useState(false);
+  const [showTime, setShowTime] = useState("00:00:00");
   let watch;
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+    reset,
+    getValues,
+  } = useForm();
+
+  const onInputBtn = async ({ target: { id } }) => {
+    let num = inputCnt;
+    console.log(num);
+    if (id.indexOf("+") !== -1 && num < 3) {
+      await setInputCnt(inputCnt + 1);
+      num += 1;
+    } else if (id.indexOf("-") !== -1 && num > 1) {
+      await setInputCnt(inputCnt - 1);
+      num -= 1;
+    }
+    console.log("id:", id, num);
+    if (id === "-1" && inputCnt === 1) {
+      reset({
+        startTime1: "",
+        endTime1: "",
+      });
+    }
+    if (id === "-1" && inputCnt === 2) {
+      reset({
+        startTime1: getValues("startTime2"),
+        endTime1: getValues("endTime2"),
+        startTime2: "",
+        endTime2: "",
+      });
+    }
+    if (id === "-1" && inputCnt === 3) {
+      reset({
+        startTime1: getValues("startTime2"),
+        endTime1: getValues("endTime2"),
+        startTime2: getValues("startTime3"),
+        endTime2: getValues("endTime3"),
+        startTime3: "",
+        endTime3: "",
+      });
+    }
+    if (id === "-2" && inputCnt === 2) {
+      reset({
+        startTime2: "",
+        endTime2: "",
+      });
+    }
+    if (id === "-2" && inputCnt === 3) {
+      reset({
+        startTime2: getValues("startTime3"),
+        endTime2: getValues("endTime3"),
+        startTime3: "",
+        endTime3: "",
+      });
+    }
+    if (id === "-3") {
+      reset({ startTime3: "", endTime3: "" });
+    }
+    setVisible(num);
+  };
+
+  const setVisible = (num) => {
+    setInputVisible12(num >= 2);
+    setInputVisible13(num >= 3);
+  };
+
   const startWatch = () => {
+    console.log("스타트ㅡㅡ");
     if (!playWatch) {
+      tf = true;
       setPlayWatch(true);
       watch = setInterval(increaseTime, 1000);
       console.log("asdasdasd", watch);
@@ -28,26 +103,39 @@ function MemberForm() {
   };
 
   const increaseTime = () => {
-    console.log("asd");
+    console.log("asd", tf);
     setWatchTime((prev) => prev + 1);
+    if (!tf) {
+      console.log("멈춰!!!");
+      clearInterval(watch);
+    }
+    setWatch();
   };
 
   const pauseWatch = async () => {
     setPlayWatch(false);
-    console.log("와치", watch);
-    clearInterval(watch);
+    tf = false;
   };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setError,
-  } = useForm();
+  const setWatch = () => {
+    console.log("실행?", watchTime);
+    let sec = watchTime;
+    let min;
+    let hour;
+    if (sec === 60) {
+      min += 1;
+      sec -= 60;
+    }
+    if (min === 60) {
+      hour += 1;
+      min -= 60;
+    }
+    setShowTime(hour + ":" + min + ":" + sec);
+  };
+
   const onValid = (data) => {
     console.log(data);
   };
-  console.log(errors);
   return (
     <>
       <form
@@ -66,64 +154,127 @@ function MemberForm() {
             </div>
 
             <div className="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
-              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+              <div className="sm:grid sm:grid-cols-4 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
                 <label
                   htmlFor="date"
                   className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
                 >
                   공부시간
                 </label>
-                <div className="mt-1 sm:mt-0 sm:col-span-2">
-                  <input
-                    {...register("startTime")}
-                    type="datetime-local"
-                    autoComplete="start-time"
-                    className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md "
-                  />
-                  <span className="p-3"> ~ </span>
-                  <input
-                    {...register("endTime" + 1)}
-                    type="datetime-local"
-                    autoComplete="end-time"
-                    className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
-                  />
-                  <button className=" w-8 h-8 hover:bg-purple-700 bg-purple-600 text-white rounded-full">
-                    <p className="text-2xl">-</p>
-                  </button>
-                  <input
-                    {...register("startTime")}
-                    type="datetime-local"
-                    autoComplete="start-time"
-                    className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md "
-                  />
-                  <span className="p-3"> ~ </span>
-                  <input
-                    {...register("endTime" + 1)}
-                    type="datetime-local"
-                    autoComplete="end-time"
-                    className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
-                  />
-                  <button className=" w-8 h-8 hover:bg-purple-700 bg-purple-600 text-white rounded-full">
-                    <p className="text-2xl">-</p>
-                  </button>
-                  <button className=" w-8 h-8 hover:bg-purple-700 bg-purple-600 text-white rounded-full">
-                    <p className="text-2xl">+</p>
-                  </button>
+                <div className="mt-1 sm:mt-0 sm:col-span-3">
+                  <div className="py-1">
+                    <input
+                      {...register("startTime" + 1)}
+                      type="datetime-local"
+                      autoComplete="start-time"
+                      className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md "
+                    />
+                    <span className="p-3"> ~ </span>
+                    <input
+                      {...register("endTime" + 1)}
+                      type="datetime-local"
+                      autoComplete="end-time"
+                      className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                    />
+                    <button
+                      className=" w-8 h-8 hover:bg-purple-700 bg-purple-600 text-white rounded-full "
+                      value={"-"}
+                      onClick={onInputBtn}
+                    >
+                      <p className="text-2xl" id={"-1"}>
+                        -
+                      </p>
+                    </button>
+                    <button
+                      className=" w-8 h-8 hover:bg-purple-700 bg-purple-600 text-white rounded-full "
+                      onClick={onInputBtn}
+                      hidden={inputVisible12}
+                    >
+                      <p className="text-2xl" id={"+1"}>
+                        +
+                      </p>
+                    </button>
+                  </div>
+                  <div className="py-1" hidden={!inputVisible12}>
+                    <input
+                      {...register("startTime" + 2)}
+                      type="datetime-local"
+                      autoComplete="start-time"
+                      className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md "
+                    />
+                    <span className="p-3"> ~ </span>
+                    <input
+                      {...register("endTime" + 2)}
+                      type="datetime-local"
+                      autoComplete="end-time"
+                      className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                    />
+                    <button
+                      className=" w-8 h-8 hover:bg-purple-700 bg-purple-600 text-white rounded-full "
+                      value={"-"}
+                      onClick={onInputBtn}
+                    >
+                      <p className="text-2xl" id={"-2"}>
+                        -
+                      </p>
+                    </button>
+                    <button
+                      className=" w-8 h-8 hover:bg-purple-700 bg-purple-600 text-white rounded-full "
+                      onClick={onInputBtn}
+                      hidden={inputVisible13}
+                    >
+                      <p className="text-2xl" id={"+2"}>
+                        +
+                      </p>
+                    </button>
+                  </div>
+                  <div className="py-1" hidden={!inputVisible13}>
+                    <input
+                      {...register("startTime" + 3)}
+                      type="datetime-local"
+                      autoComplete="start-time"
+                      className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md "
+                    />
+                    <span className="p-3"> ~ </span>
+                    <input
+                      {...register("endTime" + 3)}
+                      type="datetime-local"
+                      autoComplete="end-time"
+                      className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                    />
+                    <button
+                      className=" w-8 h-8 hover:bg-purple-700 bg-purple-600 text-white rounded-full "
+                      value={"-"}
+                      onClick={onInputBtn}
+                    >
+                      <p className="text-2xl" id={"-3"}>
+                        -
+                      </p>
+                    </button>
+                    <button
+                      className=" w-8 h-8 hover:bg-purple-700 bg-purple-600 text-white rounded-full "
+                      onClick={onInputBtn}
+                    >
+                      <p className="text-2xl" id={"+3"}>
+                        +
+                      </p>
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5 ">
+              <div className="sm:grid sm:grid-cols-4 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5 ">
                 <label
                   htmlFor="date"
                   className="block text-sm font-medium text-gray-700 self-center"
                 >
                   스톱워치
                 </label>
-                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                <div className="mt-1 sm:mt-0 sm:col-span-3">
                   <label
                     htmlFor="date"
                     className="block text-xl font-medium text-gray-700 "
                   >
-                    {watchTime}
+                    {showTime}
                   </label>
                   <button onClick={!playWatch ? startWatch : pauseWatch}>
                     <img
@@ -145,14 +296,14 @@ function MemberForm() {
                   </button>
                 </div>
               </div>
-              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+              <div className="sm:grid sm:grid-cols-4 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
                 <label
                   htmlFor="first-name"
                   className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
                 >
                   내용
                 </label>
-                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                <div className="mt-1 sm:mt-0 sm:col-span-3">
                   <textarea
                     {...register("about")}
                     rows={3}
@@ -162,14 +313,14 @@ function MemberForm() {
                 </div>
               </div>
 
-              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-center sm:border-t sm:border-gray-200 sm:pt-5">
+              <div className="sm:grid sm:grid-cols-4 sm:gap-4 sm:items-center sm:border-t sm:border-gray-200 sm:pt-5">
                 <label
                   htmlFor="photo"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Study 사진
                 </label>
-                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                <div className="mt-1 sm:mt-0 sm:col-span-3">
                   <div className="flex items-center">
                     <label className="block">
                       <input
