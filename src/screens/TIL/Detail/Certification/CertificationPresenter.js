@@ -20,8 +20,9 @@ function MemberForm() {
   const [inputCnt, setInputCnt] = useState(1);
   const [inputVisible12, setInputVisible12] = useState(false);
   const [inputVisible13, setInputVisible13] = useState(false);
-  const [showTime, setShowTime] = useState("00:00:00");
+  const [ban, setBan] = useState(false);
   let watch;
+  let banInterval;
 
   const {
     register,
@@ -94,22 +95,24 @@ function MemberForm() {
 
   const startWatch = () => {
     console.log("스타트ㅡㅡ");
-    if (!playWatch) {
-      tf = true;
-      setPlayWatch(true);
-      watch = setInterval(increaseTime, 1000);
-      console.log("asdasdasd", watch);
-    }
+    tf = true;
+    setBan((pre) => !pre);
+    setPlayWatch(true);
+    watch = setInterval(increaseTime, 1000);
+    banInterval = setInterval(switchBan, 1000);
+  };
+
+  const switchBan = () => {
+    setBan((pre) => !pre);
+    clearInterval(banInterval);
   };
 
   const increaseTime = () => {
-    console.log("asd", tf);
     setWatchTime((prev) => prev + 1);
     if (!tf) {
       console.log("멈춰!!!");
       clearInterval(watch);
     }
-    setWatch();
   };
 
   const pauseWatch = async () => {
@@ -117,20 +120,8 @@ function MemberForm() {
     tf = false;
   };
 
-  const setWatch = () => {
-    console.log("실행?", watchTime);
-    let sec = watchTime;
-    let min;
-    let hour;
-    if (sec === 60) {
-      min += 1;
-      sec -= 60;
-    }
-    if (min === 60) {
-      hour += 1;
-      min -= 60;
-    }
-    setShowTime(hour + ":" + min + ":" + sec);
+  const resetWatch = () => {
+    setWatchTime(0);
   };
 
   const onValid = (data) => {
@@ -219,7 +210,7 @@ function MemberForm() {
                       </p>
                     </button>
                     <button
-                      className=" w-8 h-8 hover:bg-purple-700 bg-purple-600 text-white rounded-full "
+                      className=" w-8 h-8 hover:bg-purple-700 bg-purple-600 text-white rounded-full i"
                       onClick={onInputBtn}
                       hidden={inputVisible13}
                     >
@@ -243,20 +234,12 @@ function MemberForm() {
                       className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                     />
                     <button
-                      className=" w-8 h-8 hover:bg-purple-700 bg-purple-600 text-white rounded-full "
+                      className=" w-9 h-9 hover:bg-purple-700 bg-purple-600 text-white rounded-full"
                       value={"-"}
                       onClick={onInputBtn}
                     >
                       <p className="text-2xl" id={"-3"}>
                         -
-                      </p>
-                    </button>
-                    <button
-                      className=" w-8 h-8 hover:bg-purple-700 bg-purple-600 text-white rounded-full "
-                      onClick={onInputBtn}
-                    >
-                      <p className="text-2xl" id={"+3"}>
-                        +
                       </p>
                     </button>
                   </div>
@@ -274,9 +257,19 @@ function MemberForm() {
                     htmlFor="date"
                     className="block text-xl font-medium text-gray-700 "
                   >
-                    {showTime}
+                    {(watchTime / 3600 < 10 ? "0" : "") +
+                      parseInt(watchTime / 3600) +
+                      " : " +
+                      ((watchTime / 60) % 60 < 10 ? "0" : "") +
+                      parseInt((watchTime / 60) % 60) +
+                      " : " +
+                      (watchTime % 60 < 10 ? "0" : "") +
+                      (watchTime % 60)}
                   </label>
-                  <button onClick={!playWatch ? startWatch : pauseWatch}>
+                  <button
+                    onClick={!playWatch ? startWatch : pauseWatch}
+                    disabled={ban}
+                  >
                     <img
                       alt=""
                       src={
@@ -287,13 +280,15 @@ function MemberForm() {
                       className="inline"
                     />
                   </button>
-                  <button onClick={pauseWatch}>
-                    <img
-                      alt=""
-                      src="https://img.icons8.com/ios-glyphs/30/000000/stop--v2.png"
-                      className="inline"
-                    />
-                  </button>
+                  {!playWatch ? (
+                    <button onClick={resetWatch}>
+                      <img
+                        alt=""
+                        src="https://img.icons8.com/ios-glyphs/30/000000/stop--v2.png"
+                        className="inline"
+                      />
+                    </button>
+                  ) : null}
                 </div>
               </div>
               <div className="sm:grid sm:grid-cols-4 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
