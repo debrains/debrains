@@ -23,27 +23,27 @@ function TILHomePresenter(props) {
         </div>
       </div>
       <div className="bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-16">
-          <div className="lg:text-center">
-            <div className="max-w-2xl mx-auto text-center py-10 px-4  sm:py-10 sm:px-6 lg:px-8">
-              <h2 className="text-3xl font-extrabold  sm:text-4xl">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-28 ">
+          <div className="lg:text-center ">
+            <div className="max-w-2xl mx-auto text-center py-10 px-4 sm:py-10 sm:px-6 lg:px-8">
+              <h2 className="text-3xl font-extrabold sm:text-4xl">
                 <span className="block"> 🧑‍💻 Today I Learned (TIL)</span>
               </h2>
             </div>
-            <div className="sm:grid sm:grid-cols-8 sm:gap-4 sm:items-start sm:pt-5">
-              <div>
+            <div className="sm:grid sm:grid-cols-8 sm:gap-4 sm:items-start sm:pt-5 mx-6">
+              <div className="bg-purple-200 p-3 rounded-box">
                 <p className="mb-5 text-center">TIL</p>
-                <p className="text-center">3개</p>
+                <p className="text-center">6개</p>
               </div>
-              <div>
-                <p className="mb-5 text-center">진행중</p>
-                <p className="text-center">3개</p>
-              </div>
-              <div>
+              <div className="bg-green-200 p-3 rounded-box">
                 <p className="mb-5 text-center">달성</p>
-                <p className="text-center">0개</p>
+                <p className="text-center">1개</p>
               </div>
-              <div className={"bg-red-300 "}>
+              <div className="bg-yellow-200 p-3 rounded-box">
+                <p className="mb-5 text-center">진행</p>
+                <p className="text-center">3개</p>
+              </div>
+              <div className="bg-red-200 p-3 rounded-box">
                 <p className="mb-5 text-center">미달</p>
                 <p className="text-center">2개</p>
               </div>
@@ -60,7 +60,7 @@ function TILHomePresenter(props) {
             </div>
           </div>
 
-          <div className="relative flex justify-between items-center ml-6 mt-6">
+          <div className="relative flex justify-between items-center mx-6 mt-12">
             <div>
               <div className="flex items-center h-5">
                 <input
@@ -87,361 +87,8 @@ function TILHomePresenter(props) {
 
           <div className="mt-10">
             <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10 ">
-              <div className="md:grid md:grid-cols-4 hover:bg-purple-100 rounded-box border-2 border-purple-700">
-                <a href="/til/1" className="col-span-3 mp-3  py-3">
-                  <span className="ml-6 text-lg leading-6 font-medium text-gray-900">
-                    CSS 익히기 2
-                  </span>
-                  F
-                  <div className="mt-4 mb-2 ml-3">
-                    <span className="ml-3 text-base text-gray-500">
-                      인증성공 3회
-                    </span>
-                    <span className="ml-3 text-base text-gray-500">|</span>
-                    <span className="ml-3 text-base text-gray-500">
-                      인증실패 1회
-                    </span>
-                    <span className="ml-3 text-base text-gray-500">|</span>
-                    <span className="ml-3 text-base text-gray-500">
-                      이 남은인증 8회
-                    </span>
-                  </div>
-                  <div className="mt-1">
-                    <span className="mt-3 ml-6 text-base text-gray-500">
-                      22. 01. 01 ~ 22. 02. 01
-                    </span>
-                    <span className="mt-2 ml-6 text-base text-gray-500 ml-5 ">
-                      🗓 7일 뒤 종료
-                    </span>
-                  </div>
-                  <div className="mt-2">
-                    <progress
-                      className="progress progress-primary w-56 ml-6"
-                      value="30"
-                      max="100"
-                    />
-                    <span className="ml-5">30%</span>
-                  </div>
-                </a>
-                <div className="col-span-1">
-                  <a href="/til/1/certification">
-                    <button className="w-full h-full hover:bg-purple-700 hover:text-white  border-l-2 border-l-purple-700 hover:rounded-r-xl">
-                      <p className="text-5xl">+</p>
-                      <p>인증하기</p>
-                    </button>
-                  </a>
-                </div>
-              </div>
-              <div className="md:grid md:grid-cols-4 hover:bg-purple-100 rounded-box border-2 border-purple-700">
-                <a href="/til/1" className="col-span-3 mp-3  py-3">
-                  <span className="ml-6 text-lg leading-6 font-medium text-gray-900">
-                    CSS 익히기 2
-                  </span>
-                  <div className="mt-4 mb-2 ml-3">
-                    <span className="ml-3 text-base text-gray-500">
-                      인증성공 3회
-                    </span>
-                    <span className="ml-3 text-base text-gray-500">|</span>
-                    <span className="ml-3 text-base text-gray-500">
-                      인증실패 1회
-                    </span>
-                    <span className="ml-3 text-base text-gray-500">|</span>
-                    <span className="ml-3 text-base text-gray-500">
-                      이 남은인증 8회
-                    </span>
-                  </div>
-                  <div className="mt-1">
-                    <span className="mt-3 ml-6 text-base text-gray-500">
-                      22. 01. 01 ~ 22. 02. 01
-                    </span>
-                    <span className="mt-2 ml-6 text-base text-gray-500 ml-5 ">
-                      🗓 7일 뒤 종료
-                    </span>
-                  </div>
-                  <div className="mt-2">
-                    <progress
-                      className="progress progress-primary w-56 ml-6"
-                      value="30"
-                      max="100"
-                    />
-                    <span className="ml-5">30%</span>
-                  </div>
-                </a>
-                <div className="col-span-1">
-                  <a href="/til/1/certification">
-                    <button className="w-full h-full hover:bg-purple-700 hover:text-white  border-l-2 border-l-purple-700 hover:rounded-r-xl">
-                      <p className="text-5xl">+</p>
-                      <p>인증하기</p>
-                    </button>
-                  </a>
-                </div>
-              </div>
-              <div className="md:grid md:grid-cols-4 hover:bg-purple-100 rounded-box border-2 border-purple-700">
-                <a href="/til/1" className="col-span-3 mp-3  py-3">
-                  <span className="ml-6 text-lg leading-6 font-medium text-gray-900">
-                    CSS 익히기 2
-                  </span>
-                  <div className="mt-4 mb-2 ml-3">
-                    <span className="ml-3 text-base text-gray-500">
-                      인증성공 3회
-                    </span>
-                    <span className="ml-3 text-base text-gray-500">|</span>
-                    <span className="ml-3 text-base text-gray-500">
-                      인증실패 1회
-                    </span>
-                    <span className="ml-3 text-base text-gray-500">|</span>
-                    <span className="ml-3 text-base text-gray-500">
-                      이 남은인증 8회
-                    </span>
-                  </div>
-                  <div className="mt-1">
-                    <span className="mt-3 ml-6 text-base text-gray-500">
-                      22. 01. 01 ~ 22. 02. 01
-                    </span>
-                    <span className="mt-2 ml-6 text-base text-gray-500 ml-5 ">
-                      🗓 7일 뒤 종료
-                    </span>
-                  </div>
-                  <div className="mt-2">
-                    <progress
-                      className="progress progress-primary w-56 ml-6"
-                      value="30"
-                      max="100"
-                    />
-                    <span className="ml-5">30%</span>
-                  </div>
-                </a>
-                <div className="col-span-1">
-                  <a href="/til/1/certification">
-                    <button className="w-full h-full hover:bg-purple-700 hover:text-white  border-l-2 border-l-purple-700 hover:rounded-r-xl">
-                      <p className="text-5xl">+</p>
-                      <p>인증하기</p>
-                    </button>
-                  </a>
-                </div>
-              </div>
-              <div className="md:grid md:grid-cols-4 hover:bg-purple-100 rounded-box border-2 border-purple-700">
-                <a href="/til/1" className="col-span-3 mp-3  py-3">
-                  <span className="ml-6 text-lg leading-6 font-medium text-gray-900">
-                    CSS 익히기 2
-                  </span>
-                  <div className="mt-4 mb-2 ml-3">
-                    <span className="ml-3 text-base text-gray-500">
-                      인증성공 3회
-                    </span>
-                    <span className="ml-3 text-base text-gray-500">|</span>
-                    <span className="ml-3 text-base text-gray-500">
-                      인증실패 1회
-                    </span>
-                    <span className="ml-3 text-base text-gray-500">|</span>
-                    <span className="ml-3 text-base text-gray-500">
-                      이 남은인증 8회
-                    </span>
-                  </div>
-                  <div className="mt-1">
-                    <span className="mt-3 ml-6 text-base text-gray-500">
-                      22. 01. 01 ~ 22. 02. 01
-                    </span>
-                    <span className="mt-2 ml-6 text-base text-gray-500 ml-5 ">
-                      🗓 7일 뒤 종료
-                    </span>
-                  </div>
-                  <div className="mt-2">
-                    <progress
-                      className="progress progress-primary w-56 ml-6"
-                      value="30"
-                      max="100"
-                    />
-                    <span className="ml-5">30%</span>
-                  </div>
-                </a>
-                <div className="col-span-1">
-                  <a href="/til/1/certification">
-                    <button className="w-full h-full hover:bg-purple-700 hover:text-white  border-l-2 border-l-purple-700 hover:rounded-r-xl">
-                      <p className="text-5xl">+</p>
-                      <p>인증하기</p>
-                    </button>
-                  </a>
-                </div>
-              </div>
-              <div className="md:grid md:grid-cols-4 hover:bg-purple-100 rounded-box border-2 border-purple-700">
-                <a href="/til/1" className="col-span-3 mp-3  py-3">
-                  <span className="ml-6 text-lg leading-6 font-medium text-gray-900">
-                    CSS 익히기 2
-                  </span>
-                  <div className="mt-4 mb-2 ml-3">
-                    <span className="ml-3 text-base text-gray-500">
-                      인증성공 3회
-                    </span>
-                    <span className="ml-3 text-base text-gray-500">|</span>
-                    <span className="ml-3 text-base text-gray-500">
-                      인증실패 1회
-                    </span>
-                    <span className="ml-3 text-base text-gray-500">|</span>
-                    <span className="ml-3 text-base text-gray-500">
-                      이 남은인증 8회
-                    </span>
-                  </div>
-                  <div className="mt-1">
-                    <span className="mt-3 ml-6 text-base text-gray-500">
-                      22. 01. 01 ~ 22. 02. 01
-                    </span>
-                    <span className="mt-2 ml-6 text-base text-gray-500 ml-5 ">
-                      🗓 7일 뒤 종료
-                    </span>
-                  </div>
-                  <div className="mt-2">
-                    <progress
-                      className="progress progress-primary w-56 ml-6"
-                      value="30"
-                      max="100"
-                    />
-                    <span className="ml-5">30%</span>
-                  </div>
-                </a>
-                <div className="col-span-1">
-                  <a href="/til/1/certification">
-                    <button className="w-full h-full hover:bg-purple-700 hover:text-white  border-l-2 border-l-purple-700 hover:rounded-r-xl">
-                      <p className="text-5xl">+</p>
-                      <p>인증하기</p>
-                    </button>
-                  </a>
-                </div>
-              </div>
-              <div className="md:grid md:grid-cols-4 hover:bg-purple-100 rounded-box border-2 border-purple-700">
-                <a href="/til/1" className="col-span-3 mp-3  py-3">
-                  <span className="ml-6 text-lg leading-6 font-medium text-gray-900">
-                    CSS 익히기 2
-                  </span>
-                  <div className="mt-4 mb-2 ml-3">
-                    <span className="ml-3 text-base text-gray-500">
-                      인증성공 3회
-                    </span>
-                    <span className="ml-3 text-base text-gray-500">|</span>
-                    <span className="ml-3 text-base text-gray-500">
-                      인증실패 1회
-                    </span>
-                    <span className="ml-3 text-base text-gray-500">|</span>
-                    <span className="ml-3 text-base text-gray-500">
-                      이 남은인증 8회
-                    </span>
-                  </div>
-                  <div className="mt-1">
-                    <span className="mt-3 ml-6 text-base text-gray-500">
-                      22. 01. 01 ~ 22. 02. 01
-                    </span>
-                    <span className="mt-2 ml-6 text-base text-gray-500 ml-5 ">
-                      🗓 7일 뒤 종료
-                    </span>
-                  </div>
-                  <div className="mt-2">
-                    <progress
-                      className="progress progress-primary w-56 ml-6"
-                      value="30"
-                      max="100"
-                    />
-                    <span className="ml-5">30%</span>
-                  </div>
-                </a>
-                <div className="col-span-1">
-                  <a href="/til/1/certification">
-                    <button className="w-full h-full hover:bg-purple-700 hover:text-white  border-l-2 border-l-purple-700 hover:rounded-r-xl">
-                      <p className="text-5xl">+</p>
-                      <p>인증하기</p>
-                    </button>
-                  </a>
-                </div>
-              </div>
-              <div className="md:grid md:grid-cols-4 hover:bg-purple-100 rounded-box border-2 border-purple-700">
-                <a href="/til/1" className="col-span-3 mp-3  py-3">
-                  <span className="ml-6 text-lg leading-6 font-medium text-gray-900">
-                    CSS 익히기 2
-                  </span>
-                  <div className="mt-4 mb-2 ml-3">
-                    <span className="ml-3 text-base text-gray-500">
-                      인증성공 3회
-                    </span>
-                    <span className="ml-3 text-base text-gray-500">|</span>
-                    <span className="ml-3 text-base text-gray-500">
-                      인증실패 1회
-                    </span>
-                    <span className="ml-3 text-base text-gray-500">|</span>
-                    <span className="ml-3 text-base text-gray-500">
-                      이 남은인증 8회
-                    </span>
-                  </div>
-                  <div className="mt-1">
-                    <span className="mt-3 ml-6 text-base text-gray-500">
-                      22. 01. 01 ~ 22. 02. 01
-                    </span>
-                    <span className="mt-2 ml-6 text-base text-gray-500 ml-5 ">
-                      🗓 7일 뒤 종료
-                    </span>
-                  </div>
-                  <div className="mt-2">
-                    <progress
-                      className="progress progress-primary w-56 ml-6"
-                      value="30"
-                      max="100"
-                    />
-                    <span className="ml-5">30%</span>
-                  </div>
-                </a>
-                <div className="col-span-1">
-                  <a href="/til/1/certification">
-                    <button className="w-full h-full hover:bg-purple-700 hover:text-white  border-l-2 border-l-purple-700 hover:rounded-r-xl">
-                      <p className="text-5xl">+</p>
-                      <p>인증하기</p>
-                    </button>
-                  </a>
-                </div>
-              </div>
-              <div className="md:grid md:grid-cols-4 hover:bg-purple-100 rounded-box border-2 border-purple-700">
-                <a href="/til/1" className="col-span-3 mp-3  py-3">
-                  <span className="ml-6 text-lg leading-6 font-medium text-gray-900">
-                    CSS 익히기 2
-                  </span>
-                  <div className="mt-4 mb-2 ml-3">
-                    <span className="ml-3 text-base text-gray-500">
-                      인증성공 3회
-                    </span>
-                    <span className="ml-3 text-base text-gray-500">|</span>
-                    <span className="ml-3 text-base text-gray-500">
-                      인증실패 1회
-                    </span>
-                    <span className="ml-3 text-base text-gray-500">|</span>
-                    <span className="ml-3 text-base text-gray-500">
-                      이 남은인증 8회
-                    </span>
-                  </div>
-                  <div className="mt-1">
-                    <span className="mt-3 ml-6 text-base text-gray-500">
-                      22. 01. 01 ~ 22. 02. 01
-                    </span>
-                    <span className="mt-2 ml-6 text-base text-gray-500 ml-5 ">
-                      🗓 7일 뒤 종료
-                    </span>
-                  </div>
-                  <div className="mt-2">
-                    <progress
-                      className="progress progress-primary w-56 ml-6"
-                      value="30"
-                      max="100"
-                    />
-                    <span className="ml-5">30%</span>
-                  </div>
-                </a>
-                <div className="col-span-1">
-                  <a href="/til/1/certification">
-                    <button className="w-full h-full hover:bg-purple-700 hover:text-white  border-l-2 border-l-purple-700 hover:rounded-r-xl">
-                      <p className="text-5xl">+</p>
-                      <p>인증하기</p>
-                    </button>
-                  </a>
-                </div>
-              </div>
               <div className="md:grid md:grid-cols-4 hover:bg-purple-100 rounded-box hover:drop-shadow-lg">
-                <a href="/til/1" className="col-span-3 mp-3  rounded-box py-3">
+                <a href="/til/1" className="col-span-3 mp-3 rounded-box py-3">
                   <span className="ml-6 text-lg leading-6 font-medium text-gray-900">
                     CSS 익히기 1
                   </span>

@@ -126,6 +126,9 @@ function MemberForm() {
 
   const onValid = (data) => {
     console.log(data);
+    if (data.startTime1 > data.endTime1) {
+      setError("startTime1", { message: "날짜이상" }, { shouldFocus: true });
+    }
   };
   return (
     <>
@@ -168,22 +171,18 @@ function MemberForm() {
                       className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                     />
                     <button
-                      className=" w-8 h-8 hover:bg-purple-700 bg-purple-600 text-white rounded-full "
+                      className=" w-7 h-7 hover:bg-purple-700 bg-purple-600 text-white rounded-full "
                       value={"-"}
                       onClick={onInputBtn}
                     >
-                      <p className="text-2xl" id={"-1"}>
-                        -
-                      </p>
+                      -
                     </button>
                     <button
-                      className=" w-8 h-8 hover:bg-purple-700 bg-purple-600 text-white rounded-full "
+                      className=" w-7 h-7 hover:bg-purple-700 bg-purple-600 text-white rounded-full "
                       onClick={onInputBtn}
                       hidden={inputVisible12}
                     >
-                      <p className="text-2xl" id={"+1"}>
-                        +
-                      </p>
+                      +0
                     </button>
                   </div>
                   <div className="py-1" hidden={!inputVisible12}>
@@ -201,20 +200,20 @@ function MemberForm() {
                       className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                     />
                     <button
-                      className=" w-8 h-8 hover:bg-purple-700 bg-purple-600 text-white rounded-full "
+                      className=" w-7 h-7 hover:bg-purple-700 bg-purple-600 text-white rounded-full "
                       value={"-"}
                       onClick={onInputBtn}
                     >
-                      <p className="text-2xl" id={"-2"}>
+                      <p className="text-1xl" id={"-2"}>
                         -
                       </p>
                     </button>
                     <button
-                      className=" w-8 h-8 hover:bg-purple-700 bg-purple-600 text-white rounded-full i"
+                      className=" w-7 h-7 hover:bg-purple-700 bg-purple-600 text-white rounded-full i"
                       onClick={onInputBtn}
                       hidden={inputVisible13}
                     >
-                      <p className="text-2xl" id={"+2"}>
+                      <p className="text-1xl" id={"+2"}>
                         +
                       </p>
                     </button>
@@ -234,11 +233,11 @@ function MemberForm() {
                       className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                     />
                     <button
-                      className=" w-9 h-9 hover:bg-purple-700 bg-purple-600 text-white rounded-full"
+                      className=" w-7 h-7 hover:bg-purple-700 bg-purple-600 text-white rounded-full"
                       value={"-"}
                       onClick={onInputBtn}
                     >
-                      <p className="text-2xl" id={"-3"}>
+                      <p className="text-1xl" id={"-3"}>
                         -
                       </p>
                     </button>
@@ -319,9 +318,10 @@ function MemberForm() {
                   <div className="flex items-center">
                     <label className="block">
                       <input
-                        {...register("profileImg")}
+                        {...register("files")}
                         accept="image/jpg,impge/png,image/jpeg,image/gif"
                         type="file"
+                        multiple="multiple"
                         className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
                       />
                     </label>

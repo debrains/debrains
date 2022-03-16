@@ -59,9 +59,9 @@ function DetailHomePresenter(props) {
             </div>
             <div className="col-span-2 sm:mb-6 px-6">
               <span className="ml-6 text-lg leading-6 font-medium text-gray-900 whitespace-pre-wrap" />
-              <div className="text-base text-gray-500 ">
+              <h3 className="text-base text-gray-500 whitespace-pre-wrap">
                 {`CSS 등장부터 ~ 반응형 디자인 까지 알아보자 \n 적당히 길게적으면 어떻게 되는지 궁금해서 적어보는 내용`}
-              </div>
+              </h3>
             </div>
             <div className="col-span-2 pr-10 pl-10">
               <a href="/til/1/certification">
@@ -86,7 +86,7 @@ function DetailHomePresenter(props) {
                 <div className="mt-4">
                   <div>
                     <h3 className="text-sm text-gray-700 line-clamp-3 whitespace-pre-wrap">
-                      {`텍스트가 길면 말줄임표로 줄이고 싶은데 어떻게 하는지 모르\n겠어요 도와주세요@@@@@@@텍스트가 길면 말줄임표로 줄이고 싶은데 어떻게 하는지 모르겠어요 도와주세요@@@@@@@텍스트가 길면 말줄임표로 줄이고 싶은데 어떻게 하는지 모르겠어요 도와주세요@@@@@@@`}
+                      {`3쥴이상\n넘어가면\n말줄임표\n되나용?`}
                     </h3>
                     <div className="flex justify-end items-center py-1">
                       <span className="text-sm font-medium text-gray-900">

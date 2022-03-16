@@ -269,54 +269,100 @@ const UserBoard = () => {
   };
   return (
     <>
-      <form className="space-y-8 divide-y divide-gray-200">
+      <form className=" divide-y divide-gray-200">
         <div className="space-y-8 divide-y divide-gray-200 sm:space-y-5">
           <div>
-            <div>
-              <h3 className="text-lg leading-6 font-medium text-gray-900">
-                관심사 선택
-              </h3>
-              <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                지금 무엇을 준비 중인가요?
-              </p>
-            </div>
+            <h3 className="text-lg leading-6 font-medium text-gray-900">
+              관심사 선택
+            </h3>
+            <p className="mt-1 max-w-2xl text-sm text-gray-500">
+              지금 무엇을 준비 중인가요?
+            </p>
+          </div>
 
-            <div className="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
-              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-2 ">
-                <span
-                  id={"취업"}
-                  onClick={onclick}
-                  className={
-                    "취업" === purpose
-                      ? `border border-2 border-purple-600 rounded-xl p-2 my-5 cursor-pointer mr-2 text-center bg-purple-600 text-white active:bg-purple-600`
-                      : `border border-2 border-purple-600 rounded-xl p-2 my-5 hover:bg-purple-100 cursor-pointer mr-2 text-center `
-                  }
-                >
-                  취업
-                </span>
-                <span
-                  id={"이직"}
-                  onClick={onclick}
-                  className={
-                    "이직" === purpose
-                      ? `border border-2 border-purple-600 rounded-xl p-2 my-5 cursor-pointer mr-2 text-center bg-purple-600 text-white active:bg-purple-600`
-                      : `border border-2 border-purple-600 rounded-xl p-2 my-5 hover:bg-purple-100 cursor-pointer mr-2 text-center `
-                  }
-                >
-                  이직
-                </span>
-                <span
-                  id={"창업"}
-                  onClick={onclick}
-                  className={
-                    "창업" === purpose
-                      ? `border border-2 border-purple-600 rounded-xl p-2 my-5 cursor-pointer mr-2 text-center bg-purple-600 text-white active:bg-purple-600`
-                      : `border border-2 border-purple-600 rounded-xl p-2 my-5 hover:bg-purple-100 cursor-pointer mr-2 text-center `
-                  }
-                >
-                  창업
-                </span>
-              </div>
+          <div className="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
+            <div className="grid grid-cols-3 gap-4 items-start ">
+              <span
+                id={"취업"}
+                onClick={onclick}
+                className={
+                  "취업" === purpose
+                    ? `border border-2 border-purple-600 rounded-xl p-2 my-5 cursor-pointer mr-2 text-center bg-purple-600 text-white active:bg-purple-600`
+                    : `border border-2 border-purple-600 rounded-xl p-2 my-5 hover:bg-purple-100 cursor-pointer mr-2 text-center `
+                }
+              >
+                취업
+              </span>
+              <span
+                id={"이직"}
+                onClick={onclick}
+                className={
+                  "이직" === purpose
+                    ? `border border-2 border-purple-600 rounded-xl p-2 my-5 cursor-pointer mr-2 text-center bg-purple-600 text-white active:bg-purple-600`
+                    : `border border-2 border-purple-600 rounded-xl p-2 my-5 hover:bg-purple-100 cursor-pointer mr-2 text-center `
+                }
+              >
+                이직
+              </span>
+              <span
+                id={"창업"}
+                onClick={onclick}
+                className={
+                  "창업" === purpose
+                    ? `border border-2 border-purple-600 rounded-xl p-2 my-5 cursor-pointer mr-2 text-center bg-purple-600 text-white active:bg-purple-600`
+                    : `border border-2 border-purple-600 rounded-xl p-2 my-5 hover:bg-purple-100 cursor-pointer mr-2 text-center `
+                }
+              >
+                창업
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className="space-y-8 divide-y divide-gray-200 sm:space-y-5 py-5">
+          <div>
+            <h3 className="text-lg leading-6 font-medium text-gray-900">
+              관심사 선택
+            </h3>
+            <p className="mt-1 max-w-2xl text-sm text-gray-500">
+              지금 무엇을 준비 중인가요?
+            </p>
+          </div>
+
+          <div className="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
+            <div className="grid grid-cols-3 gap-4 items-start ">
+              <span
+                id={"취업"}
+                onClick={onclick}
+                className={
+                  "취업" === purpose
+                    ? `border border-2 border-purple-600 rounded-xl p-2 my-5 cursor-pointer mr-2 text-center bg-purple-600 text-white active:bg-purple-600`
+                    : `border border-2 border-purple-600 rounded-xl p-2 my-5 hover:bg-purple-100 cursor-pointer mr-2 text-center `
+                }
+              >
+                취업
+              </span>
+              <span
+                id={"이직"}
+                onClick={onclick}
+                className={
+                  "이직" === purpose
+                    ? `border border-2 border-purple-600 rounded-xl p-2 my-5 cursor-pointer mr-2 text-center bg-purple-600 text-white active:bg-purple-600`
+                    : `border border-2 border-purple-600 rounded-xl p-2 my-5 hover:bg-purple-100 cursor-pointer mr-2 text-center `
+                }
+              >
+                이직
+              </span>
+              <span
+                id={"창업"}
+                onClick={onclick}
+                className={
+                  "창업" === purpose
+                    ? `border border-2 border-purple-600 rounded-xl p-2 my-5 cursor-pointer mr-2 text-center bg-purple-600 text-white active:bg-purple-600`
+                    : `border border-2 border-purple-600 rounded-xl p-2 my-5 hover:bg-purple-100 cursor-pointer mr-2 text-center `
+                }
+              >
+                창업
+              </span>
             </div>
           </div>
         </div>
