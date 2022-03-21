@@ -9,3 +9,8 @@ export const nickNameAtom = atom({
   key: "nickName",
   default: "asdasd",
 });
+
+export const profileAtom = atom({
+  key: "profile",
+  default: "",
+});

@@ -1,18 +1,23 @@
-import { useRecoilValue } from "recoil";
-import { nickNameAtom } from "../../../atoms/atom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { nickNameAtom, profileAtom } from "../../../atoms/atom";
 import { useForm } from "react-hook-form";
-import { postDuplicateCheck } from "../../../apis/api";
-import { useState } from "react";
+import { getCurrentUser, postDuplicateCheck } from "../../../apis/api";
+import { useEffect, useState } from "react";
 
-const profile = {
-  name: "새벽",
-  imageUrl:
-    "https://blog.kakaocdn.net/dn/YieGK/btrrAdZmjHZ/Tt5m5Z4iEsCRgGDfHLj8Dk/img.png",
-  coverImageUrl:
-    "https://images.unsplash.com/photo-1605379399642-870262d3d051?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1506&q=80",
-};
+// const profile = {
+//   name: "새벽",
+//   imageUrl:
+//     "https://blog.kakaocdn.net/dn/YieGK/btrrAdZmjHZ/Tt5m5Z4iEsCRgGDfHLj8Dk/img.png",
+//   coverImageUrl:
+//     "https://images.unsplash.com/photo-1605379399642-870262d3d051?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1506&q=80",
+//   description: "I'm Developer",
+//   img: null,
+//   githubUrl: "http://github.com/devdev",
+//   blogUrl: "https://devdev.github.io/",
+//   snsUrl: "https://www.instagram.com/devdev",
+// };
 
-function MemberForm() {
+function MemberForm({ profile }) {
   const {
     register,
     handleSubmit,
@@ -26,6 +31,7 @@ function MemberForm() {
     }
   };
   console.log(errors);
+
   return (
     <>
       <form
@@ -63,6 +69,7 @@ function MemberForm() {
                     type="text"
                     autoComplete="nickname"
                     className="max-w-lg block w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                    defaultValue={profile.name}
                   />
                   <span>{errors?.nickName?.message}</span>
                 </div>
@@ -81,6 +88,7 @@ function MemberForm() {
                         {...register("photo")}
                         accept="image/jpg,impge/png,image/jpeg,image/gif"
                         type="file"
+                        defaultValue={profile.img}
                         className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
                       />
                     </label>
@@ -98,7 +106,7 @@ function MemberForm() {
                   <input
                     type="email"
                     disabled={true}
-                    value="coreintecdev@gmail.com"
+                    defaultValue={profile.email}
                     autoComplete="email"
                     className="block max-w-lg w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:text-sm border-gray-300 rounded-md"
                   />
@@ -119,6 +127,7 @@ function MemberForm() {
                     <input
                       type="text"
                       {...register("github")}
+                      defaultValue={profile.githubUrl}
                       autoComplete="username"
                       className="flex-1 block w-full focus:ring-purple-500 focus:border-purple-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300"
                     />
@@ -135,6 +144,7 @@ function MemberForm() {
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
                   <input
                     {...register("blog")}
+                    defaultValue={profile.blogUrl}
                     type="url"
                     autoComplete="given-name"
                     className="max-w-lg block w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
@@ -152,8 +162,8 @@ function MemberForm() {
                   <textarea
                     {...register("about")}
                     rows={3}
+                    defaultValue={profile.description}
                     className="max-w-lg shadow-sm block w-full focus:ring-purple-500 focus:border-purple-500 sm:text-sm border border-gray-300 rounded-md"
-                    defaultValue={""}
                   />
                   <p className="mt-2 text-sm text-gray-500">
                     간단하게 적어주세요 :){" "}
@@ -382,6 +392,19 @@ const UserBoard = () => {
 };
 
 export default function ProfilePresenter() {
+  const setProfile = useSetRecoilState(profileAtom);
+  const getData = async () => {
+    const result = getCurrentUser();
+    setProfile(result);
+    console.log("유저정보 불러 오기 결과는?", result);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const profile = useRecoilValue(profileAtom);
+
   return (
     <>
       <div className="min-h-full">
@@ -407,24 +430,41 @@ export default function ProfilePresenter() {
               className="lg:col-start-1 lg:col-span-01"
             >
               <div className="bg-white p-5 shadow sm:rounded-lg border border-purple-200 ">
-                <img
-                  className="rounded-full ring-4 ring-white h-40 w-40 place-content-center"
-                  src={profile.imageUrl}
-                  alt=""
-                />
-                {/* Activity Feed */}
-                {/*<div className="">*/}
-                {/*  <div className="mb-10">*/}
-                {/*    <h3 className="text-purple-800 mb-3">관심사</h3>*/}
-                {/*    <h4 className="text-purple-800 mb-5">Back End</h4>*/}
-                {/*    <span className="border border-2 border-purple-600 bg-purple-600 text-white font-bold rounded-xl p-2 my-5 hover:bg-purple-100 cursor-pointer mr-2">*/}
-                {/*      JAVA*/}
-                {/*    </span>*/}
-                {/*    <span className="border border-2 border-purple-600 rounded-xl p-2 my-5 hover:bg-purple-100 cursor-pointer mr-2">*/}
-                {/*      Python*/}
-                {/*    </span>*/}
-                {/*  </div>*/}
-                {/*</div>*/}
+                {profile.imageUrl ? (
+                  <img
+                    className="rounded-full ring-4 ring-white h-40 w-40 place-content-center"
+                    src={profile.imageUrl}
+                    alt=""
+                  />
+                ) : null}
+                <div className="">
+                  <div className="mb-10">
+                    {profile.name ? (
+                      <h3 className="text-purple-800 my-2">{profile.name}</h3>
+                    ) : null}
+                    {profile.email ? (
+                      <h3 className="text-purple-800 my-2">{profile.email}</h3>
+                    ) : null}
+                    {profile.description ? (
+                      <h3 className="text-purple-800 my-2">
+                        {profile.description}
+                      </h3>
+                    ) : null}
+                    {profile.githubUrl ? (
+                      <h3 className="text-purple-800 my-2">
+                        {profile.githubUrl}
+                      </h3>
+                    ) : null}
+                    {profile.blogUrl ? (
+                      <h3 className="text-purple-800 my-2">
+                        {profile.blogUrl}
+                      </h3>
+                    ) : null}
+                    {profile.snsUrl ? (
+                      <h3 className="text-purple-800 my-2">{profile.snsUrl}</h3>
+                    ) : null}
+                  </div>
+                </div>
               </div>
             </section>
 
@@ -433,7 +473,7 @@ export default function ProfilePresenter() {
               <section aria-labelledby="applicant-information-title">
                 <div className="bg-white shadow sm:rounded-lg border border-purple-200 ">
                   <div className="px-4 py-5 sm:px-6">
-                    <MemberForm />
+                    <MemberForm profile={profile} />
                   </div>
                 </div>
               </section>
@@ -443,7 +483,7 @@ export default function ProfilePresenter() {
               <section aria-labelledby="applicant-information-title">
                 <div className="bg-white shadow sm:rounded-lg border border-purple-200 ">
                   <div className="px-4 py-5 sm:px-6">
-                    <UserBoard />
+                    <UserBoard profile={profile} />
                   </div>
                 </div>
               </section>
