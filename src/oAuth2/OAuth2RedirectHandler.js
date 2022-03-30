@@ -5,7 +5,6 @@ import moment from "moment";
 
 function OAuth2RedirectHandler(props) {
   const location = useLocation();
-  console.log(location.search);
 
   const getUrlParameter = (name) => {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");

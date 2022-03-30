@@ -1,7 +1,7 @@
 import { useRecoilValue } from "recoil";
-import { nickNameAtom } from "../../../atoms/atom";
+import { nickNameAtom, profileAtom } from "../../../atoms/atom";
 import { useForm } from "react-hook-form";
-import { postDuplicateCheck } from "../../../apis/api";
+import { postTILs } from "../../../apis/api";
 import React, { useState } from "react";
 
 const profile = {
@@ -19,7 +19,8 @@ function MemberForm() {
     formState: { errors },
     setError,
   } = useForm();
-
+  const profile = useRecoilValue(profileAtom);
+  console.log("왜 프로필?", profile);
   const [cycleType, setCycleType] = useState("every");
 
   let newDate = new Date();
@@ -44,6 +45,16 @@ function MemberForm() {
         { shouldFocus: true }
       );
     }
+    const result = postTILs({
+      userId: profile.id,
+      subject: data.subject,
+      description: data.description,
+      startDate: data.startDate,
+      endDate: data.endDate,
+      cycleStatus: data.cycleStatus,
+      cycleCnt: data.cycleCnt,
+    });
+    console.log("TIL 생성결과?", result);
   };
 
   const changeDate = (prop) => {
@@ -126,7 +137,7 @@ function MemberForm() {
                 <div hidden={true}>asd</div>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
                   <input
-                    {...register("startDay")}
+                    {...register("startDate")}
                     defaultValue={today}
                     onChange={changeDate}
                     min={today}
@@ -137,7 +148,7 @@ function MemberForm() {
                   />
                   <span className="p-3"> ~ </span>
                   <input
-                    {...register("endDay")}
+                    {...register("endDate")}
                     onChange={changeDate}
                     min={sDate}
                     type="date"
@@ -159,7 +170,7 @@ function MemberForm() {
                     <div className="relative flex items-start">
                       <div className="flex items-center h-5 cen">
                         <input
-                          {...register("cycle")}
+                          {...register("cycleStatus")}
                           onChange={changeCycleType}
                           type="radio"
                           value={"every"}
@@ -177,7 +188,7 @@ function MemberForm() {
                       </div>
                       <div className="flex items-center h-5 cen">
                         <input
-                          {...register("cycle")}
+                          {...register("cycleCnt")}
                           onChange={changeCycleType}
                           name={"cycle"}
                           value={"week"}
@@ -195,7 +206,7 @@ function MemberForm() {
                       </div>
                       <div className="flex items-center h-5 ml-3 ">
                         <input
-                          {...register("agree")}
+                          {...register("cycleStatus")}
                           disabled={cycleType !== "week"}
                           type="number"
                           min={1}

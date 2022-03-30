@@ -1,4 +1,5 @@
-import { atom } from "recoil";
+import { atom, selector } from "recoil";
+import { getCurrentUser } from "../apis/api";
 
 export const isLoginAtom = atom({
   key: "isLogin",

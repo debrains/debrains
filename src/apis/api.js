@@ -18,16 +18,19 @@ export const patchUser = async ({
   blogUrl,
   snsUrl,
 }) => {
-  const { data } = await customAPI.patch("/user/info", {
-    id: 1,
-    email: "dev@dev.com",
-    name: "dev",
-    description: "I'm Developer",
-    img: null,
-    githubUrl: "http://github.com/devdev",
-    blogUrl: "https://devdev.github.io/",
-    snsUrl: "https://www.instagram.com/devdev",
-  });
+  const formData = new FormData();
+  formData.append("id", id);
+  formData.append("email", email);
+  formData.append("name", name);
+  formData.append("description", description);
+  formData.append("img", img);
+  formData.append("githubUrl", githubUrl);
+  formData.append("blogUrl", blogUrl);
+  formData.append("snsUrl", snsUrl);
+  const { data } = await customAPI.patch(
+    "/user/info?_csrf=5c6ae09c-6750-4523-957e-a56e5ddc89ff",
+    formData
+  );
   console.log("유저 정보 수정 :", data);
   return data;
 };
@@ -53,10 +56,14 @@ export const getUserBoard = async ({ id }) => {
 //TIL
 
 export const getTILs = async ({ page }) => {
-  const { data } = await customAPI.get(
-    `/tils?page=${page}&size=10&sort=id%2CDESC`
-  );
-  console.log("TIL 목록:", data);
+  const { data } = await customAPI.get(`tils/?size=10&page=0`);
+  console.log("TIL 목록 불러오기", data);
+  return data;
+};
+
+export const getTILCurrent = async () => {
+  const { data } = await customAPI.get(`tils/current`);
+  console.log("TIL 현황", data);
   return data;
 };
 
@@ -70,11 +77,10 @@ export const postTILs = async ({
   cycleCnt,
 }) => {
   const { data } = await customAPI.post(`/tils/`, {
-    userId: 1,
-    subject: "TIL subject1 입니다.",
-    description: "TIL description1 입니다",
-    startDate: "2022-03-17",
-    endDate: "2022-05-12",
+    subject: subject,
+    description: description,
+    startDate: startDate,
+    endDate: endDate,
     cycleStatus: "WEEK",
     cycleCnt: 4,
   });
