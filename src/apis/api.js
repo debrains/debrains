@@ -96,7 +96,8 @@ export const postTILs = async ({
     });
 };
 
-export const getTIL = async ({ id }) => {
+export const getTIL = async (id) => {
+  console.log(`/til/${id}`);
   const { data } = await customAPI.get(`/tils/${id}`);
   console.log("TIL 상세:", data);
   return data;
