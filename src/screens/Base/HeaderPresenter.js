@@ -2,6 +2,7 @@
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
+import { Link } from "react-router-dom";
 
 const features = [
   { name: "😎 About Us", href: "team" },
@@ -15,7 +16,7 @@ export default function Example() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex justify-between items-center py-3 md:justify-start md:space-x-10">
             <div className="flex justify-start lg:w-0 lg:flex-1">
-              <a href="/">
+              <Link to="/">
                 <div className="flex space-x-0.5 flex-wrap">
                   <p className="w-1.5 h-1.5 border border-gray-200 bg-gray-100" />
                   <p className="w-1.5 h-1.5 border border-gray-200 bg-gray-100" />
@@ -142,7 +143,7 @@ export default function Example() {
                   <p className="w-1.5 h-1.5 border border-gray-200 bg-gray-100" />
                   <p className="w-1.5 h-1.5 border border-gray-200 bg-gray-100" />
                 </div>
-              </a>
+              </Link>
             </div>
             <div className="-mr-2 -my-2 md:hidden">
               <Popover.Button className="bg-white px-4 inline-flex  items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500">
@@ -151,32 +152,32 @@ export default function Example() {
               </Popover.Button>
             </div>
             <Popover.Group as="nav" className="hidden md:flex space-x-10">
-              <a
-                href="/team"
+              <Link
+                to="/team"
                 className="text-base font-medium text-gray-500 hover:text-purple-700"
               >
                 😎 About Us
-              </a>
-              <a
-                href="/til"
+              </Link>
+              <Link
+                to="/til"
                 className="text-base font-medium text-gray-500 hover:text-purple-700"
               >
                 🧑‍💻 Today I Learned (TIL)
-              </a>
+              </Link>
             </Popover.Group>
             <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-              <a
-                href="/login"
+              <Link
+                to="/login"
                 className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
               >
                 로그인
-              </a>
-              <a
-                href="/login"
+              </Link>
+              <Link
+                to="/login"
                 className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-purple-700 hover:bg-purple-700"
               >
                 회원가입
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -335,15 +336,15 @@ export default function Example() {
                 <div className="mt-6">
                   <nav className="grid gap-y-8">
                     {features.map((item) => (
-                      <a
+                      <Link
                         key={item.name}
-                        href={item.href}
+                        to={item.href}
                         className="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50"
                       >
                         <span className="ml-3 text-base font-medium text-gray-900">
                           {item.name}
                         </span>
-                      </a>
+                      </Link>
                     ))}
                   </nav>
                 </div>
@@ -351,20 +352,20 @@ export default function Example() {
               <div className="py-6 px-5 space-y-6">
                 <div>
                   <p className="text-center text-base font-medium text-gray-500">
-                    <a
-                      href="/login"
+                    <Link
+                      to="/login"
                       className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-purple-700 hover:bg-purple-700"
                     >
                       로그인
-                    </a>
+                    </Link>
                   </p>
                   <p className="mt-6 text-center text-base font-medium text-gray-500">
-                    <a
-                      href="/login"
+                    <Link
+                      to="/login"
                       className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-purple-700 hover:bg-purple-700"
                     >
                       회원가입
-                    </a>
+                    </Link>
                   </p>
                 </div>
               </div>

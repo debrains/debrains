@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getTILCurrent, getTILs } from "../../../apis/api";
+import { Link } from "react-router-dom";
 const coverImageUrl =
   "https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80";
 
@@ -104,12 +105,12 @@ function TILHomePresenter() {
               </div>
             </div>
             <div className="flex justify-end">
-              <a
-                href="/til/create"
+              <Link
+                to="/til/create"
                 className=" inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
               >
                 TIL 등록하기
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -118,11 +119,13 @@ function TILHomePresenter() {
               {tilList === ""
                 ? null
                 : tilList._embedded?.tilList.map((til) => {
-                    console.log("map", til);
                     return (
-                      <div className="md:grid md:grid-cols-4 hover:bg-purple-100 rounded-box hover:drop-shadow-lg">
-                        <a
-                          href={`/til/`}
+                      <div
+                        className="md:grid md:grid-cols-4 hover:bg-purple-100 rounded-box hover:drop-shadow-lg"
+                        key={til.id}
+                      >
+                        <Link
+                          to={`/til/${til.id}`}
                           className="col-span-3 mp-3 rounded-box py-3"
                         >
                           <span className="ml-6 text-lg leading-6 font-medium text-gray-900">
@@ -169,14 +172,14 @@ function TILHomePresenter() {
                               {parseInt((til.crtCnt / til.totalCnt) * 100)}%
                             </span>
                           </div>
-                        </a>
+                        </Link>
                         <div className="col-span-1">
-                          <a href="/til/1/certification">
+                          <Link to={`/til/${til.id}/certification`}>
                             <button className="w-full h-full hover:bg-purple-700  hover:text-white rounded-box  hover:drop-shadow-lg">
                               <p className="text-5xl">+</p>
                               <p>인증하기</p>
                             </button>
-                          </a>
+                          </Link>
                         </div>
                       </div>
                     );

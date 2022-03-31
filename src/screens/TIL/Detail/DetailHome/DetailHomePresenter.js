@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getTIL } from "../../../../apis/api";
+import { Link, useLocation } from "react-router-dom";
 const profile = {
   coverImageUrl:
     "https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
 };
 
 function DetailHomePresenter(props) {
+  const [tilDetail, setTilDetail] = useState("");
+  const history = useLocation();
+  console.log("히스토리", history);
+
+  const getData = async () => {
+    const getTILDetail = await getTIL(1);
+    setTilDetail(getTILDetail);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <>
       <div className="min-h-full">
@@ -64,12 +78,12 @@ function DetailHomePresenter(props) {
               </h3>
             </div>
             <div className="col-span-2 pr-10 pl-10">
-              <a href="/til/1/certification">
+              <Link to="/til/1/certification">
                 <button className=" w-full h-full hover:bg-purple-700 bg-purple-600 text-white rounded-box">
                   <p className="text-5xl">+</p>
                   <p>인증하기</p>
                 </button>
-              </a>
+              </Link>
             </div>
           </div>
 

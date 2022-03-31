@@ -76,16 +76,24 @@ export const postTILs = async ({
   cycleStatus,
   cycleCnt,
 }) => {
-  const { data } = await customAPI.post(`/tils/`, {
-    subject: subject,
-    description: description,
-    startDate: startDate,
-    endDate: endDate,
-    cycleStatus: "WEEK",
-    cycleCnt: 4,
-  });
-  console.log("TIL 생성:", data);
-  return data;
+  await customAPI
+    .post(`/tils/`, {
+      subject: subject,
+      description: description,
+      startDate: startDate,
+      endDate: endDate,
+      cycleStatus: cycleStatus,
+      cycleCnt: cycleCnt,
+    })
+    .then(function (response) {
+      // 성공 핸들링
+      console.log("성공", response);
+      return response;
+    })
+    .catch(function (error) {
+      // 에러 핸들링
+      console.log("실패", error);
+    });
 };
 
 export const getTIL = async ({ id }) => {

@@ -3,6 +3,7 @@ import { nickNameAtom, profileAtom } from "../../../atoms/atom";
 import { useForm } from "react-hook-form";
 import { postTILs } from "../../../apis/api";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const profile = {
   name: "새벽",
@@ -13,6 +14,7 @@ const profile = {
 };
 
 function MemberForm() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -20,7 +22,6 @@ function MemberForm() {
     setError,
   } = useForm();
   const profile = useRecoilValue(profileAtom);
-  console.log("왜 프로필?", profile);
   const [cycleType, setCycleType] = useState("every");
 
   let newDate = new Date();
@@ -37,7 +38,7 @@ function MemberForm() {
   const [eDate, setEDate] = useState(tomorrow);
 
   const onValid = (data) => {
-    console.log(data);
+    console.log("til 생성 데이터", data);
     if (data.startDay > data.endDay) {
       setError(
         "startDay",
@@ -54,7 +55,8 @@ function MemberForm() {
       cycleStatus: data.cycleStatus,
       cycleCnt: data.cycleCnt,
     });
-    console.log("TIL 생성결과?", result);
+    // console.log("TIL 생성결과?", result);
+    navigate("/til");
   };
 
   const changeDate = (prop) => {
@@ -71,7 +73,7 @@ function MemberForm() {
     setCycleType(() => prop.target.value);
   };
 
-  console.log(errors);
+  console.log("벨리데이션 ", errors);
   return (
     <>
       <form
@@ -119,7 +121,9 @@ function MemberForm() {
                 </label>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
                   <textarea
-                    {...register("description")}
+                    {...register("description", {
+                      required: "소개를 입력해주세요",
+                    })}
                     rows={3}
                     className="max-w-lg shadow-sm block w-full focus:ring-purple-500 focus:border-purple-500 sm:text-sm border border-gray-300 rounded-md"
                     defaultValue={""}
@@ -148,7 +152,9 @@ function MemberForm() {
                   />
                   <span className="p-3"> ~ </span>
                   <input
-                    {...register("endDate")}
+                    {...register("endDate", {
+                      required: "기간을 입력해주세요",
+                    })}
                     onChange={changeDate}
                     min={sDate}
                     type="date"
@@ -173,8 +179,7 @@ function MemberForm() {
                           {...register("cycleStatus")}
                           onChange={changeCycleType}
                           type="radio"
-                          value={"every"}
-                          name={"cycle"}
+                          value={"EVERYDAY"}
                           className=" h-4 w-4 text-purple-600 border-gray-300 form-check-input checked:bg-purple-500"
                         />
                       </div>
@@ -188,10 +193,9 @@ function MemberForm() {
                       </div>
                       <div className="flex items-center h-5 cen">
                         <input
-                          {...register("cycleCnt")}
+                          {...register("cycleStatus")}
                           onChange={changeCycleType}
-                          name={"cycle"}
-                          value={"week"}
+                          value={"WEEK"}
                           type="radio"
                           className=" h-4 w-4 text-purple-600 border-gray-300 form-check-input checked:bg-purple-500 checked:"
                         />
@@ -206,7 +210,7 @@ function MemberForm() {
                       </div>
                       <div className="flex items-center h-5 ml-3 ">
                         <input
-                          {...register("cycleStatus")}
+                          {...register("cycleCnt")}
                           disabled={cycleType !== "week"}
                           type="number"
                           min={1}

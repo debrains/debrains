@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function HomePresenter(props) {
   return (
@@ -24,20 +25,20 @@ function HomePresenter(props) {
             </p>
             <div className="mt-10 sm:flex sm:justify-center lg:justify-start">
               <div className="rounded-md shadow">
-                <a
-                  href="#"
+                <Link
+                  to="#"
                   className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 md:py-4 md:text-lg md:px-10"
                 >
                   스터디윗미
-                </a>
+                </Link>
               </div>
               <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-                <a
-                  href="#"
+                <Link
+                  to="#"
                   className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-purple-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10"
                 >
                   회원가입 고고
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -59,12 +60,12 @@ function HomePresenter(props) {
           <p className="mt-4 text-lg leading-6 text-purple-200">
             스터디 목표 설정 후 인증기록을 남기세요.
           </p>
-          <a
-            href="#"
+          <Link
+            to="#"
             className="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-purple-600 bg-white hover:bg-purple-50 sm:w-auto"
           >
             회원가입 고고
-          </a>
+          </Link>
         </div>
       </div>
 
