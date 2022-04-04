@@ -211,7 +211,7 @@ function MemberForm() {
                       <div className="flex items-center h-5 ml-3 ">
                         <input
                           {...register("cycleCnt")}
-                          disabled={cycleType !== "week"}
+                          disabled={cycleType !== "WEEK"}
                           type="number"
                           min={1}
                           max={6}
@@ -232,7 +232,7 @@ function MemberForm() {
                             m-0
                             focus:text-gray-700 focus:bg-white focus:border-purple-600 focus:outline-none
                           ` +
-                            (cycleType !== "week" ? `bg-gray-200` : `bg-white`)
+                            (cycleType !== "WEEK" ? `bg-gray-200` : `bg-white`)
                           }
                         />
                       </div>

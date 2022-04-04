@@ -3,6 +3,8 @@ import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { isLoginAtom } from "../../atoms/atom";
 
 const features = [
   { name: "😎 About Us", href: "team" },
@@ -10,6 +12,7 @@ const features = [
 ];
 
 export default function Example() {
+  const isLogin = useRecoilValue(isLoginAtom);
   return (
     <div className="relative bg-gray-80">
       <Popover className="relative bg-white border-b-2 border-b-gray-200">
@@ -166,18 +169,29 @@ export default function Example() {
               </Link>
             </Popover.Group>
             <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-              <Link
-                to="/login"
-                className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
-              >
-                로그인
-              </Link>
-              <Link
-                to="/login"
-                className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-purple-700 hover:bg-purple-700"
-              >
-                회원가입
-              </Link>
+              {isLogin ? (
+                <>
+                  <Link
+                    to="/login"
+                    className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+                  >
+                    로그인
+                  </Link>
+                  <Link
+                    to="/login"
+                    className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-purple-700 hover:bg-purple-700"
+                  >
+                    회원가입
+                  </Link>
+                </>
+              ) : (
+                <Link
+                  to="/mypage"
+                  className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+                >
+                  마이페이지
+                </Link>
+              )}
             </div>
           </div>
         </div>

@@ -86,6 +86,7 @@ function DetailHomePresenter(props) {
               <h3 className="text-base text-gray-500 whitespace-pre-wrap mt-3 line-clamp-3">
                 {`${tilDetail.description}`}
               </h3>
+              {/*<label className="flex justify-end">더보기</label>*/}
             </div>
             <div className="col-span-2 pr-10 pl-10">
               <Link to="/til/1/certification">

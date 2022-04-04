@@ -2,9 +2,12 @@ import React from "react";
 import { ACCESS_TOKEN } from "../contents";
 import { Navigate, useLocation } from "react-router-dom";
 import moment from "moment";
+import { useSetRecoilState } from "recoil";
+import { isLoginAtom } from "../atoms/atom";
 
 function OAuth2RedirectHandler(props) {
   const location = useLocation();
+  const setIsLogin = useSetRecoilState(isLoginAtom);
 
   const getUrlParameter = (name) => {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -24,6 +27,7 @@ function OAuth2RedirectHandler(props) {
   };
 
   if (token) {
+    setIsLogin(true);
     localStorage.setItem(ACCESS_TOKEN, JSON.stringify(object));
     return (
       <Navigate

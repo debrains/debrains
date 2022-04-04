@@ -47,13 +47,19 @@ function MemberForm({ profile }) {
 
   const defaultValueSet1 = (profile) => {
     console.log("defaultValueSet1 : ", profile);
-    setValue("name", profile.name);
-    setValue("img", null);
-    setValue("email", profile.email);
-    setValue("githubUrl", profile.githubUrl);
-    setValue("blogUrl", profile.blogUrl);
-    setValue("snsUrl", profile.snsUrl);
-    setValue("description", profile.description);
+    setValue("name", profile.name === "null" ? null : profile.name);
+    setValue("img", profile.img === "null" ? null : profile.img);
+    setValue("email", profile.email === "null" ? null : profile.email);
+    setValue(
+      "githubUrl",
+      profile.githubUrl === "null" ? null : profile.githubUrl
+    );
+    setValue("blogUrl", profile.blogUrl === "null" ? null : profile.blogUrl);
+    setValue("snsUrl", profile.snsUrl === "null" ? null : profile.snsUrl);
+    setValue(
+      "description",
+      profile.description === "null" ? null : profile.description
+    );
   };
 
   const getData = async () => {
@@ -438,30 +444,30 @@ export default function ProfilePresenter() {
                 ) : null}
                 <div className="">
                   <div className="mb-10">
-                    {profile.name ? (
+                    {profile.name === "null" ? null : (
                       <h3 className="text-purple-800 my-2">{profile.name}</h3>
-                    ) : null}
-                    {profile.email ? (
+                    )}
+                    {profile.email === "null" ? null : (
                       <h3 className="text-purple-800 my-2">{profile.email}</h3>
-                    ) : null}
-                    {profile.description ? (
+                    )}
+                    {profile.description === "null" ? null : (
                       <h3 className="text-purple-800 my-2">
                         {profile.description}
                       </h3>
-                    ) : null}
-                    {profile.githubUrl ? (
+                    )}
+                    {profile.githubUrl === "null" ? null : (
                       <h3 className="text-purple-800 my-2">
                         {profile.githubUrl}
                       </h3>
-                    ) : null}
-                    {profile.blogUrl ? (
+                    )}
+                    {profile.blogUrl === "null" ? null : (
                       <h3 className="text-purple-800 my-2">
                         {profile.blogUrl}
                       </h3>
-                    ) : null}
-                    {profile.snsUrl ? (
+                    )}
+                    {profile.snsUrl === "null" ? null : (
                       <h3 className="text-purple-800 my-2">{profile.snsUrl}</h3>
-                    ) : null}
+                    )}
                   </div>
                 </div>
               </div>
