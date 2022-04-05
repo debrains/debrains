@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-echo "> Deploy React"
+echo "> [$(date +%y-%m-%d/%H:%M)] Deploy React" >> /usr/local/debrains/deploy.log
