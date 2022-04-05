@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
 
-echo "> Deploy React"
-sudo cp -rf /usr/local/debrains/dist/* /var/www/html
+echo "> [$(date +%y-%m-%d/%H:%M)] Deploy React" >> /usr/local/debrains/deploy.log
