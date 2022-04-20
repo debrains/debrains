@@ -76,6 +76,9 @@ function MemberForm({ profile }) {
 
   console.log(errors);
 
+  let githubUrl = 5;
+  console.log(githubUrl.toString());
+
   return (
     <>
       <form
@@ -167,12 +170,14 @@ function MemberForm({ profile }) {
                 </label>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
                   <div className="max-w-lg flex rounded-md shadow-sm">
-                    <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+                    {/* <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
                       https://github.com/
-                    </span>
+                    </span> */}
                     <input
                       type="text"
-                      {...register("githubUrl", { value: profile.githubUrl })}
+                      {...register("githubUrl", {
+                        value: githubUrl,
+                      })}
                       autoComplete="username"
                       className="flex-1 block w-full focus:ring-purple-500 focus:border-purple-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300"
                     />

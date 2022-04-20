@@ -18,21 +18,37 @@ export const patchUser = async ({
   blogUrl,
   snsUrl,
 }) => {
+  const userInfoDTO = {
+    id: id,
+    email: email,
+    name: name,
+    description: description,
+    img: img !== null ? img[0] : null,
+    githubUrl: githubUrl,
+    blogUrl: blogUrl,
+    snsUrl: snsUrl,
+  };
   const formData = new FormData();
-  formData.append("id", id);
-  formData.append("email", email);
-  formData.append("name", name);
-  formData.append("description", description);
-  formData.append("img", img);
-  formData.append("githubUrl", githubUrl);
-  formData.append("blogUrl", blogUrl);
-  formData.append("snsUrl", snsUrl);
-  const { data } = await customAPI.patch(
-    "/user/info?_csrf=5c6ae09c-6750-4523-957e-a56e5ddc89ff",
-    formData
+  console.log(img);
+  if (img !== null) {
+    for (let i = 0; i < img.length; i++) {
+      formData.append("img", img[0]);
+    }
+  }
+  formData.append(
+    "userInfoDTO",
+    new Blob([JSON.stringify(userInfoDTO)], { type: "application/json" })
   );
-  console.log("유저 정보 수정 :", data);
-  return data;
+  await customAPI
+    .patch("/user/info", formData)
+    .then((response) => {
+      console.log("성공", response);
+      return response;
+    })
+    .catch((error) => {
+      console.log("실패", error.response.data);
+      return error;
+    });
 };
 
 export const postDuplicateCheck = async ({ name }) => {
@@ -111,7 +127,7 @@ export const patchTIL = async ({ id }) => {
 
 export const getTILCrts = async ({ page }) => {
   const { data } = await customAPI.get(
-    `/til-crts/?page=${page}&size=10&sort=id%2CDESC`
+    `/til-crts/?page=0&size=10&sort=id%2CDESC`
   );
   console.log("TIL 인증 목록 :", data);
   return data;
@@ -127,24 +143,45 @@ export const postTILCrts = async ({
   startTime3,
   endTime3,
   watchTime,
-  filePath,
+  files,
 }) => {
-  const { data } = await customAPI.post(`/til-crts`, {
-    id: null,
-    tilId: 281,
-    description: "인증 설명입니다.",
-    startTime1: "2022-03-17 13:03:13",
-    endTime1: "2022-03-17 17:03:13",
-    startTime2: null,
-    endTime2: null,
-    startTime3: null,
-    endTime3: null,
-    watchTime: "05:00",
-    userId: null,
-    filePath: null,
-  });
-  console.log("TIL 인증 생성 :", data);
-  return data;
+  const changeDate = (preDate) => {
+    return preDate.replace("T", " ") + ":00";
+  };
+  const tilCrtDTO = {
+    tilId: tilId,
+    description: description,
+    startTime1: startTime1 === "" ? "" : changeDate(startTime1),
+    endTime1: endTime1 === "" ? "" : changeDate(endTime1),
+    startTime2: startTime2 === "" ? "" : changeDate(startTime2),
+    endTime2: endTime2 === "" ? "" : changeDate(endTime2),
+    startTime3: startTime3 === "" ? "" : changeDate(startTime3),
+    endTime3: endTime3 === "" ? "" : changeDate(endTime3),
+    watchTime: watchTime,
+  };
+  console.log(tilCrtDTO);
+  const formData = new FormData();
+  formData.append(
+    "tilCrtDTO",
+    new Blob([JSON.stringify(tilCrtDTO)], { type: "application/json" })
+  );
+  for (let i = 0; i < files.length; i++) {
+    formData.append("files", files[i]);
+  }
+  await customAPI
+    .post(`/til-crts`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((response) => {
+      console.log("성공", response);
+      return response;
+    })
+    .catch((error) => {
+      console.log("실패", error.response.data);
+      return error;
+    });
 };
 
 export const getTILCrt = async ({ id }) => {

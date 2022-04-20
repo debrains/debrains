@@ -1,9 +1,11 @@
-import { useRecoilValue } from "recoil";
-import { nickNameAtom } from "../../../../atoms/atom";
+// import { useRecoilValue } from "recoil";
+// import { nickNameAtom } from "../../../../atoms/atom";
 import { useForm } from "react-hook-form";
-import { postDuplicateCheck } from "../../../../apis/api";
-import { useRef, useState } from "react";
+// import { postDuplicateCheck } from "../../../../apis/api";
+import { useState } from "react";
 import React from "react";
+import { postTILCrts } from "../../../../apis/api";
+import { useParams } from "react-router-dom";
 
 const profile = {
   name: "새벽",
@@ -15,11 +17,13 @@ const profile = {
 
 let tf = true;
 function MemberForm() {
+  const { id } = useParams();
+
   const [watchTime, setWatchTime] = useState(0);
   const [playWatch, setPlayWatch] = useState(false);
-  const [inputCnt, setInputCnt] = useState(1);
-  const [inputVisible12, setInputVisible12] = useState(false);
-  const [inputVisible13, setInputVisible13] = useState(false);
+  // const [inputCnt, setInputCnt] = useState(1);
+  // const [inputVisible12, setInputVisible12] = useState(false);
+  // const [inputVisible13, setInputVisible13] = useState(false);
   const [ban, setBan] = useState(false);
   let watch;
   let banInterval;
@@ -27,71 +31,71 @@ function MemberForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    setError,
-    reset,
-    getValues,
+    // formState: { errors },
+    // setError,
+    // reset,
+    // getValues,
   } = useForm();
 
-  const onInputBtn = async ({ target: { id } }) => {
-    let num = inputCnt;
-    console.log(num);
-    if (id.indexOf("+") !== -1 && num < 3) {
-      await setInputCnt(inputCnt + 1);
-      num += 1;
-    } else if (id.indexOf("-") !== -1 && num > 1) {
-      await setInputCnt(inputCnt - 1);
-      num -= 1;
-    }
-    console.log("id:", id, num);
-    if (id === "-1" && inputCnt === 1) {
-      reset({
-        startTime1: "",
-        endTime1: "",
-      });
-    }
-    if (id === "-1" && inputCnt === 2) {
-      reset({
-        startTime1: getValues("startTime2"),
-        endTime1: getValues("endTime2"),
-        startTime2: "",
-        endTime2: "",
-      });
-    }
-    if (id === "-1" && inputCnt === 3) {
-      reset({
-        startTime1: getValues("startTime2"),
-        endTime1: getValues("endTime2"),
-        startTime2: getValues("startTime3"),
-        endTime2: getValues("endTime3"),
-        startTime3: "",
-        endTime3: "",
-      });
-    }
-    if (id === "-2" && inputCnt === 2) {
-      reset({
-        startTime2: "",
-        endTime2: "",
-      });
-    }
-    if (id === "-2" && inputCnt === 3) {
-      reset({
-        startTime2: getValues("startTime3"),
-        endTime2: getValues("endTime3"),
-        startTime3: "",
-        endTime3: "",
-      });
-    }
-    if (id === "-3") {
-      reset({ startTime3: "", endTime3: "" });
-    }
-    setVisible(num);
-  };
+  // const onInputBtn = async ({ target: { id } }) => {
+  //   let num = inputCnt;
+  //   console.log(num);
+  //   if (id.indexOf("+") !== -1 && num < 3) {
+  //     await setInputCnt(inputCnt + 1);
+  //     num += 1;
+  //   } else if (id.indexOf("-") !== -1 && num > 1) {
+  //     await setInputCnt(inputCnt - 1);
+  //     num -= 1;
+  //   }
+  //   console.log("id:", id, num);
+  //   if (id === "-1" && inputCnt === 1) {
+  //     reset({
+  //       startTime1: "",
+  //       endTime1: "",
+  //     });
+  //   }
+  //   if (id === "-1" && inputCnt === 2) {
+  //     reset({
+  //       startTime1: getValues("startTime2"),
+  //       endTime1: getValues("endTime2"),
+  //       startTime2: "",
+  //       endTime2: "",
+  //     });
+  //   }
+  //   if (id === "-1" && inputCnt === 3) {
+  //     reset({
+  //       startTime1: getValues("startTime2"),
+  //       endTime1: getValues("endTime2"),
+  //       startTime2: getValues("startTime3"),
+  //       endTime2: getValues("endTime3"),
+  //       startTime3: "",
+  //       endTime3: "",
+  //     });
+  //   }
+  //   if (id === "-2" && inputCnt === 2) {
+  //     reset({
+  //       startTime2: "",
+  //       endTime2: "",
+  //     });
+  //   }
+  //   if (id === "-2" && inputCnt === 3) {
+  //     reset({
+  //       startTime2: getValues("startTime3"),
+  //       endTime2: getValues("endTime3"),
+  //       startTime3: "",
+  //       endTime3: "",
+  //     });
+  //   }
+  //   if (id === "-3") {
+  //     reset({ startTime3: "", endTime3: "" });
+  //   }
+  //   setVisible(num);
+  // };
 
-  const setVisible = (num) => {
-    setInputVisible12(num >= 2);
-    setInputVisible13(num >= 3);
-  };
+  // const setVisible = (num) => {
+  //   setInputVisible12(num >= 2);
+  //   setInputVisible13(num >= 3);
+  // };
 
   const startWatch = () => {
     console.log("스타트ㅡㅡ");
@@ -118,6 +122,8 @@ function MemberForm() {
   const pauseWatch = async () => {
     setPlayWatch(false);
     tf = false;
+    setBan((pre) => !pre);
+    banInterval = setInterval(switchBan, 1000);
   };
 
   const resetWatch = () => {
@@ -125,11 +131,29 @@ function MemberForm() {
   };
 
   const onValid = (data) => {
-    console.log(data);
-    if (data.startTime1 > data.endTime1) {
-      setError("startTime1", { message: "날짜이상" }, { shouldFocus: true });
+    if (playWatch) {
+      pauseWatch();
     }
+    console.log(data, watchTime + 1);
+    postTILCrts({
+      tilId: id,
+      description: data.description,
+      startTime1: data.startTime1,
+      endTime1: data.endTime1,
+      startTime2: data.startTime2,
+      endTime2: data.endTime2,
+      startTime3: data.startTime3,
+      endTime3: data.endTime3,
+      watchTime:
+        (watchTime / 60 < 10 ? "0" : "") +
+        parseInt(watchTime / 60) +
+        ":" +
+        (watchTime % 60 < 10 ? "0" : "") +
+        (watchTime % 60),
+      files: data.files,
+    });
   };
+
   return (
     <>
       <form
@@ -170,7 +194,7 @@ function MemberForm() {
                       autoComplete="end-time"
                       className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                     />
-                    <button
+                    {/* <button
                       className=" w-7 h-7 hover:bg-purple-700 bg-purple-600 text-white rounded-full "
                       value={"-"}
                       onClick={onInputBtn}
@@ -182,10 +206,10 @@ function MemberForm() {
                       onClick={onInputBtn}
                       hidden={inputVisible12}
                     >
-                      +0
-                    </button>
+                      +
+                    </button> */}
                   </div>
-                  <div className="py-1" hidden={!inputVisible12}>
+                  <div className="py-1">
                     <input
                       {...register("startTime" + 2)}
                       type="datetime-local"
@@ -199,7 +223,7 @@ function MemberForm() {
                       autoComplete="end-time"
                       className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                     />
-                    <button
+                    {/* <button
                       className=" w-7 h-7 hover:bg-purple-700 bg-purple-600 text-white rounded-full "
                       value={"-"}
                       onClick={onInputBtn}
@@ -216,9 +240,9 @@ function MemberForm() {
                       <p className="text-1xl" id={"+2"}>
                         +
                       </p>
-                    </button>
+                    </button> */}
                   </div>
-                  <div className="py-1" hidden={!inputVisible13}>
+                  <div className="py-1">
                     <input
                       {...register("startTime" + 3)}
                       type="datetime-local"
@@ -232,7 +256,7 @@ function MemberForm() {
                       autoComplete="end-time"
                       className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                     />
-                    <button
+                    {/* <button
                       className=" w-7 h-7 hover:bg-purple-700 bg-purple-600 text-white rounded-full"
                       value={"-"}
                       onClick={onInputBtn}
@@ -240,7 +264,7 @@ function MemberForm() {
                       <p className="text-1xl" id={"-3"}>
                         -
                       </p>
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               </div>
@@ -299,7 +323,7 @@ function MemberForm() {
                 </label>
                 <div className="mt-1 sm:mt-0 sm:col-span-3">
                   <textarea
-                    {...register("about")}
+                    {...register("description")}
                     rows={3}
                     className="max-w-lg shadow-sm block w-full focus:ring-purple-500 focus:border-purple-500 sm:text-sm border border-gray-300 rounded-md"
                     defaultValue={""}

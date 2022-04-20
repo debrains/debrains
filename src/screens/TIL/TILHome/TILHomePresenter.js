@@ -5,20 +5,39 @@ const coverImageUrl =
   "https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80";
 
 function TILHomePresenter() {
-  const [tilList, setTilList] = useState("");
+  const [tilList, setTilList] = useState([]);
   const [current, setCurrent] = useState("");
+  const [tilPage, settilPage] = useState(1);
 
-  const getData = async () => {
-    const getTILsResult = await getTILs(1);
+  const getData = async ({ page }) => {
+    const getTILsResult = await getTILs(page);
     const getTILCurrentResult = await getTILCurrent();
-    setTilList(getTILsResult);
+    setTilList((prev) => [...prev, ...getTILsResult._embedded.tilList]);
     setCurrent(getTILCurrentResult);
-    console.log(getTILsResult);
     console.log(getTILCurrentResult);
+    settilPage((prev) => prev + 1);
+  };
+
+  const infiniteScroll = () => {
+    let scrollHeight = Math.max(
+      document.documentElement.scrollHeight,
+      document.body.scrollHeight
+    );
+    let scrollTop = Math.max(
+      document.documentElement.scrollTop,
+      document.body.scrollTop
+    );
+    let clientHeight = document.documentElement.clientHeight;
+
+    if (scrollTop + clientHeight === scrollHeight) {
+      settilPage((prev) => prev + 1);
+    }
   };
   useEffect(() => {
-    getData();
+    getData({ page: 1 });
+    settilPage(1);
   }, []);
+
   return (
     <>
       <div className="min-h-full">
@@ -116,9 +135,10 @@ function TILHomePresenter() {
 
           <div className="mt-10">
             <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10 ">
-              {tilList === ""
+              {tilList === []
                 ? null
-                : tilList._embedded?.tilList.map((til) => {
+                : tilList.map((til) => {
+                    console.log("til단품", til);
                     return (
                       <div
                         className="md:grid md:grid-cols-4 hover:bg-purple-100 rounded-box hover:drop-shadow-lg"

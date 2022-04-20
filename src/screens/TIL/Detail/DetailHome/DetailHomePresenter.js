@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { getTIL } from "../../../../apis/api";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { getTIL, getTILCrts } from "../../../../apis/api";
+import { Link, useParams } from "react-router-dom";
 const profile = {
   coverImageUrl:
     "https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
@@ -9,11 +9,14 @@ const profile = {
 function DetailHomePresenter(props) {
   const { id } = useParams();
   const [tilDetail, setTilDetail] = useState("");
+  const [crtList, setCrtList] = useState([]);
 
   const getData = async () => {
     const getTILDetail = await getTIL(id);
+    const getCrtList = await getTILCrts(1);
     setTilDetail(getTILDetail);
-    console.log("받아왔나요?", getTILDetail);
+    setCrtList((prev) => [...prev, ...getCrtList._embedded.tilCrtDTOList]);
+    console.log("받아왔나요?", ...getCrtList._embedded.tilCrtDTOList);
   };
 
   useEffect(() => {
@@ -89,7 +92,7 @@ function DetailHomePresenter(props) {
               {/*<label className="flex justify-end">더보기</label>*/}
             </div>
             <div className="col-span-2 pr-10 pl-10">
-              <Link to="/til/1/certification">
+              <Link to={`/til/${id}/certification`}>
                 <button className=" w-full h-full hover:bg-purple-700 bg-purple-600 text-white rounded-box">
                   <p className="text-5xl">+</p>
                   <p>인증하기</p>
@@ -100,27 +103,32 @@ function DetailHomePresenter(props) {
 
           <div className="mt-10">
             <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-x-8 md:gap-y-10">
-              <div className="group relative">
-                <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
-                  <img
-                    src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg"
-                    alt="Front of men&#039;s Basic Tee in black."
-                    className="w-full h-full object-center object-cover lg:w-full lg:h-full"
-                  />
-                </div>
-                <div className="mt-4">
-                  <div>
-                    <h3 className="text-sm text-gray-700 line-clamp-3 whitespace-pre-wrap">
-                      {`3쥴이상\n넘어가면\n말줄임표\n되나용?`}
-                    </h3>
-                    <div className="flex justify-end items-center py-1">
-                      <span className="text-sm font-medium text-gray-900">
-                        22. 01. 03 (금)
-                      </span>
+              {crtList.map((crt) => {
+                console.log("crt단품", crt);
+                return (
+                  <div className="group relative">
+                    <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
+                      <img
+                        src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg"
+                        alt="Front of men&#039;s Basic Tee in black."
+                        className="w-full h-full object-center object-cover lg:w-full lg:h-full"
+                      />
+                    </div>
+                    <div className="mt-4">
+                      <div>
+                        <h3 className="text-sm text-gray-700 line-clamp-3 whitespace-pre-wrap">
+                          {crt.description}
+                        </h3>
+                        <div className="flex justify-end items-center py-1">
+                          <span className="text-sm font-medium text-gray-900">
+                            22. 01. 03 (금)
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                );
+              })}
             </dl>
           </div>
         </div>
