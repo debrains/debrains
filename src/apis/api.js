@@ -23,7 +23,6 @@ export const patchUser = async ({
     email: email,
     name: name,
     description: description,
-    img: img !== null ? img[0] : null,
     githubUrl: githubUrl,
     blogUrl: blogUrl,
     snsUrl: snsUrl,
@@ -32,7 +31,7 @@ export const patchUser = async ({
   console.log(img);
   if (img !== null) {
     for (let i = 0; i < img.length; i++) {
-      formData.append("img", img[0]);
+      formData.append("photo", img[0]);
     }
   }
   formData.append(
