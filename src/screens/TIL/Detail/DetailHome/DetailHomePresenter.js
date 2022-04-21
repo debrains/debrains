@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getTIL, getTILCrts } from "../../../../apis/api";
+import { getTIL, getTILCrts, deleteTIL } from "../../../../apis/api";
 import { Link, useParams } from "react-router-dom";
 const profile = {
   coverImageUrl:
@@ -13,12 +13,16 @@ function DetailHomePresenter(props) {
 
   const getData = async () => {
     const getTILDetail = await getTIL(id);
-    const getCrtList = await getTILCrts(1);
+    const getCrtList = await getTILCrts({ id: id, page: 0 });
     setTilDetail(getTILDetail);
-    setCrtList((prev) => [...prev, ...getCrtList._embedded.tilCrtDTOList]);
-    console.log("받아왔나요?", ...getCrtList._embedded.tilCrtDTOList);
+    if (getCrtList?._embedded?.tilCrtDTOList !== undefined) {
+      setCrtList((prev) => [...prev, ...getCrtList?._embedded?.tilCrtDTOList]);
+      console.log("받아왔나요?", ...getCrtList?._embedded?.tilCrtDTOList);
+    }
   };
-
+  const delTIL = () => {
+    deleteTIL({ id: id });
+  };
   useEffect(() => {
     getData();
   }, []);
@@ -42,7 +46,7 @@ function DetailHomePresenter(props) {
       <div className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="md:grid md:grid-cols-6">
-            <div className="col-span-2 mb-3">
+            <div className="col-span-2 mb-3 pl-4">
               <span className="ml-6 text-lg leading-6 font-medium text-gray-900">
                 {tilDetail.subject}
               </span>
@@ -103,33 +107,54 @@ function DetailHomePresenter(props) {
 
           <div className="mt-10">
             <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-x-8 md:gap-y-10">
-              {crtList.map((crt) => {
-                console.log("crt단품", crt);
-                return (
-                  <div className="group relative">
-                    <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
-                      <img
-                        src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg"
-                        alt="Front of men&#039;s Basic Tee in black."
-                        className="w-full h-full object-center object-cover lg:w-full lg:h-full"
-                      />
-                    </div>
-                    <div className="mt-4">
-                      <div>
-                        <h3 className="text-sm text-gray-700 line-clamp-3 whitespace-pre-wrap">
-                          {crt.description}
-                        </h3>
-                        <div className="flex justify-end items-center py-1">
-                          <span className="text-sm font-medium text-gray-900">
-                            22. 01. 03 (금)
-                          </span>
+              {crtList === []
+                ? null
+                : crtList.map((crt) => {
+                    console.log("crt단품", crt);
+                    return (
+                      <Link to={`/til/${id}/${crt.id}`}>
+                        <div className="group relative p-10" key={crt.id}>
+                          <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
+                            <img
+                              src={
+                                crt.filePath
+                                  ? crt.filePath[0]
+                                  : "https://blog.kakaocdn.net/dn/bgeLnn/btrt43tT2db/aQcknBuj3SHbKkX5WSrwDK/img.gif"
+                              }
+                              alt="Front of men&#039;s Basic Tee in black."
+                              className="w-full h-full object-center object-cover lg:w-full lg:h-full"
+                            />
+                          </div>
+                          <div className="mt-4">
+                            <div>
+                              <h3 className="text-sm text-gray-700 line-clamp-3 whitespace-pre-wrap">
+                                {crt.description}
+                              </h3>
+                              <div className="flex justify-end items-center py-1">
+                                <span className="text-sm font-medium text-gray-900">
+                                  22. 01. 03 (금)
+                                </span>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+                      </Link>
+                    );
+                  })}
             </dl>
+          </div>
+          <div className="pt-5 pr-10">
+            <div className="flex justify-end ">
+              <button className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                TIL 수정하기
+              </button>
+              <button
+                onClick={delTIL}
+                className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+              >
+                TIL 삭제하기
+              </button>
+            </div>
           </div>
         </div>
       </div>

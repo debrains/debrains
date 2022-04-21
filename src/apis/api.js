@@ -124,9 +124,23 @@ export const patchTIL = async ({ id }) => {
   return data;
 };
 
-export const getTILCrts = async ({ page }) => {
+export const deleteTIL = async ({ id }) => {
+  await customAPI
+    .delete(`/tils/${id}`)
+    .then((response) => {
+      console.log("성공", response);
+      return response;
+    })
+    .catch((error) => {
+      console.log("실패", error.response.data);
+      return error;
+    });
+};
+
+export const getTILCrts = async ({ id, page = 0 }) => {
+  console.log(id, page);
   const { data } = await customAPI.get(
-    `/til-crts/?page=0&size=10&sort=id%2CDESC`
+    `/til-crts/?tilId=${id}&page=${page}&size=10&sort=id%2CDESC`
   );
   console.log("TIL 인증 목록 :", data);
   return data;
@@ -173,6 +187,19 @@ export const postTILCrts = async ({
         "Content-Type": "multipart/form-data",
       },
     })
+    .then((response) => {
+      console.log("성공", response);
+      return response;
+    })
+    .catch((error) => {
+      console.log("실패", error.response.data);
+      return error;
+    });
+};
+
+export const deleteTILCrt = async ({ id }) => {
+  await customAPI
+    .delete(`/til-crts/${id}`)
     .then((response) => {
       console.log("성공", response);
       return response;

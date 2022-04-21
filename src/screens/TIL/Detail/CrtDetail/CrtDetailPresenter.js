@@ -1,4 +1,3 @@
-// import { useRecoilValue } from "recoil";
 // import { nickNameAtom } from "../../../../atoms/atom";
 import { useForm } from "react-hook-form";
 // import { postDuplicateCheck } from "../../../../apis/api";
@@ -19,7 +18,6 @@ let tf = true;
 function MemberForm() {
   const navigate = useNavigate();
   const { id } = useParams();
-
   const [watchTime, setWatchTime] = useState(0);
   const [playWatch, setPlayWatch] = useState(false);
   // const [inputCnt, setInputCnt] = useState(1);
@@ -29,74 +27,7 @@ function MemberForm() {
   let watch;
   let banInterval;
 
-  const {
-    register,
-    handleSubmit,
-    // formState: { errors },
-    // setError,
-    // reset,
-    // getValues,
-  } = useForm();
-
-  // const onInputBtn = async ({ target: { id } }) => {
-  //   let num = inputCnt;
-  //   console.log(num);
-  //   if (id.indexOf("+") !== -1 && num < 3) {
-  //     await setInputCnt(inputCnt + 1);
-  //     num += 1;
-  //   } else if (id.indexOf("-") !== -1 && num > 1) {
-  //     await setInputCnt(inputCnt - 1);
-  //     num -= 1;
-  //   }
-  //   console.log("id:", id, num);
-  //   if (id === "-1" && inputCnt === 1) {
-  //     reset({
-  //       startTime1: "",
-  //       endTime1: "",
-  //     });
-  //   }
-  //   if (id === "-1" && inputCnt === 2) {
-  //     reset({
-  //       startTime1: getValues("startTime2"),
-  //       endTime1: getValues("endTime2"),
-  //       startTime2: "",
-  //       endTime2: "",
-  //     });
-  //   }
-  //   if (id === "-1" && inputCnt === 3) {
-  //     reset({
-  //       startTime1: getValues("startTime2"),
-  //       endTime1: getValues("endTime2"),
-  //       startTime2: getValues("startTime3"),
-  //       endTime2: getValues("endTime3"),
-  //       startTime3: "",
-  //       endTime3: "",
-  //     });
-  //   }
-  //   if (id === "-2" && inputCnt === 2) {
-  //     reset({
-  //       startTime2: "",
-  //       endTime2: "",
-  //     });
-  //   }
-  //   if (id === "-2" && inputCnt === 3) {
-  //     reset({
-  //       startTime2: getValues("startTime3"),
-  //       endTime2: getValues("endTime3"),
-  //       startTime3: "",
-  //       endTime3: "",
-  //     });
-  //   }
-  //   if (id === "-3") {
-  //     reset({ startTime3: "", endTime3: "" });
-  //   }
-  //   setVisible(num);
-  // };
-
-  // const setVisible = (num) => {
-  //   setInputVisible12(num >= 2);
-  //   setInputVisible13(num >= 3);
-  // };
+  const { register, handleSubmit } = useForm();
 
   const startWatch = () => {
     console.log("스타트ㅡㅡ");
@@ -359,11 +290,14 @@ function MemberForm() {
         </div>
         <div className="pt-5">
           <div className="flex justify-end">
-            <button
-              type="submit"
-              className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
-            >
-              인증 등록하기
+            <button className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+              뒤로가기
+            </button>
+            <button className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+              인증 수정하기
+            </button>
+            <button className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+              인증 삭제하기
             </button>
           </div>
         </div>
@@ -372,7 +306,7 @@ function MemberForm() {
   );
 }
 
-const CertificationPresenter = () => {
+function CrtDetailPresenter(props) {
   return (
     <>
       <div className="min-h-full">
@@ -408,5 +342,6 @@ const CertificationPresenter = () => {
       </div>
     </>
   );
-};
-export default React.memo(CertificationPresenter);
+}
+
+export default CrtDetailPresenter;
