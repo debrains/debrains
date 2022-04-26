@@ -1,9 +1,9 @@
 // import { nickNameAtom } from "../../../../atoms/atom";
 import { useForm } from "react-hook-form";
 // import { postDuplicateCheck } from "../../../../apis/api";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
-import { deleteTILCrt, postTILCrts } from "../../../../apis/api";
+import { deleteTILCrt, getTILCrt, postTILCrts } from "../../../../apis/api";
 import { useParams, useNavigate } from "react-router-dom";
 
 const profile = {
@@ -19,6 +19,7 @@ function MemberForm() {
   const navigate = useNavigate();
   const { id, crtid } = useParams();
 
+  const [watchTime, setWatchTime] = useState(0);
   const { register, handleSubmit } = useForm();
 
   const onValid = (data) => {
@@ -26,10 +27,22 @@ function MemberForm() {
 
     navigate(`/til/${id}/${crtid}`);
   };
+
+  const updateCrt = () => {};
+
+  const getData = async () => {
+    const result = await getTILCrt({ id: crtid });
+    console.log("인증 상세 요청 결과", result);
+    setWatchTime(result.watchTime);
+  };
+
   const delCrt = () => {
     deleteTILCrt({ crtid: crtid });
   };
 
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <>
       <form
@@ -115,14 +128,7 @@ function MemberForm() {
                     htmlFor="date"
                     className="block text-xl font-medium text-gray-700 "
                   >
-                    {/* {(watchTime / 3600 < 10 ? "0" : "") +
-                      parseInt(watchTime / 3600) +
-                      " : " +
-                      ((watchTime / 60) % 60 < 10 ? "0" : "") +
-                      parseInt((watchTime / 60) % 60) +
-                      " : " +
-                      (watchTime % 60 < 10 ? "0" : "") +
-                      (watchTime % 60)} */}
+                    {watchTime}
                   </label>
                 </div>
               </div>

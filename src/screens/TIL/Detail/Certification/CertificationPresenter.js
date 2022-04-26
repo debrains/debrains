@@ -282,11 +282,8 @@ function MemberForm() {
                     htmlFor="date"
                     className="block text-xl font-medium text-gray-700 "
                   >
-                    {(watchTime / 3600 < 10 ? "0" : "") +
-                      parseInt(watchTime / 3600) +
-                      " : " +
-                      ((watchTime / 60) % 60 < 10 ? "0" : "") +
-                      parseInt((watchTime / 60) % 60) +
+                    {(watchTime / 60 < 10 ? "0" : "") +
+                      parseInt(watchTime / 60) +
                       " : " +
                       (watchTime % 60 < 10 ? "0" : "") +
                       (watchTime % 60)}
