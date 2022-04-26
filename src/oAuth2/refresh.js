@@ -7,6 +7,7 @@ const refresh = async (config) => {
   let { accessToken, expireAT } = JSON.parse(
     localStorage.getItem("accessToken")
   );
+  console.log("만료 확인");
 
   if (moment(expireAT).diff(moment()) < 0) {
     console.log("accessToken 만료 토큰 재발급 요청");
