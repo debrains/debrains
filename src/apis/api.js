@@ -211,8 +211,16 @@ export const deleteTILCrt = async ({ crtid }) => {
 };
 
 export const getTILCrt = async ({ id }) => {
-  const { data } = await customAPI.get(`/tils-crts/${id}`);
-  console.log("TIL 인증 상세:", data);
+  const data = await customAPI
+    .get(`/til-crts/${id}`)
+    .then((response) => {
+      console.log("성공", response.data);
+      return response.data;
+    })
+    .catch((error) => {
+      console.log("실패", error.response.data);
+      return error;
+    });
   return data;
 };
 
