@@ -1,8 +1,11 @@
 console.log(window.location.origin);
-let URL = "http://localhost:8080";
-let redirect = "http://localhost:3000/oauth2/redirect";
 
-if (window.location.origin === "https://debrain.co.kr") {
+let URL;
+let redirect;
+
+if (window.location.origin === "http://localhost:3000") {
+  URL = "http://localhost:8080";
+} else if (window.location.origin === "https://debrain.co.kr") {
   URL = "https://api.debrain.co.kr";
 } else {
   URL = "http://3.39.86.48:8080";
@@ -10,7 +13,9 @@ if (window.location.origin === "https://debrain.co.kr") {
 export const API_BASE_URL = URL;
 export const ACCESS_TOKEN = "accessToken";
 
-if (window.location.origin === "https://debrain.co.kr") {
+if (window.location.origin === "http://localhost:3000") {
+  redirect = "http://localhost:3000/oauth2/redirect";
+} else if (window.location.origin === "https://debrain.co.kr") {
   redirect = "https://debrain.co.kr/oauth2/redirect";
 } else {
   redirect = "http://3.39.86.48/oauth2/redirect";
