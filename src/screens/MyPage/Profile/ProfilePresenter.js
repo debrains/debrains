@@ -74,7 +74,7 @@ function MemberForm({ profile }) {
 
   console.log(errors);
 
-  let githubUrl = 5;
+  let githubUrl;
   console.log(githubUrl.toString());
 
   return (
