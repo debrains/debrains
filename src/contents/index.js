@@ -1,4 +1,5 @@
 console.log(window.location.origin);
+
 let URL;
 let redirect;
 
