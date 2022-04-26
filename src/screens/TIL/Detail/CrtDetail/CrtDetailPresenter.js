@@ -1,9 +1,11 @@
 // import { nickNameAtom } from "../../../../atoms/atom";
 import { useForm } from "react-hook-form";
 // import { postDuplicateCheck } from "../../../../apis/api";
+
 import { useState, useEffect } from "react";
 import React from "react";
 import { deleteTILCrt, getTILCrt, postTILCrts } from "../../../../apis/api";
+
 import { useParams, useNavigate } from "react-router-dom";
 
 const profile = {
@@ -20,6 +22,7 @@ function MemberForm() {
   const { id, crtid } = useParams();
 
   const [watchTime, setWatchTime] = useState(0);
+
   const { register, handleSubmit } = useForm();
 
   const onValid = (data) => {
@@ -43,6 +46,7 @@ function MemberForm() {
   useEffect(() => {
     getData();
   }, []);
+
   return (
     <>
       <form
@@ -128,7 +132,9 @@ function MemberForm() {
                     htmlFor="date"
                     className="block text-xl font-medium text-gray-700 "
                   >
+
                     {watchTime}
+
                   </label>
                 </div>
               </div>
