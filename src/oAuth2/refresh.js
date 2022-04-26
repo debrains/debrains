@@ -1,11 +1,13 @@
 import moment from "moment";
 import { ACCESS_TOKEN } from "../contents";
+import { useSetRecoilState } from "recoil";
+import { isLoginAtom } from "../atoms/atom";
 
 const refresh = async (config) => {
-  console.log("refresh 실행 테스트");
   let { accessToken, expireAT } = JSON.parse(
     localStorage.getItem("accessToken")
   );
+  console.log("만료 확인");
 
   if (moment(expireAT).diff(moment()) < 0) {
     console.log("accessToken 만료 토큰 재발급 요청");

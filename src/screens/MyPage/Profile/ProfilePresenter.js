@@ -47,21 +47,25 @@ function MemberForm({ profile }) {
 
   const defaultValueSet1 = (profile) => {
     console.log("defaultValueSet1 : ", profile);
-    setValue("name", profile.name);
-    setValue("img", null);
-    setValue("email", profile.email);
-    setValue("githubUrl", profile.githubUrl);
-    setValue("blogUrl", profile.blogUrl);
-    setValue("snsUrl", profile.snsUrl);
-    setValue("description", profile.description);
+    setValue("name", profile.name === "null" ? null : profile.name);
+    setValue("img", profile.img === "null" ? null : profile.img);
+    setValue("email", profile.email === "null" ? null : profile.email);
+    setValue(
+      "githubUrl",
+      profile.githubUrl === "null" ? null : profile.githubUrl
+    );
+    setValue("blogUrl", profile.blogUrl === "null" ? null : profile.blogUrl);
+    setValue("snsUrl", profile.snsUrl === "null" ? null : profile.snsUrl);
+    setValue(
+      "description",
+      profile.description === "null" ? null : profile.description
+    );
   };
 
   const getData = async () => {
     const result = await getCurrentUser();
     defaultValueSet1(result);
     setProfile(result);
-
-    // set atom profile 로 아톰 값 수정하는 코드 넣어야함@@@@@@@@@
   };
 
   useEffect(() => {
@@ -69,6 +73,9 @@ function MemberForm({ profile }) {
   }, []);
 
   console.log(errors);
+
+  let githubUrl = 5;
+  console.log(githubUrl.toString());
 
   return (
     <>
@@ -161,12 +168,14 @@ function MemberForm({ profile }) {
                 </label>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
                   <div className="max-w-lg flex rounded-md shadow-sm">
-                    <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+                    {/* <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
                       https://github.com/
-                    </span>
+                    </span> */}
                     <input
                       type="text"
-                      {...register("githubUrl", { value: profile.githubUrl })}
+                      {...register("githubUrl", {
+                        value: githubUrl,
+                      })}
                       autoComplete="username"
                       className="flex-1 block w-full focus:ring-purple-500 focus:border-purple-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300"
                     />
@@ -438,30 +447,30 @@ export default function ProfilePresenter() {
                 ) : null}
                 <div className="">
                   <div className="mb-10">
-                    {profile.name ? (
+                    {profile.name === "null" ? null : (
                       <h3 className="text-purple-800 my-2">{profile.name}</h3>
-                    ) : null}
-                    {profile.email ? (
+                    )}
+                    {profile.email === "null" ? null : (
                       <h3 className="text-purple-800 my-2">{profile.email}</h3>
-                    ) : null}
-                    {profile.description ? (
+                    )}
+                    {profile.description === "null" ? null : (
                       <h3 className="text-purple-800 my-2">
                         {profile.description}
                       </h3>
-                    ) : null}
-                    {profile.githubUrl ? (
+                    )}
+                    {profile.githubUrl === "null" ? null : (
                       <h3 className="text-purple-800 my-2">
                         {profile.githubUrl}
                       </h3>
-                    ) : null}
-                    {profile.blogUrl ? (
+                    )}
+                    {profile.blogUrl === "null" ? null : (
                       <h3 className="text-purple-800 my-2">
                         {profile.blogUrl}
                       </h3>
-                    ) : null}
-                    {profile.snsUrl ? (
+                    )}
+                    {profile.snsUrl === "null" ? null : (
                       <h3 className="text-purple-800 my-2">{profile.snsUrl}</h3>
-                    ) : null}
+                    )}
                   </div>
                 </div>
               </div>
