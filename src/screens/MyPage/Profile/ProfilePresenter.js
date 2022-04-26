@@ -66,8 +66,6 @@ function MemberForm({ profile }) {
     const result = await getCurrentUser();
     defaultValueSet1(result);
     setProfile(result);
-
-    // set atom profile 로 아톰 값 수정하는 코드 넣어야함@@@@@@@@@
   };
 
   useEffect(() => {

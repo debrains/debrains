@@ -197,9 +197,9 @@ export const postTILCrts = async ({
     });
 };
 
-export const deleteTILCrt = async ({ id }) => {
+export const deleteTILCrt = async ({ crtid }) => {
   await customAPI
-    .delete(`/til-crts/${id}`)
+    .delete(`/til-crts/${crtid}`)
     .then((response) => {
       console.log("성공", response);
       return response;

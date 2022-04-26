@@ -13,10 +13,11 @@ function TILHomePresenter() {
   const getData = async ({ page }) => {
     const getTILsResult = await getTILs(page);
     const getTILCurrentResult = await getTILCurrent();
-    setTilList((prev) => [...prev, ...getTILsResult._embedded.tilList]);
-    setCurrent(getTILCurrentResult);
-    console.log(getTILCurrentResult);
-    settilPage((prev) => prev + 1);
+    if (getTILsResult?._embedded?.tilDTOList != undefined) {
+      setTilList((prev) => [...prev, ...getTILsResult?._embedded?.tilDTOList]);
+      setCurrent(getTILCurrentResult);
+      settilPage((prev) => prev + 1);
+    }
   };
 
   const infiniteScroll = () => {
@@ -91,18 +92,20 @@ function TILHomePresenter() {
               </div>
               <div className="mt-1 sm:mt-0 sm:col-span-4 pl-10 pr-10">
                 <p className="text-center">달성률</p>
-
                 <progress
                   className="progress progress-primary w-full "
                   value={
-                    current === "" ? 0 : current.succCnt / current.totalCnt
+                    current === ""
+                      ? 0
+                      : (current.succCnt / current.totalCnt) * 100
                   }
                   max="100"
                 />
                 <p className="text-center">
                   {current === "" || current.totalCnt === 0
                     ? 0
-                    : current.succCnt / current.totalCnt}{" "}
+                    : (current.succCnt / current.totalCnt).toFixed(4) *
+                      100}{" "}
                   %
                 </p>
               </div>
@@ -112,7 +115,7 @@ function TILHomePresenter() {
           <div className="relative flex justify-between items-center mx-6 mt-12">
             <div>
               <div className="flex items-center h-5">
-                <input
+                {/* <input
                   type="checkbox"
                   className="focus:ring-purple-500 h-6 w-6 text-purple-600 border-gray-300 rounded"
                 />
@@ -121,7 +124,7 @@ function TILHomePresenter() {
                   className="font-medium text-gray-700 ml-2"
                 >
                   진행중인 목표만 보기
-                </label>
+                </label> */}
               </div>
             </div>
             <div className="flex justify-end">
@@ -139,7 +142,7 @@ function TILHomePresenter() {
               {tilList === []
                 ? null
                 : tilList.map((til) => {
-                    console.log("til단품", til);
+                    // console.log("til단품", til);
                     return (
                       <div
                         className="md:grid md:grid-cols-4 hover:bg-purple-100 rounded-box hover:drop-shadow-lg"
@@ -160,13 +163,17 @@ function TILHomePresenter() {
                               |
                             </span>
                             <span className="ml-3 text-base text-gray-500">
-                              남은인증 {til.totalCnt - til.crtCnt}회
+                              남은인증{" "}
+                              {til.totalCnt - til.crtCnt > 0
+                                ? til.totalCnt - til.crtCnt
+                                : 0}
+                              회
                             </span>
                             <span className="ml-3 text-base text-gray-500">
                               |
                             </span>
                             <span className="ml-3 text-base text-gray-500">
-                              {til.totalCnt <= til.crtCnt
+                              {til.totalCnt <= til.crtCnt && til.expired
                                 ? "달성"
                                 : til.expired
                                 ? "미달"

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getTIL, getTILCrts, deleteTIL } from "../../../../apis/api";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
+
 const profile = {
   coverImageUrl:
     "https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
@@ -10,6 +11,7 @@ function DetailHomePresenter(props) {
   const { id } = useParams();
   const [tilDetail, setTilDetail] = useState("");
   const [crtList, setCrtList] = useState([]);
+  const navigate = useNavigate();
 
   const getData = async () => {
     const getTILDetail = await getTIL(id);
@@ -17,11 +19,11 @@ function DetailHomePresenter(props) {
     setTilDetail(getTILDetail);
     if (getCrtList?._embedded?.tilCrtDTOList !== undefined) {
       setCrtList((prev) => [...prev, ...getCrtList?._embedded?.tilCrtDTOList]);
-      console.log("받아왔나요?", ...getCrtList?._embedded?.tilCrtDTOList);
     }
   };
   const delTIL = () => {
     deleteTIL({ id: id });
+    navigate(`/til`);
   };
   useEffect(() => {
     getData();

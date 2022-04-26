@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 // import { postDuplicateCheck } from "../../../../apis/api";
 import { useState } from "react";
 import React from "react";
-import { postTILCrts } from "../../../../apis/api";
+import { deleteTILCrt, postTILCrts } from "../../../../apis/api";
 import { useParams, useNavigate } from "react-router-dom";
 
 const profile = {
@@ -17,74 +17,17 @@ const profile = {
 let tf = true;
 function MemberForm() {
   const navigate = useNavigate();
-  const { id } = useParams();
-  const [watchTime, setWatchTime] = useState(0);
-  const [playWatch, setPlayWatch] = useState(false);
-  // const [inputCnt, setInputCnt] = useState(1);
-  // const [inputVisible12, setInputVisible12] = useState(false);
-  // const [inputVisible13, setInputVisible13] = useState(false);
-  const [ban, setBan] = useState(false);
-  let watch;
-  let banInterval;
+  const { id, crtid } = useParams();
 
   const { register, handleSubmit } = useForm();
 
-  const startWatch = () => {
-    console.log("스타트ㅡㅡ");
-    tf = true;
-    setBan((pre) => !pre);
-    setPlayWatch(true);
-    watch = setInterval(increaseTime, 1000);
-    banInterval = setInterval(switchBan, 1000);
-  };
-
-  const switchBan = () => {
-    setBan((pre) => !pre);
-    clearInterval(banInterval);
-  };
-
-  const increaseTime = () => {
-    setWatchTime((prev) => prev + 1);
-    if (!tf) {
-      console.log("멈춰!!!");
-      clearInterval(watch);
-    }
-  };
-
-  const pauseWatch = async () => {
-    setPlayWatch(false);
-    tf = false;
-    setBan((pre) => !pre);
-    banInterval = setInterval(switchBan, 1000);
-  };
-
-  const resetWatch = () => {
-    setWatchTime(0);
-  };
-
   const onValid = (data) => {
-    if (playWatch) {
-      pauseWatch();
-    }
-    console.log(data, watchTime + 1);
-    postTILCrts({
-      tilId: id,
-      description: data.description,
-      startTime1: data.startTime1,
-      endTime1: data.endTime1,
-      startTime2: data.startTime2,
-      endTime2: data.endTime2,
-      startTime3: data.startTime3,
-      endTime3: data.endTime3,
-      watchTime:
-        (watchTime / 60 < 10 ? "0" : "") +
-        parseInt(watchTime / 60) +
-        ":" +
-        (watchTime % 60 < 10 ? "0" : "") +
-        (watchTime % 60),
-      files: data.files,
-    });
-    navigate(`/til/${id}`);
+    console.log(data);
+
+    navigate(`/til/${id}/${crtid}`);
+  };
+  const delCrt = () => {
+    deleteTILCrt({ crtid: crtid });
   };
 
   return (
@@ -97,7 +40,7 @@ function MemberForm() {
           <div>
             <div>
               <h3 className="text-lg leading-6 font-medium text-gray-900">
-                여기는 인증 등록 화면 입니다
+                여기는 인증 상세 화면 입니다
               </h3>
               <p className="mt-1 max-w-2xl text-sm text-gray-500">
                 차곡차곡 쌓이는 "나의 성장 기록"
@@ -127,20 +70,6 @@ function MemberForm() {
                       autoComplete="end-time"
                       className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                     />
-                    {/* <button
-                      className=" w-7 h-7 hover:bg-purple-700 bg-purple-600 text-white rounded-full "
-                      value={"-"}
-                      onClick={onInputBtn}
-                    >
-                      -
-                    </button>
-                    <button
-                      className=" w-7 h-7 hover:bg-purple-700 bg-purple-600 text-white rounded-full "
-                      onClick={onInputBtn}
-                      hidden={inputVisible12}
-                    >
-                      +
-                    </button> */}
                   </div>
                   <div className="py-1">
                     <input
@@ -156,24 +85,6 @@ function MemberForm() {
                       autoComplete="end-time"
                       className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                     />
-                    {/* <button
-                      className=" w-7 h-7 hover:bg-purple-700 bg-purple-600 text-white rounded-full "
-                      value={"-"}
-                      onClick={onInputBtn}
-                    >
-                      <p className="text-1xl" id={"-2"}>
-                        -
-                      </p>
-                    </button>
-                    <button
-                      className=" w-7 h-7 hover:bg-purple-700 bg-purple-600 text-white rounded-full i"
-                      onClick={onInputBtn}
-                      hidden={inputVisible13}
-                    >
-                      <p className="text-1xl" id={"+2"}>
-                        +
-                      </p>
-                    </button> */}
                   </div>
                   <div className="py-1">
                     <input
@@ -189,15 +100,6 @@ function MemberForm() {
                       autoComplete="end-time"
                       className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                     />
-                    {/* <button
-                      className=" w-7 h-7 hover:bg-purple-700 bg-purple-600 text-white rounded-full"
-                      value={"-"}
-                      onClick={onInputBtn}
-                    >
-                      <p className="text-1xl" id={"-3"}>
-                        -
-                      </p>
-                    </button> */}
                   </div>
                 </div>
               </div>
@@ -213,38 +115,15 @@ function MemberForm() {
                     htmlFor="date"
                     className="block text-xl font-medium text-gray-700 "
                   >
-                    {(watchTime / 3600 < 10 ? "0" : "") +
+                    {/* {(watchTime / 3600 < 10 ? "0" : "") +
                       parseInt(watchTime / 3600) +
                       " : " +
                       ((watchTime / 60) % 60 < 10 ? "0" : "") +
                       parseInt((watchTime / 60) % 60) +
                       " : " +
                       (watchTime % 60 < 10 ? "0" : "") +
-                      (watchTime % 60)}
+                      (watchTime % 60)} */}
                   </label>
-                  <button
-                    onClick={!playWatch ? startWatch : pauseWatch}
-                    disabled={ban}
-                  >
-                    <img
-                      alt=""
-                      src={
-                        playWatch
-                          ? "https://img.icons8.com/ios-glyphs/30/000000/pause--v1.png"
-                          : "https://img.icons8.com/ios-glyphs/25/000000/play--v1.png"
-                      }
-                      className="inline"
-                    />
-                  </button>
-                  {!playWatch ? (
-                    <button onClick={resetWatch}>
-                      <img
-                        alt=""
-                        src="https://img.icons8.com/ios-glyphs/30/000000/stop--v2.png"
-                        className="inline"
-                      />
-                    </button>
-                  ) : null}
                 </div>
               </div>
               <div className="sm:grid sm:grid-cols-4 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
@@ -296,7 +175,10 @@ function MemberForm() {
             <button className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
               인증 수정하기
             </button>
-            <button className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+            <button
+              onClick={delCrt}
+              className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+            >
               인증 삭제하기
             </button>
           </div>
