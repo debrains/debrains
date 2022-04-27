@@ -23,7 +23,7 @@ function MemberForm() {
 
   const [watchTime, setWatchTime] = useState(0);
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
 
   const onValid = (data) => {
     console.log(data);
@@ -31,12 +31,23 @@ function MemberForm() {
     navigate(`/til/${id}/${crtid}`);
   };
 
-  const updateCrt = () => {};
+  const defaultValueSet1 = (crt) => {
+    console.log("defaultValueSet1 : ", profile);
+    setValue("startTime1", crt.startTime1 === "null" ? null : crt.startTime1);
+    setValue("startTime2", crt.startTime1 === "null" ? null : crt.startTime1);
+    setValue("startTime3", crt.startTime1 === "null" ? null : crt.startTime1);
+    setValue("endTime1", crt.startTime1 === "null" ? null : crt.startTime1);
+    setValue("endTime2", crt.startTime1 === "null" ? null : crt.startTime1);
+    setValue("endTime3", crt.startTime1 === "null" ? null : crt.startTime1);
+    setValue("startTime1", crt.startTime1 === "null" ? null : crt.startTime1);
+    setValue("startTime1", crt.startTime1 === "null" ? null : crt.startTime1);
+  };
 
   const getData = async () => {
     const result = await getTILCrt({ id: crtid });
     console.log("인증 상세 요청 결과", result);
     setWatchTime(result.watchTime);
+    defaultValueSet1(result);
   };
 
   const delCrt = () => {
@@ -132,9 +143,7 @@ function MemberForm() {
                     htmlFor="date"
                     className="block text-xl font-medium text-gray-700 "
                   >
-
                     {watchTime}
-
                   </label>
                 </div>
               </div>
