@@ -3,6 +3,17 @@ import { ACCESS_TOKEN } from "../contents";
 import { useSetRecoilState } from "recoil";
 import { isLoginAtom } from "../atoms/atom";
 
+let URL;
+
+if (window.location.origin === "http://localhost:3000") {
+  URL = "http://localhost:8080";
+} else if (window.location.origin === "https://debrain.co.kr") {
+  URL = "https://api.debrain.co.kr";
+} else {
+  URL = "http://3.39.86.48:8080";
+}
+URL += "/auth/refresh";
+
 const refresh = async (config) => {
   let { accessToken, expireAT } = JSON.parse(
     localStorage.getItem("accessToken")
@@ -11,7 +22,8 @@ const refresh = async (config) => {
 
   if (moment(expireAT).diff(moment()) < 0) {
     console.log("accessToken 만료 토큰 재발급 요청");
-    const newToken = await fetch("http://localhost:8080/auth/refresh", {
+    // 수정@@@@@@@@@@@@@
+    const newToken = await fetch(URL, {
       method: "POST",
       body: accessToken,
       credentials: "include",
