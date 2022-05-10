@@ -20,23 +20,8 @@ function TILHomePresenter() {
     }
   };
 
-  const infiniteScroll = () => {
-    let scrollHeight = Math.max(
-      document.documentElement.scrollHeight,
-      document.body.scrollHeight
-    );
-    let scrollTop = Math.max(
-      document.documentElement.scrollTop,
-      document.body.scrollTop
-    );
-    let clientHeight = document.documentElement.clientHeight;
-
-    if (scrollTop + clientHeight === scrollHeight) {
-      settilPage((prev) => prev + 1);
-    }
-  };
   useEffect(() => {
-    getData({ page: 1 });
+    getData({ page: 0 });
     settilPage(1);
   }, []);
 
@@ -142,7 +127,6 @@ function TILHomePresenter() {
               {tilList === []
                 ? null
                 : tilList.map((til) => {
-                    // console.log("til단품", til);
                     return (
                       <div
                         className="md:grid md:grid-cols-4 hover:bg-purple-100 rounded-box hover:drop-shadow-lg"

@@ -1,5 +1,5 @@
 import { useRecoilValue } from "recoil";
-import { nickNameAtom, profileAtom } from "../../../atoms/atom";
+import { profileAtom } from "../../../atoms/atom";
 import { useForm } from "react-hook-form";
 import { postTILs } from "../../../apis/api";
 import React, { useState } from "react";
@@ -37,8 +37,7 @@ function MemberForm() {
   const [sDate, setSDate] = useState(today);
   const [eDate, setEDate] = useState(tomorrow);
 
-  const onValid = (data) => {
-    console.log("til 생성 데이터", data);
+  const onValid = async (data) => {
     if (data.startDay > data.endDay) {
       setError(
         "startDay",
@@ -46,7 +45,7 @@ function MemberForm() {
         { shouldFocus: true }
       );
     }
-    const result = postTILs({
+    const result = await postTILs({
       userId: profile.id,
       subject: data.subject,
       description: data.description,
@@ -55,12 +54,16 @@ function MemberForm() {
       cycleStatus: data.cycleStatus,
       cycleCnt: data.cycleCnt,
     });
-    // console.log("TIL 생성결과?", result);
-    navigate("/til");
+    if (result.status === 201) {
+      alert("등록되었습니다.");
+      navigate("/til");
+    } else {
+      const message = result.message;
+      alert(message);
+    }
   };
 
   const changeDate = (prop) => {
-    console.log(prop.target.value, prop.target.name);
     if (prop.target.name === "startDay") {
       setSDate(prop.target.value);
     } else {
@@ -73,7 +76,6 @@ function MemberForm() {
     setCycleType(() => prop.target.value);
   };
 
-  console.log("벨리데이션 ", errors);
   return (
     <>
       <form

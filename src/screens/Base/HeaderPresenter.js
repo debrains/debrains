@@ -3,8 +3,9 @@ import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isLoginAtom } from "../../atoms/atom";
+import moment from "moment";
 
 const features = [
   { name: "😎 About Us", href: "team" },
@@ -12,6 +13,12 @@ const features = [
 ];
 
 export default function Example() {
+  const setIsLogin = useSetRecoilState(isLoginAtom);
+  let { expireAT } = JSON.parse(localStorage.getItem("accessToken"));
+  if (moment(expireAT).diff(moment()) < 0) {
+    setIsLogin(false);
+  }
+
   const isLogin = useRecoilValue(isLoginAtom);
   return (
     <div className="relative bg-gray-80">
@@ -192,12 +199,6 @@ export default function Example() {
                   마이페이지
                 </Link>
               )}
-              <Link
-                to="/login"
-                className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-purple-700 hover:bg-purple-700"
-              >
-                로그인
-              </Link>
             </div>
           </div>
         </div>
