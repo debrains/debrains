@@ -40,7 +40,6 @@ function MemberForm() {
 
   // const onInputBtn = async ({ target: { id } }) => {
   //   let num = inputCnt;
-  //   console.log(num);
   //   if (id.indexOf("+") !== -1 && num < 3) {
   //     await setInputCnt(inputCnt + 1);
   //     num += 1;
@@ -48,7 +47,6 @@ function MemberForm() {
   //     await setInputCnt(inputCnt - 1);
   //     num -= 1;
   //   }
-  //   console.log("id:", id, num);
   //   if (id === "-1" && inputCnt === 1) {
   //     reset({
   //       startTime1: "",
@@ -99,7 +97,6 @@ function MemberForm() {
   // };
 
   const startWatch = () => {
-    console.log("스타트ㅡㅡ");
     tf = true;
     setBan((pre) => !pre);
     setPlayWatch(true);
@@ -115,7 +112,6 @@ function MemberForm() {
   const increaseTime = () => {
     setWatchTime((prev) => prev + 1);
     if (!tf) {
-      console.log("멈춰!!!");
       clearInterval(watch);
     }
   };
@@ -131,12 +127,11 @@ function MemberForm() {
     setWatchTime(0);
   };
 
-  const onValid = (data) => {
+  const onValid = async (data) => {
     if (playWatch) {
       pauseWatch();
     }
-    console.log(data, watchTime + 1);
-    postTILCrts({
+    const result = await postTILCrts({
       tilId: id,
       description: data.description,
       startTime1: data.startTime1,
@@ -153,7 +148,13 @@ function MemberForm() {
         (watchTime % 60),
       files: data.files,
     });
-    navigate(`/til/${id}`);
+    if (result.status === 201) {
+      alert("인증 등록 되었습니다.");
+      navigate(`/til/${id}`);
+    } else {
+      const message = result.message;
+      alert(message);
+    }
   };
 
   return (

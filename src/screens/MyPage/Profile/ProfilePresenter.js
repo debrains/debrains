@@ -1,11 +1,7 @@
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { nickNameAtom, profileAtom } from "../../../atoms/atom";
+import { profileAtom } from "../../../atoms/atom";
 import { useForm } from "react-hook-form";
-import {
-  getCurrentUser,
-  patchUser,
-  postDuplicateCheck,
-} from "../../../apis/api";
+import { getCurrentUser, patchUser } from "../../../apis/api";
 import { useEffect, useState } from "react";
 
 // const profile = {
@@ -27,26 +23,28 @@ function MemberForm({ profile }) {
     register,
     handleSubmit,
     formState: { errors },
-    setError,
     setValue,
   } = useForm();
-  const onValid = (data) => {
-    console.log("어떤 데이터를 넘겨주나요?", data);
-    const result = patchUser({
+  const onValid = async (data) => {
+    const result = await patchUser({
       id: profile.id,
       email: profile.email,
-      name: data?.name,
+      name: data?.ㅇ,
       description: data?.description,
       img: data?.img,
       githubUrl: data?.githubUrl,
       blogUrl: data?.blogUrl,
       snsUrl: data?.snsUrl,
     });
-    console.log("요청결과는?", result);
+    if (result.status === 200) {
+      alert("프로필이 수정되었습니다.");
+    } else {
+      const message = result.message;
+      alert(message);
+    }
   };
 
   const defaultValueSet1 = (profile) => {
-    console.log("defaultValueSet1 : ", profile);
     setValue("name", profile.name === "null" ? null : profile.name);
     setValue("img", profile.img === "null" ? null : profile.img);
     setValue("email", profile.email === "null" ? null : profile.email);
@@ -71,11 +69,6 @@ function MemberForm({ profile }) {
   useEffect(() => {
     getData();
   }, []);
-
-  console.log(errors);
-
-  let githubUrl = 5;
-  console.log(githubUrl.toString());
 
   return (
     <>
@@ -106,11 +99,6 @@ function MemberForm({ profile }) {
                   <input
                     {...register("name", {
                       value: profile.name,
-                      required: "닉네임을 입력해주세요",
-                      pattern: {
-                        value: /^[가-힣|a-z|A-Z|0-9|]+$/,
-                        message: "유효하지 않은 닉네임 입니다.",
-                      },
                     })}
                     type="text"
                     autoComplete="nickname"
@@ -174,7 +162,7 @@ function MemberForm({ profile }) {
                     <input
                       type="text"
                       {...register("githubUrl", {
-                        value: githubUrl,
+                        value: profile.githubUrl,
                       })}
                       autoComplete="username"
                       className="flex-1 block w-full focus:ring-purple-500 focus:border-purple-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300"
@@ -338,7 +326,6 @@ function MemberForm({ profile }) {
 const UserBoard = () => {
   const [purpose, setPurpose] = useState("");
   const onclick = (props) => {
-    console.log(props.target.id);
     setPurpose(props.target.id);
   };
   return (
@@ -486,8 +473,8 @@ export default function ProfilePresenter() {
                 </div>
               </section>
             </div>
-            <div className="space-y-6 lg:col-start-2 lg:col-span-3">
-              {/* Description list*/}
+            {/* <div className="space-y-6 lg:col-start-2 lg:col-span-3">
+              Description list
               <section aria-labelledby="applicant-information-title">
                 <div className="bg-white shadow sm:rounded-lg border border-purple-200 ">
                   <div className="px-4 py-5 sm:px-6">
@@ -495,7 +482,7 @@ export default function ProfilePresenter() {
                   </div>
                 </div>
               </section>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
