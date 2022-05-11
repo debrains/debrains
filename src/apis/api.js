@@ -17,6 +17,7 @@ export const patchUser = async ({
   blogUrl,
   snsUrl,
 }) => {
+  console.log(id, email, name, description, img, githubUrl, blogUrl, snsUrl);
   const userInfoDTO = {
     id: id,
     email: email,
