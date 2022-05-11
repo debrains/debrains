@@ -29,7 +29,7 @@ function MemberForm({ profile }) {
     const result = await patchUser({
       id: profile.id,
       email: profile.email,
-      name: data?.ㅇ,
+      name: data?.name,
       description: data?.description,
       img: data?.img,
       githubUrl: data?.githubUrl,
