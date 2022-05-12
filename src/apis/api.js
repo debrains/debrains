@@ -274,3 +274,22 @@ export const patchTILCrt = async ({
     });
   return result;
 };
+
+//support
+
+export const postSupport = async ({ feedback }) => {
+  console.log(feedback);
+  const result = await customAPI
+    .post(`/support/skill`, {
+      request: feedback,
+    })
+    .then(function (response) {
+      // 성공 핸들링
+      return response;
+    })
+    .catch(function (error) {
+      // 에러 핸들링
+      return error.response.data;
+    });
+  return result;
+};
