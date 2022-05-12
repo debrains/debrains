@@ -17,7 +17,6 @@ const refresh = async (config) => {
     localStorage.getItem("accessToken")
   );
   if (moment(expireAT).diff(moment()) < 0) {
-    // 수정@@@@@@@@@@@@@
     const newToken = await fetch(URL, {
       method: "POST",
       body: accessToken,
