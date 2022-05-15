@@ -1,11 +1,7 @@
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { nickNameAtom, profileAtom } from "../../../atoms/atom";
+import { profileAtom } from "../../../atoms/atom";
 import { useForm } from "react-hook-form";
-import {
-  getCurrentUser,
-  patchUser,
-  postDuplicateCheck,
-} from "../../../apis/api";
+import { getCurrentUser, patchUser, postSupport } from "../../../apis/api";
 import { useEffect, useState } from "react";
 
 // const profile = {
@@ -27,12 +23,10 @@ function MemberForm({ profile }) {
     register,
     handleSubmit,
     formState: { errors },
-    setError,
     setValue,
   } = useForm();
-  const onValid = (data) => {
-    console.log("어떤 데이터를 넘겨주나요?", data);
-    const result = patchUser({
+  const onValid = async (data) => {
+    const result = await patchUser({
       id: profile.id,
       email: profile.email,
       name: data?.name,
@@ -41,12 +35,17 @@ function MemberForm({ profile }) {
       githubUrl: data?.githubUrl,
       blogUrl: data?.blogUrl,
       snsUrl: data?.snsUrl,
+      consent: data?.consent,
     });
-    console.log("요청결과는?", result);
+    if (result.status === 200) {
+      alert("프로필이 수정되었습니다.");
+    } else {
+      const message = result.message;
+      alert(message);
+    }
   };
 
   const defaultValueSet1 = (profile) => {
-    console.log("defaultValueSet1 : ", profile);
     setValue("name", profile.name === "null" ? null : profile.name);
     setValue("img", profile.img === "null" ? null : profile.img);
     setValue("email", profile.email === "null" ? null : profile.email);
@@ -60,6 +59,7 @@ function MemberForm({ profile }) {
       "description",
       profile.description === "null" ? null : profile.description
     );
+    setValue("consent", profile.consent === "null" ? null : profile.consent);
   };
 
   const getData = async () => {
@@ -71,11 +71,6 @@ function MemberForm({ profile }) {
   useEffect(() => {
     getData();
   }, []);
-
-  console.log(errors);
-
-  let githubUrl = 5;
-  console.log(githubUrl.toString());
 
   return (
     <>
@@ -93,7 +88,6 @@ function MemberForm({ profile }) {
                 차곡차곡 쌓이는 "나의 성장 기록"
               </p>
             </div>
-
             <div className="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
                 <label
@@ -106,11 +100,6 @@ function MemberForm({ profile }) {
                   <input
                     {...register("name", {
                       value: profile.name,
-                      required: "닉네임을 입력해주세요",
-                      pattern: {
-                        value: /^[가-힣|a-z|A-Z|0-9|]+$/,
-                        message: "유효하지 않은 닉네임 입니다.",
-                      },
                     })}
                     type="text"
                     autoComplete="nickname"
@@ -174,7 +163,7 @@ function MemberForm({ profile }) {
                     <input
                       type="text"
                       {...register("githubUrl", {
-                        value: githubUrl,
+                        value: profile.githubUrl,
                       })}
                       autoComplete="username"
                       className="flex-1 block w-full focus:ring-purple-500 focus:border-purple-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300"
@@ -237,88 +226,90 @@ function MemberForm({ profile }) {
               </div>
             </div>
           </div>
-          {/*<div className="mt-6 sm:mt-5 space-y-6 sm:space-y-5">*/}
-          {/*  <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">*/}
-          {/*    <label*/}
-          {/*      htmlFor="first-name"*/}
-          {/*      className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"*/}
-          {/*    >*/}
-          {/*      나만의 슬로건!*/}
-          {/*    </label>*/}
-          {/*    <div className="mt-1 sm:mt-0 sm:col-span-2">*/}
-          {/*      <input*/}
-          {/*        type="text"*/}
-          {/*        {...register("slogan")}*/}
-          {/*        autoComplete="given-name"*/}
-          {/*        className="max-w-lg block w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"*/}
-          {/*      />*/}
-          {/*      <p className="mt-2 text-sm text-gray-500">* 연봉 1억 가자! </p>*/}
-          {/*    </div>*/}
-          {/*  </div>*/}
-          {/*  <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">*/}
-          {/*    <label*/}
-          {/*      htmlFor="first-name"*/}
-          {/*      className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"*/}
-          {/*    >*/}
-          {/*      가고싶은 회사*/}
-          {/*    </label>*/}
-          {/*    <div className="mt-1 sm:mt-0 sm:col-span-2">*/}
-          {/*      <input*/}
-          {/*        {...register("company")}*/}
-          {/*        type="text"*/}
-          {/*        autoComplete="given-name"*/}
-          {/*        className="max-w-lg block w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"*/}
-          {/*      />*/}
-          {/*    </div>*/}
-          {/*  </div>*/}
-          {/*</div>*/}
-          {/*<div className="divide-y divide-gray-200 pt-8 space-y-6 sm:pt-10 sm:space-y-5">*/}
-          {/*  <div>*/}
-          {/*    <h3 className="text-lg leading-6 font-medium text-gray-900">*/}
-          {/*      이메일 수신 동의*/}
-          {/*    </h3>*/}
-          {/*    <p className="mt-1 max-w-2xl text-sm text-gray-500">*/}
-          {/*      수신 동의해주세요 😭 이상한 메일 보내지 않아요 😉*/}
-          {/*    </p>*/}
-          {/*  </div>*/}
-          {/*  <div className="space-y-6 sm:space-y-5 divide-y divide-gray-200">*/}
-          {/*    <div className="pt-6 sm:pt-5">*/}
-          {/*      <div role="group" aria-labelledby="label-email">*/}
-          {/*        <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-baseline">*/}
-          {/*          <div>*/}
-          {/*            <div*/}
-          {/*              className="text-base font-medium text-gray-900 sm:text-sm sm:text-gray-700"*/}
-          {/*              id="label-email"*/}
-          {/*            >*/}
-          {/*              이메일*/}
-          {/*            </div>*/}
-          {/*          </div>*/}
-          {/*          <div className="mt-4 sm:mt-0 sm:col-span-2">*/}
-          {/*            <div className="max-w-lg space-y-4">*/}
-          {/*              <div className="relative flex items-start">*/}
-          {/*                <div className="flex items-center h-5">*/}
-          {/*                  <input*/}
-          {/*                    {...register("agree")}*/}
-          {/*                    type="checkbox"*/}
-          {/*                    className="focus:ring-purple-500 h-4 w-4 text-purple-600 border-gray-300 rounded"*/}
-          {/*                  />*/}
-          {/*                </div>*/}
-          {/*                <div className="ml-3 text-sm">*/}
-          {/*                  <label*/}
-          {/*                    htmlFor="comments"*/}
-          {/*                    className="font-medium text-gray-700"*/}
-          {/*                  >*/}
-          {/*                    공지 / 정보성 메일*/}
-          {/*                  </label>*/}
-          {/*                </div>*/}
-          {/*              </div>*/}
-          {/*            </div>*/}
-          {/*          </div>*/}
-          {/*        </div>*/}
-          {/*      </div>*/}
-          {/*    </div>*/}
-          {/*  </div>*/}
-          {/*</div>*/}
+          {/* <div className="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
+            <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+              <label
+                htmlFor="first-name"
+                className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+              >
+                나만의 슬로건!
+              </label>
+              <div className="mt-1 sm:mt-0 sm:col-span-2">
+                <input
+                  type="text"
+                  {...register("slogan")}
+                  autoComplete="given-name"
+                  className="max-w-lg block w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                />
+                <p className="mt-2 text-sm text-gray-500">* 연봉 1억 가자! </p>
+              </div>
+            </div>
+            <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+              <label
+                htmlFor="first-name"
+                className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+              >
+                가고싶은 회사
+              </label>
+              <div className="mt-1 sm:mt-0 sm:col-span-2">
+                <input
+                  {...register("company")}
+                  type="text"
+                  autoComplete="given-name"
+                  className="max-w-lg block w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                />
+              </div>
+            </div>
+          </div> */}
+          <div className="divide-y divide-gray-200 pt-8 space-y-6 sm:pt-10 sm:space-y-5">
+            <div>
+              <h3 className="text-lg leading-6 font-medium text-gray-900">
+                이메일 수신 동의
+              </h3>
+              <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                수신 동의해주세요 😭 이상한 메일 보내지 않아요 😉
+              </p>
+            </div>
+            <div className="space-y-6 sm:space-y-5 divide-y divide-gray-200">
+              <div className="pt-6 sm:pt-5">
+                <div role="group" aria-labelledby="label-email">
+                  <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-baseline">
+                    <div>
+                      <div
+                        className="text-base font-medium text-gray-900 sm:text-sm sm:text-gray-700"
+                        id="label-email"
+                      >
+                        이메일
+                      </div>
+                    </div>
+                    <div className="mt-4 sm:mt-0 sm:col-span-2">
+                      <div className="max-w-lg space-y-4">
+                        <div className="relative flex items-start">
+                          <div className="flex items-center h-5">
+                            <input
+                              {...register("consent", {
+                                value: profile.consent,
+                              })}
+                              type="checkbox"
+                              className="focus:ring-purple-500 h-4 w-4 text-purple-600 border-gray-300 rounded"
+                            />
+                          </div>
+                          <div className="ml-3 text-sm">
+                            <label
+                              htmlFor="comments"
+                              className="font-medium text-gray-700"
+                            >
+                              공지 / 정보성 메일
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="pt-5">
           <div className="flex justify-end">
@@ -338,7 +329,6 @@ function MemberForm({ profile }) {
 const UserBoard = () => {
   const [purpose, setPurpose] = useState("");
   const onclick = (props) => {
-    console.log(props.target.id);
     setPurpose(props.target.id);
   };
   return (
@@ -410,6 +400,24 @@ const UserBoard = () => {
 
 export default function ProfilePresenter() {
   const profile = useRecoilValue(profileAtom);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm();
+
+  const onValid = async (data) => {
+    const result = await postSupport({
+      feedback: data.feedback,
+    });
+    if (result.status === 200) {
+      alert("피드백이 전달되었습니다. 감사합니다 :)");
+    } else {
+      const message = result.message;
+      alert(message);
+    }
+  };
 
   return (
     <>
@@ -474,6 +482,32 @@ export default function ProfilePresenter() {
                   </div>
                 </div>
               </div>
+              <form
+                className="space-y-8 divide-y divide-gray-200"
+                onSubmit={handleSubmit(onValid)}
+              >
+                <div className="bg-white px-5 py-4 shadow sm:rounded-lg border border-purple-200 mt-5">
+                  <p className="my-2 text-sm text-gray-500">
+                    사이트 이용에 불편한 점을 피드백 해주세요 !
+                  </p>
+                  <textarea
+                    {...register("feedback")}
+                    rows={3}
+                    defaultValue={profile.description}
+                    className="max-w-lg shadow-sm block w-full focus:ring-purple-500 focus:border-purple-500 sm:text-sm border border-gray-300 rounded-md"
+                  />
+                  <div className="pt-5">
+                    <div className="flex justify-end">
+                      <button
+                        type="submit"
+                        className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                      >
+                        피드백 전달하기
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
             </section>
 
             <div className="space-y-6 lg:col-start-2 lg:col-span-3">
@@ -486,8 +520,8 @@ export default function ProfilePresenter() {
                 </div>
               </section>
             </div>
-            <div className="space-y-6 lg:col-start-2 lg:col-span-3">
-              {/* Description list*/}
+            {/* <div className="space-y-6 lg:col-start-2 lg:col-span-3">
+              Description list
               <section aria-labelledby="applicant-information-title">
                 <div className="bg-white shadow sm:rounded-lg border border-purple-200 ">
                   <div className="px-4 py-5 sm:px-6">
@@ -495,7 +529,7 @@ export default function ProfilePresenter() {
                   </div>
                 </div>
               </section>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

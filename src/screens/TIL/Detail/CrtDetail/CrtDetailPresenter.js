@@ -4,7 +4,12 @@ import { useForm } from "react-hook-form";
 
 import { useState, useEffect } from "react";
 import React from "react";
-import { deleteTILCrt, getTILCrt, postTILCrts } from "../../../../apis/api";
+import {
+  deleteTILCrt,
+  getTILCrt,
+  patchTILCrt,
+  delCrtImg,
+} from "../../../../apis/api";
 
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -20,38 +25,95 @@ let tf = true;
 function MemberForm() {
   const navigate = useNavigate();
   const { id, crtid } = useParams();
-
   const [watchTime, setWatchTime] = useState(0);
-
   const { register, handleSubmit, setValue } = useForm();
+  const [imgs, setImgs] = useState([]);
 
-  const onValid = (data) => {
-    console.log(data);
-
-    navigate(`/til/${id}/${crtid}`);
+  const changeDate = (preDate) => {
+    if (preDate == null) return null;
+    return preDate.replace(" ", "T").replace(":00", "");
   };
 
-  const defaultValueSet1 = (crt) => {
-    console.log("defaultValueSet1 : ", profile);
-    setValue("startTime1", crt.startTime1 === "null" ? null : crt.startTime1);
-    setValue("startTime2", crt.startTime1 === "null" ? null : crt.startTime1);
-    setValue("startTime3", crt.startTime1 === "null" ? null : crt.startTime1);
-    setValue("endTime1", crt.startTime1 === "null" ? null : crt.startTime1);
-    setValue("endTime2", crt.startTime1 === "null" ? null : crt.startTime1);
-    setValue("endTime3", crt.startTime1 === "null" ? null : crt.startTime1);
-    setValue("startTime1", crt.startTime1 === "null" ? null : crt.startTime1);
-    setValue("startTime1", crt.startTime1 === "null" ? null : crt.startTime1);
+  const onValid = async (data) => {
+    const result = await patchTILCrt({
+      crtid: crtid,
+      description: data.description,
+      startTime1: data.startTime1,
+      endTime1: data.endTime1,
+      startTime2: data.startTime2,
+      endTime2: data.endTime2,
+      startTime3: data.startTime3,
+      endTime3: data.endTime3,
+      files: data.files,
+    });
+    if (result.status === 200) {
+      alert("인증 수정되었습니다.");
+      navigate(`/til/${id}/${crtid}`);
+    } else {
+      const message = result.message;
+      alert(message);
+    }
+  };
+
+  const defaultValueSet = (crt) => {
+    setValue(
+      "startTime1",
+      crt.startTime1 === "null" ? null : changeDate(crt.startTime1)
+    );
+    setValue(
+      "startTime2",
+      crt.startTime2 === "null" ? null : changeDate(crt.startTime2)
+    );
+    setValue(
+      "startTime3",
+      crt.startTime3 === "null" ? null : changeDate(crt.startTime3)
+    );
+    setValue(
+      "endTime1",
+      crt.endTime1 === "null" ? null : changeDate(crt.endTime1)
+    );
+    setValue(
+      "endTime2",
+      crt.endTime2 === "null" ? null : changeDate(crt.endTime2)
+    );
+    setValue(
+      "endTime3",
+      crt.endTime3 === "null" ? null : changeDate(crt.endTime3)
+    );
+    setValue(
+      "description",
+      crt.description === "null" ? null : crt.description
+    );
   };
 
   const getData = async () => {
     const result = await getTILCrt({ id: crtid });
-    console.log("인증 상세 요청 결과", result);
     setWatchTime(result.watchTime);
-    defaultValueSet1(result);
+    defaultValueSet(result);
+    setImgs(result.fileList);
   };
 
-  const delCrt = () => {
-    deleteTILCrt({ crtid: crtid });
+  const delCrt = async () => {
+    if (window.confirm("정말 삭제합니까?")) {
+      await deleteTILCrt({ crtid: crtid });
+      alert("인증이 삭제되었습니다.");
+      navigate(`/til/${id}`);
+    } else {
+      alert("취소되었습니다.");
+    }
+  };
+  const moveBack = () => {
+    navigate(`/til/${id}`);
+  };
+
+  const delImg = async (prop) => {
+    if (window.confirm("정말 삭제합니까?")) {
+      await delCrtImg({ crtid: crtid, fileId: prop.target.id });
+      alert("사진이 삭제되었습니다.");
+      navigate(`/til/${id}/${crtid}`);
+    } else {
+      alert("취소되었습니다.");
+    }
   };
 
   useEffect(() => {
@@ -183,6 +245,30 @@ function MemberForm() {
                       />
                     </label>
                   </div>
+                  <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-x-1 md:gap-y-1">
+                    {imgs === []
+                      ? null
+                      : imgs.map((img) => {
+                          return (
+                            <div className="group relative p-7" key={img.id}>
+                              <div
+                                onClick={delImg}
+                                className="w-50 h-50 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden hover:opacity-75"
+                              >
+                                <img
+                                  id={img.id}
+                                  src={img.path}
+                                  alt="Front of men&#039;s Basic Tee in black."
+                                  className="w-full h-full object-center object-cover lg:w-full lg:h-full"
+                                />
+                              </div>
+                            </div>
+                          );
+                        })}
+                    <label className="col-span-3 text-center">
+                      사진을 클릭하여 삭제할 수 있습니다.
+                    </label>
+                  </dl>
                 </div>
               </div>
             </div>
@@ -190,10 +276,16 @@ function MemberForm() {
         </div>
         <div className="pt-5">
           <div className="flex justify-end">
-            <button className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+            <button
+              onClick={moveBack}
+              className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+            >
               뒤로가기
             </button>
-            <button className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+            <button
+              type="submit"
+              className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+            >
               인증 수정하기
             </button>
             <button

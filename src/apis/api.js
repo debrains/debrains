@@ -4,7 +4,6 @@ import customAPI from "../apis/customAPI";
 
 export const getCurrentUser = async () => {
   const { data } = await customAPI.get("/user/info");
-  console.log("유저 정보 :", data);
   return data;
 };
 
@@ -17,6 +16,7 @@ export const patchUser = async ({
   githubUrl,
   blogUrl,
   snsUrl,
+  consent,
 }) => {
   const userInfoDTO = {
     id: id,
@@ -26,9 +26,9 @@ export const patchUser = async ({
     githubUrl: githubUrl,
     blogUrl: blogUrl,
     snsUrl: snsUrl,
+    consent: consent,
   };
   const formData = new FormData();
-  console.log(img);
   if (img !== null) {
     for (let i = 0; i < img.length; i++) {
       formData.append("photo", img[0]);
@@ -38,52 +38,45 @@ export const patchUser = async ({
     "userInfoDTO",
     new Blob([JSON.stringify(userInfoDTO)], { type: "application/json" })
   );
-  await customAPI
+  const result = await customAPI
     .patch("/user/info", formData)
     .then((response) => {
-      console.log("성공", response);
       return response;
     })
     .catch((error) => {
-      console.log("실패", error.response.data);
-      return error;
+      return error.response.data;
     });
+  return result;
 };
 
 export const postDuplicateCheck = async ({ name }) => {
   const { data } = await customAPI.post("/user/validate", { name: name });
-  console.log("중복검사 :", data);
   return data;
 };
 
 export const getProfile = async () => {
   const { data } = await customAPI.get("/user/profile");
-  console.log("유저 정보 :", data);
   return data;
 };
 
 export const getUserBoard = async ({ id }) => {
   const { data } = await customAPI.patch(`/user/board/${id}`);
-  console.log("유저 보드:", data);
   return data;
 };
 
 //TIL
 
 export const getTILs = async ({ page }) => {
-  const { data } = await customAPI.get(`tils/?size=10&page=0`);
-  console.log("TIL 목록 불러오기", data);
+  const { data } = await customAPI.get(`tils/?size=2000&page=0`);
   return data;
 };
 
 export const getTILCurrent = async () => {
   const { data } = await customAPI.get(`tils/current`);
-  console.log("TIL 현황", data);
   return data;
 };
 
 export const postTILs = async ({
-  userId,
   subject,
   description,
   startDate,
@@ -91,7 +84,7 @@ export const postTILs = async ({
   cycleStatus,
   cycleCnt,
 }) => {
-  await customAPI
+  const result = await customAPI
     .post(`/tils/`, {
       subject: subject,
       description: description,
@@ -102,47 +95,51 @@ export const postTILs = async ({
     })
     .then(function (response) {
       // 성공 핸들링
-      console.log("성공", response);
       return response;
     })
     .catch(function (error) {
       // 에러 핸들링
-      console.log("실패", error);
+      return error.response.data;
     });
+  return result;
 };
 
 export const getTIL = async (id) => {
-  console.log(`/til/${id}`);
   const { data } = await customAPI.get(`/tils/${id}`);
-  console.log("TIL 상세:", data);
   return data;
 };
 
-export const patchTIL = async ({ id }) => {
-  const { data } = await customAPI.patch(`/tils/${id}`);
-  console.log("TIL 수정:", data);
-  return data;
+export const patchTIL = async ({ id, subject, description, userId }) => {
+  const result = await customAPI
+    .patch(`/tils/${id}`, {
+      subject: subject,
+      description: description,
+      userId: userId,
+    })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error.response.data;
+    });
+  return result;
 };
 
 export const deleteTIL = async ({ id }) => {
   await customAPI
     .delete(`/tils/${id}`)
     .then((response) => {
-      console.log("성공", response);
       return response;
     })
     .catch((error) => {
-      console.log("실패", error.response.data);
       return error;
     });
 };
 
 export const getTILCrts = async ({ id, page = 0 }) => {
-  console.log(id, page);
   const { data } = await customAPI.get(
     `/til-crts/?tilId=${id}&page=${page}&size=10&sort=id%2CDESC`
   );
-  console.log("TIL 인증 목록 :", data);
   return data;
 };
 
@@ -172,7 +169,6 @@ export const postTILCrts = async ({
     endTime3: endTime3 === "" ? "" : changeDate(endTime3),
     watchTime: watchTime,
   };
-  console.log(tilCrtDTO);
   const formData = new FormData();
   formData.append(
     "tilCrtDTO",
@@ -181,31 +177,39 @@ export const postTILCrts = async ({
   for (let i = 0; i < files.length; i++) {
     formData.append("files", files[i]);
   }
-  await customAPI
+  const result = await customAPI
     .post(`/til-crts`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     })
     .then((response) => {
-      console.log("성공", response);
       return response;
     })
     .catch((error) => {
-      console.log("실패", error.response.data);
-      return error;
+      return error.response.data;
     });
+  return result;
 };
 
 export const deleteTILCrt = async ({ crtid }) => {
   await customAPI
     .delete(`/til-crts/${crtid}`)
     .then((response) => {
-      console.log("성공", response);
       return response;
     })
     .catch((error) => {
-      console.log("실패", error.response.data);
+      return error;
+    });
+};
+
+export const delCrtImg = async ({ crtid, fileId }) => {
+  await customAPI
+    .delete(`/til-crts/${crtid}/file?fileId=${fileId}`)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
       return error;
     });
 };
@@ -214,18 +218,78 @@ export const getTILCrt = async ({ id }) => {
   const data = await customAPI
     .get(`/til-crts/${id}`)
     .then((response) => {
-      console.log("성공", response.data);
       return response.data;
     })
     .catch((error) => {
-      console.log("실패", error.response.data);
       return error;
     });
   return data;
 };
 
-export const patchTILCrt = async ({ id }) => {
-  const { data } = await customAPI.patch(`/tils/${id}`);
-  console.log("IL 인증 수정:", data);
-  return data;
+export const patchTILCrt = async ({
+  crtid,
+  description,
+  startTime1,
+  endTime1,
+  startTime2,
+  endTime2,
+  startTime3,
+  endTime3,
+  files,
+}) => {
+  const changeDate = (preDate) => {
+    if (preDate === null) {
+      return preDate;
+    }
+    return preDate.replace("T", " ") + ":00";
+  };
+  const tilCrtDTO = {
+    tilId: crtid,
+    description: description,
+    startTime1: startTime1 === "" ? "" : changeDate(startTime1),
+    endTime1: endTime1 === "" ? "" : changeDate(endTime1),
+    startTime2: startTime2 === "" ? "" : changeDate(startTime2),
+    endTime2: endTime2 === "" ? "" : changeDate(endTime2),
+    startTime3: startTime3 === "" ? "" : changeDate(startTime3),
+    endTime3: endTime3 === "" ? "" : changeDate(endTime3),
+  };
+  const formData = new FormData();
+  formData.append(
+    "tilCrtDTO",
+    new Blob([JSON.stringify(tilCrtDTO)], { type: "application/json" })
+  );
+  for (let i = 0; i < files.length; i++) {
+    formData.append("files", files[i]);
+  }
+  const result = await customAPI
+    .patch(`/til-crts/${crtid}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error.response.data;
+    });
+  return result;
+};
+
+//support
+
+export const postSupport = async ({ feedback }) => {
+  const result = await customAPI
+    .post(`/support/skill`, {
+      request: feedback,
+    })
+    .then(function (response) {
+      // 성공 핸들링
+      return response;
+    })
+    .catch(function (error) {
+      // 에러 핸들링
+      return error.response.data;
+    });
+  return result;
 };

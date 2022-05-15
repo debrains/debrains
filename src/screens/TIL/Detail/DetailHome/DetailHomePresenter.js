@@ -22,8 +22,13 @@ function DetailHomePresenter(props) {
     }
   };
   const delTIL = () => {
-    deleteTIL({ id: id });
-    navigate(`/til`);
+    if (window.confirm("정말 삭제합니까?")) {
+      deleteTIL({ id: id });
+      navigate(`/til`);
+      alert("TIL이 삭제되었습니다.");
+    } else {
+      alert("취소되었습니다.");
+    }
   };
   useEffect(() => {
     getData();
@@ -62,7 +67,7 @@ function DetailHomePresenter(props) {
                 </span>
                 <span className="ml-3 text-base text-gray-500">|</span>
                 <span className="ml-3 text-base text-gray-500">
-                  {tilDetail.totalCnt <= tilDetail.crtCnt
+                  {tilDetail.totalCnt <= tilDetail.crtCnt && tilDetail.expired
                     ? "달성"
                     : tilDetail.expired
                     ? "미달"
@@ -112,15 +117,34 @@ function DetailHomePresenter(props) {
               {crtList === []
                 ? null
                 : crtList.map((crt) => {
-                    console.log("crt단품", crt);
+                    const regDate = new Date(crt.regDate);
+
+                    const dayNames = [
+                      "(일)",
+                      "(월)",
+                      "(화)",
+                      "(수)",
+                      "(목)",
+                      "(금)",
+                      "(토)",
+                    ];
+                    // getDay: 해당 요일(0 ~ 6)를 나타내는 정수를 반환한다.
+                    const day = dayNames[regDate.getDay()];
+
+                    const year = regDate.getFullYear();
+                    const month = regDate.getMonth() + 1;
+                    const date = regDate.getDate();
+
+                    const changeDate = `${year}. ${month}. ${date}. ${day}`;
+
                     return (
                       <Link to={`/til/${id}/${crt.id}`}>
-                        <div className="group relative p-10" key={crt.id}>
+                        <div className="group relative p-10" key={crt}>
                           <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
                             <img
                               src={
-                                crt.filePath
-                                  ? crt.filePath[0]
+                                crt.fileList[0]
+                                  ? crt.fileList[0]?.path
                                   : "https://blog.kakaocdn.net/dn/bgeLnn/btrt43tT2db/aQcknBuj3SHbKkX5WSrwDK/img.gif"
                               }
                               alt="Front of men&#039;s Basic Tee in black."
@@ -134,7 +158,7 @@ function DetailHomePresenter(props) {
                               </h3>
                               <div className="flex justify-end items-center py-1">
                                 <span className="text-sm font-medium text-gray-900">
-                                  22. 01. 03 (금)
+                                  {changeDate}
                                 </span>
                               </div>
                             </div>
@@ -147,9 +171,12 @@ function DetailHomePresenter(props) {
           </div>
           <div className="pt-5 pr-10">
             <div className="flex justify-end ">
-              <button className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
-                TIL 수정하기
-              </button>
+              <Link to={`/til/${id}/update`}>
+                <button className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                  TIL 수정하기
+                </button>
+              </Link>
+
               <button
                 onClick={delTIL}
                 className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
