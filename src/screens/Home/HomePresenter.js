@@ -18,15 +18,15 @@ function HomePresenter(props) {
               응원합니다.
               <br />
               1년 뒤면 나도{" "}
-              <span className="text-gray-900 font-bold">
+              {/* <span className="text-gray-900 font-bold">
                 &#123;가고싶은곳&#125;
-              </span>{" "}
+              </span>{" "} */}
               개발자!
             </p>
             <div className="mt-10 sm:flex sm:justify-center lg:justify-start">
               <div className="rounded-md shadow">
                 <Link
-                  to="#"
+                  to="/login"
                   className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 md:py-4 md:text-lg md:px-10"
                 >
                   스터디윗미
@@ -34,7 +34,7 @@ function HomePresenter(props) {
               </div>
               <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
                 <Link
-                  to="#"
+                  to="/login"
                   className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-purple-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10"
                 >
                   회원가입 고고
@@ -61,7 +61,7 @@ function HomePresenter(props) {
             스터디 목표 설정 후 인증기록을 남기세요.
           </p>
           <Link
-            to="#"
+            to="/login"
             className="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-purple-600 bg-white hover:bg-purple-50 sm:w-auto"
           >
             회원가입 고고

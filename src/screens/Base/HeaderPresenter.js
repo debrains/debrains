@@ -8,7 +8,7 @@ import { isLoginAtom } from "../../atoms/atom";
 import moment from "moment";
 
 const features = [
-  { name: "😎 About Us", href: "team" },
+  // { name: "😎 About Us", href: "team" },
   { name: "🧑‍💻 Today I Learned (TIL)", href: "til" },
 ];
 
@@ -166,12 +166,12 @@ export default function Example() {
               </Popover.Button>
             </div>
             <Popover.Group as="nav" className="hidden md:flex space-x-10">
-              <Link
+              {/* <Link
                 to="/team"
                 className="text-base font-medium text-gray-500 hover:text-purple-700"
               >
                 😎 About Us
-              </Link>
+              </Link> */}
               <Link
                 to="/til"
                 className="text-base font-medium text-gray-500 hover:text-purple-700"
