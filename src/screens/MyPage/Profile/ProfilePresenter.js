@@ -165,7 +165,7 @@ function MemberForm({ profile }) {
                       {...register("githubUrl", {
                         value: profile.githubUrl,
                       })}
-                      autoComplete="username"
+                      defaultValue={profile.githubUrl}
                       className="flex-1 block w-full focus:ring-purple-500 focus:border-purple-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300"
                     />
                   </div>
@@ -180,10 +180,9 @@ function MemberForm({ profile }) {
                 </label>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
                   <input
+                    type="text"
                     {...register("blogUrl", { value: profile.blogUrl })}
                     defaultValue={profile.blogUrl}
-                    type="url"
-                    autoComplete="given-name"
                     className="max-w-lg block w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                   />
                 </div>
@@ -199,7 +198,6 @@ function MemberForm({ profile }) {
                   <input
                     {...register("snsUrl", { value: profile.snsUrl })}
                     defaultValue={profile.snsUrl}
-                    type="url"
                     autoComplete="given-name"
                     className="max-w-lg block w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                   />
