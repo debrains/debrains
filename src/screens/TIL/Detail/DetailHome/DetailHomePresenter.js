@@ -137,7 +137,6 @@ function DetailHomePresenter(props) {
 
                     const changeDate = `${year}. ${month}. ${date}. ${day}`;
 
-                    console.log(changeDate);
                     return (
                       <Link to={`/til/${id}/${crt.id}`}>
                         <div className="group relative p-10" key={crt}>

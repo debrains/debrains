@@ -279,7 +279,6 @@ export const patchTILCrt = async ({
 //support
 
 export const postSupport = async ({ feedback }) => {
-  console.log(feedback);
   const result = await customAPI
     .post(`/support/skill`, {
       request: feedback,

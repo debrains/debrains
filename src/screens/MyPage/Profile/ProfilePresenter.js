@@ -26,7 +26,6 @@ function MemberForm({ profile }) {
     setValue,
   } = useForm();
   const onValid = async (data) => {
-    console.log(data);
     const result = await patchUser({
       id: profile.id,
       email: profile.email,
