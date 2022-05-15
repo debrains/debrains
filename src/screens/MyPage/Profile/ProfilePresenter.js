@@ -35,6 +35,7 @@ function MemberForm({ profile }) {
       githubUrl: data?.githubUrl,
       blogUrl: data?.blogUrl,
       snsUrl: data?.snsUrl,
+      consent: data?.consent,
     });
     if (result.status === 200) {
       alert("프로필이 수정되었습니다.");
@@ -58,10 +59,12 @@ function MemberForm({ profile }) {
       "description",
       profile.description === "null" ? null : profile.description
     );
+    setValue("consent", profile.consent === "null" ? null : profile.consent);
   };
 
   const getData = async () => {
     const result = await getCurrentUser();
+    console.log(result);
     defaultValueSet1(result);
     setProfile(result);
   };
@@ -286,7 +289,10 @@ function MemberForm({ profile }) {
                         <div className="relative flex items-start">
                           <div className="flex items-center h-5">
                             <input
-                              {...register("agree")}
+                              {...register("consent", {
+                                value: profile.consent,
+                              })}
+                              defaultValue={profile.consent}
                               type="checkbox"
                               className="focus:ring-purple-500 h-4 w-4 text-purple-600 border-gray-300 rounded"
                             />

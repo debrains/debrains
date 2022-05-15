@@ -16,8 +16,8 @@ export const patchUser = async ({
   githubUrl,
   blogUrl,
   snsUrl,
+  consent,
 }) => {
-  console.log(id, email, name, description, img, githubUrl, blogUrl, snsUrl);
   const userInfoDTO = {
     id: id,
     email: email,
@@ -26,6 +26,7 @@ export const patchUser = async ({
     githubUrl: githubUrl,
     blogUrl: blogUrl,
     snsUrl: snsUrl,
+    consent: consent,
   };
   const formData = new FormData();
   if (img !== null) {
