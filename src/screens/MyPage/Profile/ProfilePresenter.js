@@ -26,6 +26,7 @@ function MemberForm({ profile }) {
     setValue,
   } = useForm();
   const onValid = async (data) => {
+    console.log(data);
     const result = await patchUser({
       id: profile.id,
       email: profile.email,
@@ -64,7 +65,6 @@ function MemberForm({ profile }) {
 
   const getData = async () => {
     const result = await getCurrentUser();
-    console.log(result);
     defaultValueSet1(result);
     setProfile(result);
   };
@@ -89,7 +89,6 @@ function MemberForm({ profile }) {
                 차곡차곡 쌓이는 "나의 성장 기록"
               </p>
             </div>
-
             <div className="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
                 <label
