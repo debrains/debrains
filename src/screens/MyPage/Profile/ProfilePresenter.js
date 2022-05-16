@@ -1,8 +1,14 @@
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { profileAtom } from "../../../atoms/atom";
+import { isLoginAtom, profileAtom } from "../../../atoms/atom";
 import { useForm } from "react-hook-form";
-import { getCurrentUser, patchUser, postSupport } from "../../../apis/api";
+import {
+  getCurrentUser,
+  patchUser,
+  postDuplicateCheck,
+  postSupport,
+} from "../../../apis/api";
 import { useEffect, useState } from "react";
+import moment from "moment";
 
 // const profile = {
 //   name: "새벽",
@@ -24,6 +30,8 @@ function MemberForm({ profile }) {
     handleSubmit,
     formState: { errors },
     setValue,
+    setError,
+    getValues,
   } = useForm();
   const onValid = async (data) => {
     const result = await patchUser({
@@ -59,7 +67,6 @@ function MemberForm({ profile }) {
       "description",
       profile.description === "null" ? null : profile.description
     );
-    setValue("consent", profile.consent === "null" ? null : profile.consent);
   };
 
   const getData = async () => {
@@ -71,6 +78,16 @@ function MemberForm({ profile }) {
   useEffect(() => {
     getData();
   }, []);
+
+  const nameValidation = async (props) => {
+    let name = props.target.value;
+    const result = await postDuplicateCheck({ name: name });
+    if (result.exist && name !== profile.name) {
+      setError("name", { message: "닉네임 중복" }, { shouldFocus: true });
+    } else {
+      setError("name", { message: "" });
+    }
+  };
 
   return (
     <>
@@ -101,12 +118,12 @@ function MemberForm({ profile }) {
                     {...register("name", {
                       value: profile.name,
                     })}
+                    onBlur={nameValidation}
                     type="text"
-                    autoComplete="nickname"
                     defaultValue={profile.name}
                     className="max-w-lg block w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                   />
-                  <span>{errors?.nickName?.message}</span>
+                  <span>{errors?.name?.message}</span>
                 </div>
               </div>
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-center sm:border-t sm:border-gray-200 sm:pt-5">
@@ -196,9 +213,9 @@ function MemberForm({ profile }) {
                 </label>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
                   <input
+                    type="text"
                     {...register("snsUrl", { value: profile.snsUrl })}
                     defaultValue={profile.snsUrl}
-                    autoComplete="given-name"
                     className="max-w-lg block w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                   />
                 </div>
@@ -397,6 +414,7 @@ const UserBoard = () => {
 };
 
 export default function ProfilePresenter() {
+  const setIsLogin = useSetRecoilState(isLoginAtom);
   const profile = useRecoilValue(profileAtom);
   const {
     register,
@@ -416,6 +434,19 @@ export default function ProfilePresenter() {
       alert(message);
     }
   };
+
+  const changeLogin = () => {
+    if (localStorage.length !== 0) {
+      let { expireAT } = JSON.parse(localStorage.getItem("accessToken"));
+      if (moment(expireAT).diff(moment()) > 0) {
+        setIsLogin(true);
+      }
+    }
+  };
+
+  useEffect(() => {
+    changeLogin();
+  }, []);
 
   return (
     <>
@@ -491,7 +522,6 @@ export default function ProfilePresenter() {
                   <textarea
                     {...register("feedback")}
                     rows={3}
-                    defaultValue={profile.description}
                     className="max-w-lg shadow-sm block w-full focus:ring-purple-500 focus:border-purple-500 sm:text-sm border border-gray-300 rounded-md"
                   />
                   <div className="pt-5">

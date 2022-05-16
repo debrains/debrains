@@ -13,8 +13,8 @@ const features = [
 ];
 
 export default function Example() {
+  const isLogin = useRecoilValue(isLoginAtom);
   const setIsLogin = useSetRecoilState(isLoginAtom);
-
   if (localStorage.length !== 0) {
     let { expireAT } = JSON.parse(localStorage.getItem("accessToken"));
     if (moment(expireAT).diff(moment()) < 0) {
@@ -23,7 +23,6 @@ export default function Example() {
   } else {
     setIsLogin(false);
   }
-  const isLogin = useRecoilValue(isLoginAtom);
   return (
     <div className="relative bg-gray-80">
       <Popover className="relative bg-white border-b-2 border-b-gray-200">
