@@ -60,7 +60,6 @@ function MemberForm({ profile }) {
       "description",
       profile.description === "null" ? null : profile.description
     );
-    setValue("consent", profile.consent === "null" ? null : profile.consent);
   };
 
   const getData = async () => {
@@ -506,7 +505,6 @@ export default function ProfilePresenter() {
                   <textarea
                     {...register("feedback")}
                     rows={3}
-                    defaultValue={profile.description}
                     className="max-w-lg shadow-sm block w-full focus:ring-purple-500 focus:border-purple-500 sm:text-sm border border-gray-300 rounded-md"
                   />
                   <div className="pt-5">
