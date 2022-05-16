@@ -15,10 +15,8 @@ const features = [
 export default function Example() {
   const isLogin = useRecoilValue(isLoginAtom);
   const setIsLogin = useSetRecoilState(isLoginAtom);
-  console.log("islogin", isLogin);
   if (localStorage.length !== 0) {
     let { expireAT } = JSON.parse(localStorage.getItem("accessToken"));
-    console.log(moment(expireAT).diff(moment()) < 0);
     if (moment(expireAT).diff(moment()) < 0) {
       setIsLogin(false);
     }

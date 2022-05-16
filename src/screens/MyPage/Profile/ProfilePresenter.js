@@ -1,7 +1,12 @@
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isLoginAtom, profileAtom } from "../../../atoms/atom";
 import { useForm } from "react-hook-form";
-import { getCurrentUser, patchUser, postSupport } from "../../../apis/api";
+import {
+  getCurrentUser,
+  patchUser,
+  postDuplicateCheck,
+  postSupport,
+} from "../../../apis/api";
 import { useEffect, useState } from "react";
 import moment from "moment";
 
@@ -25,6 +30,8 @@ function MemberForm({ profile }) {
     handleSubmit,
     formState: { errors },
     setValue,
+    setError,
+    getValues,
   } = useForm();
   const onValid = async (data) => {
     const result = await patchUser({
@@ -72,6 +79,16 @@ function MemberForm({ profile }) {
     getData();
   }, []);
 
+  const nameValidation = async (props) => {
+    let name = props.target.value;
+    const result = await postDuplicateCheck({ name: name });
+    if (result.exist && name !== profile.name) {
+      setError("name", { message: "닉네임 중복" }, { shouldFocus: true });
+    } else {
+      setError("name", { message: "" });
+    }
+  };
+
   return (
     <>
       <form
@@ -101,12 +118,12 @@ function MemberForm({ profile }) {
                     {...register("name", {
                       value: profile.name,
                     })}
+                    onBlur={nameValidation}
                     type="text"
-                    autoComplete="nickname"
                     defaultValue={profile.name}
                     className="max-w-lg block w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                   />
-                  <span>{errors?.nickName?.message}</span>
+                  <span>{errors?.name?.message}</span>
                 </div>
               </div>
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-center sm:border-t sm:border-gray-200 sm:pt-5">
