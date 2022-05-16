@@ -1,8 +1,9 @@
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { profileAtom } from "../../../atoms/atom";
+import { isLoginAtom, profileAtom } from "../../../atoms/atom";
 import { useForm } from "react-hook-form";
 import { getCurrentUser, patchUser, postSupport } from "../../../apis/api";
 import { useEffect, useState } from "react";
+import moment from "moment";
 
 // const profile = {
 //   name: "새벽",
@@ -196,9 +197,9 @@ function MemberForm({ profile }) {
                 </label>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
                   <input
+                    type="text"
                     {...register("snsUrl", { value: profile.snsUrl })}
                     defaultValue={profile.snsUrl}
-                    autoComplete="given-name"
                     className="max-w-lg block w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                   />
                 </div>
@@ -397,6 +398,7 @@ const UserBoard = () => {
 };
 
 export default function ProfilePresenter() {
+  const setIsLogin = useSetRecoilState(isLoginAtom);
   const profile = useRecoilValue(profileAtom);
   const {
     register,
@@ -416,6 +418,19 @@ export default function ProfilePresenter() {
       alert(message);
     }
   };
+
+  const changeLogin = () => {
+    if (localStorage.length !== 0) {
+      let { expireAT } = JSON.parse(localStorage.getItem("accessToken"));
+      if (moment(expireAT).diff(moment()) > 0) {
+        setIsLogin(true);
+      }
+    }
+  };
+
+  useEffect(() => {
+    changeLogin();
+  }, []);
 
   return (
     <>
