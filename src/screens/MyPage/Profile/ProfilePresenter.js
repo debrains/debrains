@@ -138,7 +138,7 @@ function MemberForm({ profile }) {
                     <label className="block">
                       <input
                         {...register("img", { value: profile.img })}
-                        accept="image/jpg,impge/png,image/jpeg,image/gif"
+                        accept="image/jpg,image/png,image/jpeg,image/gif"
                         multiple={true}
                         type="file"
                         className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
@@ -526,7 +526,7 @@ export default function ProfilePresenter() {
                   <textarea
                     {...register("feedback")}
                     rows={3}
-                    className="max-w-lg shadow-sm block w-full focus:ring-purple-500 focus:border-purple-500 sm:text-sm border border-gray-300 rounded-md"
+                    className="max-w shadow-sm block w-full focus:ring-purple-500 focus:border-purple-500 sm:text-sm border border-gray-300 rounded-md"
                   />
                   <div className="pt-5">
                     <div className="flex justify-end">
