@@ -33,6 +33,7 @@ function MemberForm() {
   const [sDate] = useState(today);
 
   const onValid = async (data) => {
+    console.log("valid");
     const userID = await getCurrentUser();
     const result = await patchTIL({
       id: id,
@@ -44,6 +45,7 @@ function MemberForm() {
       alert("수정되었습니다.");
       navigate(`/til/${id}`);
     } else {
+      console.log(result);
       const message = result.message;
       alert(message);
     }
@@ -87,10 +89,7 @@ function MemberForm() {
 
             <div className="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                <label
-                  htmlFor="first-name"
-                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-                >
+                <label className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                   목표
                 </label>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
@@ -99,7 +98,6 @@ function MemberForm() {
                       required: "목표를 입력해주세요",
                     })}
                     type="text"
-                    autoComplete="nickname"
                     className="max-w-lg block w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                   />
                   <span>{errors?.nickName?.message}</span>
@@ -107,10 +105,7 @@ function MemberForm() {
               </div>
 
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                <label
-                  htmlFor="about"
-                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-                >
+                <label className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                   소개
                 </label>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
@@ -120,7 +115,6 @@ function MemberForm() {
                     })}
                     rows={3}
                     className="max-w-lg shadow-sm block w-full focus:ring-purple-500 focus:border-purple-500 sm:text-sm border border-gray-300 rounded-md"
-                    defaultValue={""}
                   />
                 </div>
               </div>

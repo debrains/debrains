@@ -48,7 +48,7 @@ function MemberForm({ profile }) {
     if (result.status === 200) {
       alert("프로필이 수정되었습니다.");
     } else {
-      const message = result.message;
+      const message = result.errors[0].message;
       alert(message);
     }
   };
@@ -424,14 +424,18 @@ export default function ProfilePresenter() {
   } = useForm();
 
   const onValid = async (data) => {
-    const result = await postSupport({
-      feedback: data.feedback,
-    });
-    if (result.status === 200) {
-      alert("피드백이 전달되었습니다. 감사합니다 :)");
+    if (data.feedback === "") {
+      alert("피드백 내용을 입력해주세요");
     } else {
-      const message = result.message;
-      alert(message);
+      const result = await postSupport({
+        feedback: data.feedback,
+      });
+      if (result.status === 200) {
+        alert("피드백이 전달되었습니다. 감사합니다 :)");
+      } else {
+        const message = result.message;
+        alert(message);
+      }
     }
   };
 

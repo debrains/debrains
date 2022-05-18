@@ -46,6 +46,7 @@ export const patchUser = async ({
     .catch((error) => {
       return error.response.data;
     });
+  console.log("패치유저:", result);
   return result;
 };
 

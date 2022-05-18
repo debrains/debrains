@@ -131,29 +131,45 @@ function MemberForm() {
     if (playWatch) {
       pauseWatch();
     }
-    const result = await postTILCrts({
-      tilId: id,
-      description: data.description,
-      startTime1: data.startTime1,
-      endTime1: data.endTime1,
-      startTime2: data.startTime2,
-      endTime2: data.endTime2,
-      startTime3: data.startTime3,
-      endTime3: data.endTime3,
-      watchTime:
-        (watchTime / 60 < 10 ? "0" : "") +
-        parseInt(watchTime / 60) +
-        ":" +
-        (watchTime % 60 < 10 ? "0" : "") +
-        (watchTime % 60),
-      files: data.files,
-    });
-    if (result.status === 201) {
-      alert("인증 등록 되었습니다.");
-      navigate(`/til/${id}`);
+    if (
+      data.startTime1 === "" &&
+      data.startTime2 === "" &&
+      data.startTime3 === "" &&
+      data.endTime1 === "" &&
+      data.endTime2 === "" &&
+      data.endTime3 === "" &&
+      watchTime === 0 &&
+      data.files.length === 0
+    ) {
+      alert("공부시간, 스톱워치, Study 사진 중 하나는 필수항목입니다.");
     } else {
-      const message = result.message;
-      alert(message);
+      const result = await postTILCrts({
+        tilId: id,
+        description: data.description,
+        startTime1: data.startTime1,
+        endTime1: data.endTime1,
+        startTime2: data.startTime2,
+        endTime2: data.endTime2,
+        startTime3: data.startTime3,
+        endTime3: data.endTime3,
+        watchTime:
+          (watchTime / 60 < 10 ? "0" : "") +
+          parseInt(watchTime / 60) +
+          ":" +
+          (watchTime % 60 < 10 ? "0" : "") +
+          (watchTime % 60),
+        files: data.files,
+      });
+      if (result.status === 201) {
+        alert("인증 등록 되었습니다.");
+        navigate(`/til/${id}`);
+      } else if (result.code === "CO01") {
+        const message = result.errors[0].message;
+        alert(message);
+      } else {
+        const message = result.message;
+        alert(message);
+      }
     }
   };
 
@@ -319,7 +335,7 @@ function MemberForm() {
                   htmlFor="first-name"
                   className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
                 >
-                  내용
+                  내용 *
                 </label>
                 <div className="mt-1 sm:mt-0 sm:col-span-3">
                   <textarea
@@ -343,7 +359,7 @@ function MemberForm() {
                     <label className="block">
                       <input
                         {...register("files")}
-                        accept="image/jpg,impge/png,image/jpeg,image/gif"
+                        accept="image/jpg,image/png,image/jpeg,image/gif"
                         type="file"
                         multiple="multiple"
                         className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"

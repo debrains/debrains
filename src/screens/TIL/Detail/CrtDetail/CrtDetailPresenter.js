@@ -50,6 +50,7 @@ function MemberForm() {
       alert("인증 수정되었습니다.");
       navigate(`/til/${id}/${crtid}`);
     } else {
+      console.log(result);
       const message = result.message;
       alert(message);
     }
@@ -98,8 +99,6 @@ function MemberForm() {
       await deleteTILCrt({ crtid: crtid });
       alert("인증이 삭제되었습니다.");
       navigate(`/til/${id}`);
-    } else {
-      alert("취소되었습니다.");
     }
   };
   const moveBack = () => {
@@ -111,8 +110,6 @@ function MemberForm() {
       await delCrtImg({ crtid: crtid, fileId: prop.target.id });
       alert("사진이 삭제되었습니다.");
       navigate(`/til/${id}/${crtid}`);
-    } else {
-      alert("취소되었습니다.");
     }
   };
 
@@ -150,14 +147,12 @@ function MemberForm() {
                     <input
                       {...register("startTime" + 1)}
                       type="datetime-local"
-                      autoComplete="start-time"
                       className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md "
                     />
                     <span className="p-3"> ~ </span>
                     <input
                       {...register("endTime" + 1)}
                       type="datetime-local"
-                      autoComplete="end-time"
                       className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                     />
                   </div>
@@ -165,14 +160,12 @@ function MemberForm() {
                     <input
                       {...register("startTime" + 2)}
                       type="datetime-local"
-                      autoComplete="start-time"
                       className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md "
                     />
                     <span className="p-3"> ~ </span>
                     <input
                       {...register("endTime" + 2)}
                       type="datetime-local"
-                      autoComplete="end-time"
                       className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                     />
                   </div>
@@ -180,7 +173,6 @@ function MemberForm() {
                     <input
                       {...register("startTime" + 3)}
                       type="datetime-local"
-                      autoComplete="start-time"
                       className="  w-full shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md "
                     />
                     <span className="p-3"> ~ </span>

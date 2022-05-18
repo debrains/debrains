@@ -2,7 +2,7 @@
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isLoginAtom } from "../../atoms/atom";
 import moment from "moment";
@@ -13,6 +13,7 @@ const features = [
 ];
 
 export default function Example() {
+  const navigate = useNavigate();
   const isLogin = useRecoilValue(isLoginAtom);
   const setIsLogin = useSetRecoilState(isLoginAtom);
   if (localStorage.length !== 0) {
@@ -23,6 +24,10 @@ export default function Example() {
   } else {
     setIsLogin(false);
   }
+  const logout = () => {
+    window.localStorage.clear();
+    navigate("/");
+  };
   return (
     <div className="relative bg-gray-80">
       <Popover className="relative bg-white border-b-2 border-b-gray-200">
@@ -195,12 +200,20 @@ export default function Example() {
                   </Link>
                 </>
               ) : (
-                <Link
-                  to="/mypage"
-                  className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
-                >
-                  마이페이지
-                </Link>
+                <>
+                  <Link
+                    to="/mypage"
+                    className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900 px-3"
+                  >
+                    마이페이지
+                  </Link>
+                  <div
+                    onClick={logout}
+                    className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+                  >
+                    로그아웃
+                  </div>
+                </>
               )}
             </div>
           </div>
@@ -392,12 +405,20 @@ export default function Example() {
                         </Link>
                       </>
                     ) : (
-                      <Link
-                        to="/mypage"
-                        className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
-                      >
-                        마이페이지
-                      </Link>
+                      <>
+                        <Link
+                          to="/mypage"
+                          className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+                        >
+                          마이페이지
+                        </Link>
+                        <div
+                          onClick={logout}
+                          className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+                        >
+                          로그아웃
+                        </div>
+                      </>
                     )}
                   </p>
                 </div>

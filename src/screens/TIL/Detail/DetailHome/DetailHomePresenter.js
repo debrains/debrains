@@ -9,7 +9,7 @@ const profile = {
 
 function DetailHomePresenter(props) {
   const { id } = useParams();
-  const [tilDetail, setTilDetail] = useState("");
+  const [tilDetail, setTilDetail] = useState({ crtCnt: 0, totalCnt: 1 });
   const [crtList, setCrtList] = useState([]);
   const navigate = useNavigate();
 
@@ -138,8 +138,8 @@ function DetailHomePresenter(props) {
                     const changeDate = `${year}. ${month}. ${date}. ${day}`;
 
                     return (
-                      <Link to={`/til/${id}/${crt.id}`}>
-                        <div className="group relative p-10" key={crt}>
+                      <Link to={`/til/${id}/${crt.id}`} key={crt.id}>
+                        <div className="group relative p-10">
                           <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
                             <img
                               src={
