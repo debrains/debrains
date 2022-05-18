@@ -526,7 +526,7 @@ export default function ProfilePresenter() {
                   <textarea
                     {...register("feedback")}
                     rows={3}
-                    className="max-w-lg shadow-sm block w-full focus:ring-purple-500 focus:border-purple-500 sm:text-sm border border-gray-300 rounded-md"
+                    className="max-w shadow-sm block w-full focus:ring-purple-500 focus:border-purple-500 sm:text-sm border border-gray-300 rounded-md"
                   />
                   <div className="pt-5">
                     <div className="flex justify-end">
