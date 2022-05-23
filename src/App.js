@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import OAuth2RedirectHandler from "./oAuth2/OAuth2RedirectHandler";
 import { MyPage } from "./screens/MyPage";
@@ -11,9 +11,25 @@ import { Footer, Header } from "./screens/Base";
 import "./index.css";
 import { useRecoilValue } from "recoil";
 import { isLoginAtom } from "./atoms/atom";
+import moment from "moment";
+import ErrorPresenter from "./screens/Base/ErrorPresenter";
 
 const App = () => {
-  const isLogin = useRecoilValue(isLoginAtom);
+  const [isLogin,setIsLogin] = useState();
+  
+  useEffect(() => {
+    if (localStorage.length !== 0) {
+      let { expireAT } = JSON.parse(localStorage.getItem("accessToken"));
+      if (moment(expireAT).diff(moment()) < 0) {
+        setIsLogin(false);
+      }else{
+        setIsLogin(true);
+      }
+    } else {
+      setIsLogin(false);
+    }
+  }, [])
+  
   return (
     <BrowserRouter>
         <Header />
@@ -24,6 +40,7 @@ const App = () => {
           <Route path="/til/*" element={isLogin ? <TIL /> : <Login />} />
           <Route path="/mypage/*" element={isLogin ? <MyPage /> : <Login />} />
           <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
+          <Route path="*" exact element={<ErrorPresenter />} /> {/* 404로 수정필요 */}
         </Routes>
         <Footer />
     </BrowserRouter>
