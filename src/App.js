@@ -3,29 +3,29 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import OAuth2RedirectHandler from "./oAuth2/OAuth2RedirectHandler";
 import { MyPage } from "./screens/MyPage";
 import { Home } from "./screens/Home";
-import { Team } from "./screens/Team";
+// import { Team } from "./screens/Team";
 import { TIL } from "./screens/TIL";
 import { Login } from "./screens/Login";
 
 import { Footer, Header } from "./screens/Base";
 import "./index.css";
-import { RecoilRoot } from "recoil";
+import { useRecoilValue } from "recoil";
+import { isLoginAtom } from "./atoms/atom";
 
 const App = () => {
+  const isLogin = useRecoilValue(isLoginAtom);
   return (
     <BrowserRouter>
-      <RecoilRoot>
         <Header />
         <Routes>
           <Route path="/" exact element={<Home />} />
-          <Route path="/team" element={<Team />} />
+          {/* <Route path="/team" element={<Team />} /> */}
           <Route path="/login" element={<Login />} />
-          <Route path="/til/*" element={<TIL />} />
-          <Route path="/mypage/*" element={<MyPage />} />
+          <Route path="/til/*" element={isLogin ? <TIL /> : <Login />} />
+          <Route path="/mypage/*" element={isLogin ? <MyPage /> : <Login />} />
           <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
         </Routes>
         <Footer />
-      </RecoilRoot>
     </BrowserRouter>
   );
 };
