@@ -107,6 +107,7 @@ export const postTILs = async ({
 
 export const getTIL = async (id) => {
   const { data } = await customAPI.get(`/tils/${id}`);
+  console.log(data);
   return data;
 };
 
